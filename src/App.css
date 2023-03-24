@@ -2,20 +2,6 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  /*text-align: center; *TODO* deleted in order to customize content alignment*/ 
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  display: grid;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
 .background {
@@ -113,7 +99,7 @@
   margin-top: 51px;
   margin-left: -122px;
   line-height: 95px;
-  /*text-align: center;*/
+
 }
 
 .rectangle3 {
@@ -124,8 +110,6 @@
   margin-top: 51px;
   margin-left: -122px;
   line-height: 95px;
-  /* text-align: center;
-  /*text-align: center;*/
 }
 
 .rectangle4{
@@ -136,7 +120,6 @@
   margin-top: 51px;
   margin-left: -122px;
   line-height: 95px;
-  /*text-align: center;*/
 }
 .input1{
   width: 510px;
@@ -426,10 +409,6 @@
 
 
 .section3titleText{
-  /*width: 482px;
-  height: 780px;
-  font-family: 'Source Sans 3';
-  font-style: italic;*/
   margin-top: 3px;
   text-align: center;
   flex-direction: column;
@@ -444,10 +423,6 @@
 }
 
 .section4titleText{
-  /*width: 482px;
-  height: 780px;
-  font-family: 'Source Sans 3';
-  font-style: italic;*/
   margin-top: 20px;
   text-align: center;
   flex-direction: column;
@@ -463,10 +438,6 @@
 }
 
 .section4subtitleText{
-  /*width: 482px;
-  height: 780px;
-  font-family: 'Source Sans 3';
-  font-style: italic;*/
   margin-top: 82px;
   text-align: center;
   flex-direction: column;
@@ -486,11 +457,12 @@
 
 }
 
-
+/*In order to manipulate the infobuttons seperately, two instances of a css style was created*/
 .infoButton2{
   width:13px;
 
 }
+
 .footerText{
   font-family: 'Source Sans Pro';
   margin-top: 408px;
@@ -500,26 +472,13 @@
   text-align: center;
 }
 
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#identified{
+  display: flex;
+  flex-direction: column;
+  width: 1500px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.barGraphDesign{
+  width: 10px;
+  height:10px;
 }
