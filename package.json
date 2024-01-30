@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.6",
     "@uswds/uswds": "^3.3.0",
     "chart.js": "^4.2.0",
     "react": "^18.2.0",
