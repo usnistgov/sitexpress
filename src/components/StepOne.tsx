@@ -1,71 +1,115 @@
+import { FormControlLabel, Radio, Stack, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
+
+import TextInput from "./Input";
+import BasicTooltip from "./Tooltip";
 export default function StepOne() {
+	const [selectedValue, setSelectedValue] = useState("constant");
+
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setSelectedValue(event.target.value);
+		console.log(event.target.value);
+	};
+
+	function RadioButton(props: { value: string }) {
+		return (
+			<Radio
+				checked={selectedValue === props.value}
+				onChange={handleChange}
+				value={props.value}
+				name="radio-buttons"
+				inputProps={{ "aria-label": props.value }}
+				size="small"
+			/>
+		);
+	}
+	// style={{ border: "1px solid red" }}
 	return (
-		<div className="rowSet">
-			{/*Section Header Rectangle */}
-			<div className="rectangle2">
-				<h1 className="section2titleText">
-					<span>
-						Step One: <br /> Project Information <br />
-					</span>
-					<span className="section2SubtitleText">
-						Provide project details and assumptions for completing the analysis.
-					</span>
-				</h1>
-			</div>
+		<Stack direction="row" className="w-full">
+			<Stack className="flex justify-center text-center p-2 w-1/3 max-w-1/3 bg-orange-400">
+				<Typography variant="h6" className="">
+					Step One: Project Information
+				</Typography>
+				<Typography variant="body1">Provide project details and assumptions for completing the analysis.</Typography>
+			</Stack>
 
-			{/*First Page input fields*/}
-			<label className="textLabel1">
-				Project Name <img className="infoButton1"></img>
-				<input className="input1" placeholder="Enter Name Here" />
-			</label>
-			{/*Note: Project description cursor needs to be moved to beginning of input field*/}
-			<label className="textLabel2">
-				Project Description <img className="infoButton1"></img>{" "}
-			</label>
-			<input className="input2" placeholder="Enter Text Here" required />
+			<Stack className="w-full p-2">
+				<span>
+					<TextInput placeholder="Enter Name Here" label="Project Name" />
+					<BasicTooltip title="text" />
+				</span>
+				<br />
 
-			<label className="textLabel3">
-				How many investment options (i.e., alternatives) are you considering? <img className="infoButton1"></img>
-				<input className="input3" placeholder="Max Amount 5 + Base Cases" required />{" "}
-			</label>
+				<span>
+					<TextField
+						className=""
+						label="Project Description"
+						placeholder="Enter Description Here"
+						maxRows={4}
+						multiline
+						size="small"
+					/>
+					<BasicTooltip title="text" />
+				</span>
+				<br />
 
-			<label className="textLabel4">
-				Study Period In Years? (Maximum 25) <img className="infoButton1"></img>
-				<input className="input4" placeholder="Enter Text Here" required />
-			</label>
+				<span>
+					<TextInput
+						placeholder="Max Alternatives of 5 + Base Case"
+						label="Investment Options"
+						helpertext="No of Alternatives"
+					/>
+					<BasicTooltip title="text" />
+				</span>
+				<br />
 
-			<label className="textLabel5">
-				Dollar values will be entered in: <img className="infoButton1"></img>{" "}
-			</label>
+				<span>
+					<TextInput
+						placeholder="Enter Study Period"
+						label="Study Period"
+						helpertext="Maximum study period of 25 years."
+					/>
+					<BasicTooltip title="text" />
+				</span>
+				<br />
 
-			{/*NOTE: Radio Buttons do not work unless clicked above, needs to be fixed */}
-			<label className="radioButtonLabel1"> Constant Dollars With Real Discount Rate</label>
-			<input className="radioButton1" type="radio"></input>
-			<label className="radioButtonLabel2">Current Dollars With Nominal Discount Rate </label>
+				<Typography variant="body1" gutterBottom>
+					Dollar values will be entered in:
+				</Typography>
 
-			<ul className="textLabel6">
-				{" "}
-				<li>Real Discount Rate</li>
-			</ul>
-			<input className="radioButton2" type="radio"></input>
-			<ul className="textLabel7">
-				{" "}
-				<li>Inflation Rate</li>
-				<li>Nominal Discount Rate</li>
-			</ul>
-
-			<div>
-				<input className="input5" placeholder="Enter % Here" required />
-			</div>
-			<div>
-				<input className="input6" placeholder="Enter % Here" required />
-			</div>
-			<div>
-				<input className="input7" placeholder="Enter % Here" required />
-			</div>
+				<Stack direction="column">
+					<div className="flex">
+						<FormControlLabel
+							value="constant"
+							control={<RadioButton value="constant" />}
+							label="Constant Dollars With Real Discount Rate"
+						/>
+					</div>
+					<div>
+						<TextInput placeholder="Enter % Here" label="Real Discount Rate" />
+						<br />
+					</div>
+				</Stack>
+				<br />
+				<Stack direction="column">
+					<div className="flex">
+						<FormControlLabel
+							value="current"
+							control={<RadioButton value="current" />}
+							label="Current Dollars With Real Discount Rate"
+						/>
+					</div>
+					<div>
+						<TextInput placeholder="Enter % Here" label="Inflation Rate" />
+						<br />
+						<br />
+						<TextInput placeholder="Enter % Here" label="Nominal Discount Rate" />
+					</div>
+				</Stack>
+			</Stack>
 
 			{/*calculator image to side*/}
 			<img className="calculatorImage"></img>
-		</div>
+		</Stack>
 	);
 }
