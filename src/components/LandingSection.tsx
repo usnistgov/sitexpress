@@ -12,7 +12,7 @@ export default function LandingSection() {
 				</Typography>
 
 				<Typography variant="h5" gutterBottom>
-					Powered by E3
+					Powered by E3 <br />
 					<Link href="https://e3.nist.gov/" underline="none" color="inherit" target="_blank" rel="noopener">
 						https://e3.nist.gov/
 					</Link>
