@@ -1,32 +1,44 @@
+import { Link, List, ListItem, ListItemText, ListSubheader, Stack, Typography } from "@mui/material";
+
 export default function LandingSection() {
 	return (
-		<>
-			<h1>
-				<span className="section1titleText">
-					SITExpress <br />
-				</span>
-				<span className="section1titleText2">
+		<Stack direction="row">
+			<Stack className="text-center p-2">
+				<Typography className="italic" variant="h2" gutterBottom>
+					SITExpress
+				</Typography>
+				<Typography variant="h4" gutterBottom>
 					For Project Investment Analysis
-					<br />
-				</span>
-				<span className="section1titleText3">Powered by E3 https://e3.nist.gov/</span>
-			</h1>
+				</Typography>
 
-			{/*Section Header Rectangle */}
-			<div className="rectangle">
-				<h1 className="rectangleText">
+				<Typography variant="h5" gutterBottom>
+					Powered by E3 <br />
+					<Link href="https://e3.nist.gov/" underline="none" color="inherit" target="_blank" rel="noopener">
+						https://e3.nist.gov/
+					</Link>
+				</Typography>
+			</Stack>
+			<Stack className="p-2 bg-sky-500 flex justify-center">
+				<Typography variant="h5" className="text-center">
 					Smart Investment Tool Express (SITExpress) completes investment analysis based on NIST Advanced Manufacturing
 					Series 200-5 to identify economical projects/investments.
-				</h1>
+				</Typography>
+				<br />
 
-				<h1 className="rectangleText2">
-					{" "}
-					Calculated metrics include: <br />
-					&nbsp; &nbsp;&nbsp;&nbsp; Net Present Value (NPV) <br />
-					&nbsp; &nbsp;&nbsp;&nbsp; Internal Rate of Return (IRR) <br />
-					&nbsp; &nbsp;&nbsp;&nbsp; Payback Period (PBP)
-				</h1>
-			</div>
-		</>
+				<Typography variant="h5">Calculated metrics include:</Typography>
+				<List dense>
+					<ListSubheader></ListSubheader>
+					<ListItem>
+						<ListItemText primary="Net Present Value (NPV)" />
+					</ListItem>
+					<ListItem>
+						<ListItemText primary="Internal Rate of Return (IRR)" />
+					</ListItem>
+					<ListItem>
+						<ListItemText primary="Payback Period (PBP)" />
+					</ListItem>
+				</List>
+			</Stack>
+		</Stack>
 	);
 }
