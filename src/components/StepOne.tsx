@@ -1,5 +1,6 @@
 import { FormControlLabel, Radio, Stack, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
+import InputNumber from "./NumberInput";
 
 import TextInput from "./Input";
 import BasicTooltip from "./Tooltip";
@@ -42,10 +43,11 @@ export default function StepOne() {
 
 				<span>
 					<TextField
-						className=""
+						className="w-1/3"
 						label="Project Description"
 						placeholder="Enter Description Here"
-						maxRows={4}
+						maxRows={8}
+						minRows={4}
 						multiline
 						size="small"
 					/>
@@ -64,12 +66,26 @@ export default function StepOne() {
 				<br />
 
 				<span>
-					<TextInput
+					{/* <TextInput
 						placeholder="Enter Study Period"
 						label="Study Period"
 						helpertext="Maximum study period of 25 years."
-					/>
+					/> */}
+					{/* <TextField
+						className="w-1/3"
+						placeholder="Enter Study Period"
+						label="Study Period"
+						helperText="Maximum study period of 25 years."
+						size="small"
+						InputProps={{
+							endAdornment: <InputAdornment position="end">years</InputAdornment>,
+						}}
+					/> */}
+					<InputNumber placeholder="Study Period" min={0} max={25} />
 					<BasicTooltip title="text" />
+					<Typography variant="caption" gutterBottom>
+						Maximum study period of 25 years.
+					</Typography>
 				</span>
 				<br />
 
