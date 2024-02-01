@@ -91,7 +91,7 @@
 // 	);
 // }
 
-import { Link, List, ListItem, ListItemText, ListSubheader, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -99,8 +99,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-
-import * as React from "react";
 
 function createData(cost: number, revenue: number) {
 	return { cost, revenue };
@@ -121,8 +119,6 @@ const rows = (years: number) => {
 	}
 	return row;
 };
-
-console.log(rows);
 
 interface Column {
 	id: "cost" | "revenue" | "initial";
