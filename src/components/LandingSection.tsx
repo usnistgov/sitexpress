@@ -3,7 +3,7 @@ import { Link, List, ListItem, ListItemText, ListSubheader, Stack, Typography } 
 export default function LandingSection() {
 	return (
 		<Stack direction="row">
-			<Stack className="text-center p-2">
+			<Stack className="text-center p-2 w-1/3 max-w-1/3">
 				<Typography className="italic" variant="h2" gutterBottom>
 					SITExpress
 				</Typography>
