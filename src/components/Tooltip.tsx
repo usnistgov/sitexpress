@@ -1,4 +1,3 @@
-// import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from "@mui/icons-material/Info";
 import { Tooltip } from "@mui/material";
 

@@ -28,9 +28,7 @@ export default function StepOne() {
 	return (
 		<Stack direction="row" className="w-full">
 			<Stack className="flex justify-center text-center p-2 w-1/3 max-w-1/3 bg-orange-400">
-				<Typography variant="h6" className="">
-					Step One: Project Information
-				</Typography>
+				<Typography variant="h6">Step One: Project Information</Typography>
 				<Typography variant="body1">Provide project details and assumptions for completing the analysis.</Typography>
 			</Stack>
 
@@ -65,33 +63,16 @@ export default function StepOne() {
 				</span>
 				<br />
 
-				<span>
-					{/* <TextInput
-						placeholder="Enter Study Period"
-						label="Study Period"
-						helpertext="Maximum study period of 25 years."
-					/> */}
-					{/* <TextField
-						className="w-1/3"
-						placeholder="Enter Study Period"
-						label="Study Period"
-						helperText="Maximum study period of 25 years."
-						size="small"
-						InputProps={{
-							endAdornment: <InputAdornment position="end">years</InputAdornment>,
-						}}
-					/> */}
-					<InputNumber placeholder="Study Period" min={0} max={25} />
-					<BasicTooltip title="text" />
-					<Typography variant="caption" gutterBottom>
-						Maximum study period of 25 years.
-					</Typography>
-				</span>
+				<div>
+					<span className="flex">
+						<InputNumber placeholder="Study Period" min={0} max={25} />
+						<BasicTooltip title="text" />
+					</span>
+					<Typography variant="caption">Maximum study period of 25 years.</Typography>
+				</div>
 				<br />
 
-				<Typography variant="body1" gutterBottom>
-					Dollar values will be entered in:
-				</Typography>
+				<Typography variant="body1">Dollar values will be entered in:</Typography>
 
 				<Stack direction="column">
 					<div className="flex">
