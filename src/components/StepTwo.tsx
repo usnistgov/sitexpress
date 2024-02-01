@@ -147,7 +147,7 @@ export default function DenseTable() {
 				<Typography variant="h6">Annual Cost/ Revenue Data By Alternative</Typography>
 				<Typography variant="body1">Provide the annual values costs and revenues for each alternative</Typography>
 			</Stack>
-			<Stack>
+			<Stack className="p-10 w-2/3">
 				<TableContainer component={Paper}>
 					<Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
 						<TableHead>
