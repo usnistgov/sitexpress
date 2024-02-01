@@ -32,7 +32,7 @@ export default function StepOne() {
 				<Typography variant="body1">Provide project details and assumptions for completing the analysis.</Typography>
 			</Stack>
 
-			<Stack className="w-full p-2">
+			<Stack className=" w-2/3 p-10">
 				<span>
 					<TextInput placeholder="Enter Name Here" label="Project Name" />
 					<BasicTooltip title="text" />
