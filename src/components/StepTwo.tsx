@@ -91,7 +91,7 @@
 // 	);
 // }
 
-import { Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -180,7 +180,24 @@ export default function DenseTable() {
 						</TableBody>
 					</Table>
 				</TableContainer> */}
-				<DataGrid />
+				<Stack>
+					<DataGrid />
+				</Stack>
+				<br />
+				<Stack className="flex" style={{ flexDirection: "row-reverse" }}>
+					<span className="">
+						<Button
+							variant="contained"
+							className=""
+							onClick={() => {
+								console.log("Running results");
+							}}
+						>
+							Run Results
+						</Button>
+						{/* <BasicTooltip title="text" /> */}
+					</span>
+				</Stack>
 			</Stack>
 		</Stack>
 	);

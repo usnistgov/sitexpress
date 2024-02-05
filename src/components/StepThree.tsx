@@ -54,36 +54,22 @@ export default function StepThree() {
 						Step Three: <br />
 						Results
 					</Typography>
-
+				</Stack>
+				<br />
+			</Stack>
+			<Stack className="w-2/3 p-10">
+				<Stack className="items-center flex" style={{ flexDirection: "row-reverse" }}>
 					<span>
 						<Button
 							variant="contained"
 							className=""
 							onClick={() => {
-								console.log("Running results");
+								console.log("saved to csv");
 							}}
 						>
-							Run Results
+							CSV
 						</Button>
-						{/* <BasicTooltip title="text" /> */}
-					</span>
-				</Stack>
-				<br />
-				<Stack className="items-center">
-					<Typography variant="h6" className="">
-						Save to:
-					</Typography>
-					<Button
-						variant="contained"
-						className=""
-						onClick={() => {
-							console.log("saved to csv");
-						}}
-					>
-						CSV
-					</Button>
-					<br />
-					<span>
+						&nbsp;
 						<Button
 							variant="contained"
 							className=""
@@ -95,9 +81,11 @@ export default function StepThree() {
 						</Button>
 						{/* <BasicTooltip title="text" /> */}
 					</span>
+					<Typography variant="h6" className="">
+						Save to: &nbsp;
+					</Typography>
 				</Stack>
-			</Stack>
-			<Stack className="w-2/3 p-10">
+				<br />
 				<TableContainer component={Paper}>
 					<Table aria-label="simple table" sx={{ "td, th": { border: "1px solid black" } }}>
 						<TableHead>
