@@ -1,0 +1,12 @@
+.ag-theme-quartz {
+	/* disable all borders */
+	--ag-borders: none;
+	/* then add back a border between rows */
+	--ag-row-border-style: solid !important;
+	--ag-row-border-width: 1px !important;
+	--ag-row-border-color: #e5e7eb !important;
+	--ag-header-column-separator-display: block !important;
+	--ag-header-column-separator-height: 100% !important;
+	--ag-header-column-separator-width: 1px !important;
+	--ag-header-column-separator-color: #e5e7eb !important;
+}
