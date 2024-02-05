@@ -7,6 +7,7 @@ import {
 
 import { styled } from "@mui/system";
 import * as React from "react";
+import { ChangeEventHandler } from "react";
 
 const NumberInput = React.forwardRef(function CustomNumberInput(
 	props: NumberInputProps,
@@ -34,7 +35,12 @@ const NumberInput = React.forwardRef(function CustomNumberInput(
 	);
 });
 
-export default function InputNumber(props: { placeholder: string; min: number; max: number }) {
+export default function InputNumber(props: {
+	placeholder: string;
+	min: number;
+	max: number;
+	onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
+}) {
 	return (
 		<NumberInput
 			className="w-1/3"
@@ -42,6 +48,7 @@ export default function InputNumber(props: { placeholder: string; min: number; m
 			min={props.min}
 			max={props.max}
 			placeholder={props.placeholder}
+			onChange={props.onChange}
 		/>
 	);
 }

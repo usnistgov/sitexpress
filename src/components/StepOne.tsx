@@ -4,18 +4,27 @@ import InputNumber from "./NumberInput";
 
 import TextInput from "./Input";
 import BasicTooltip from "./Tooltip";
+
 export default function StepOne() {
-	const [selectedValue, setSelectedValue] = useState("constant");
+	const [project, setProject] = useState({
+		projectName: "",
+		projectDesc: "",
+		alts: "0",
+		studyperiod: "0",
+		dollarvalue: "constant",
+		realDR: "3",
+		inflationRate: "2.3",
+		nominalDR: "5.3",
+	});
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setSelectedValue(event.target.value);
-		console.log(event.target.value);
+		setProject({ ...project, dollarvalue: event.target.value });
 	};
 
 	function RadioButton(props: { value: string }) {
 		return (
 			<Radio
-				checked={selectedValue === props.value}
+				checked={project.dollarvalue === props.value}
 				onChange={handleChange}
 				value={props.value}
 				name="radio-buttons"
@@ -31,11 +40,15 @@ export default function StepOne() {
 				<Typography variant="h6">Step One: Project Information</Typography>
 				<Typography variant="body1">Provide project details and assumptions for completing the analysis.</Typography>
 			</Stack>
-
 			<Stack className=" w-2/3 p-10">
 				<span>
-					<TextInput placeholder="Enter Name Here" label="Project Name" />
+					<TextInput
+						placeholder="Enter Name Here"
+						label="Project Name"
+						onChange={(e) => setProject({ ...project, projectName: e.target.value })}
+					/>
 					<BasicTooltip title="text" />
+					<Typography variant="h6">{project.projectName}</Typography>
 				</span>
 				<br />
 
@@ -48,6 +61,7 @@ export default function StepOne() {
 						minRows={4}
 						multiline
 						size="small"
+						onChange={(e) => setProject({ ...project, projectDesc: e.target.value })}
 					/>
 					<BasicTooltip title="text" />
 				</span>
@@ -58,6 +72,7 @@ export default function StepOne() {
 						placeholder="Max Alternatives of 5 + Base Case"
 						label="Investment Options"
 						helpertext="No of Alternatives"
+						onChange={(e) => setProject({ ...project, alts: e.target.value })}
 					/>
 					<BasicTooltip title="text" />
 				</span>
@@ -65,7 +80,13 @@ export default function StepOne() {
 
 				<div>
 					<span className="flex">
-						<InputNumber placeholder="Study Period" min={0} max={25} />
+						<InputNumber
+							placeholder="Study Period"
+							min={0}
+							max={25}
+							onChange={(e) => setProject({ ...project, studyperiod: e.target.value })}
+						/>
+
 						<BasicTooltip title="text" />
 					</span>
 					<Typography variant="caption">Maximum study period of 25 years.</Typography>
@@ -83,7 +104,12 @@ export default function StepOne() {
 						/>
 					</div>
 					<div>
-						<TextInput placeholder="Enter % Here" label="Real Discount Rate" />
+						<TextInput
+							disabled={project.dollarvalue !== "constant"}
+							placeholder="Enter % Here"
+							label="Real Discount Rate"
+							onChange={(e) => setProject({ ...project, realDR: e.target.value })}
+						/>
 						<br />
 					</div>
 				</Stack>
@@ -97,14 +123,42 @@ export default function StepOne() {
 						/>
 					</div>
 					<div>
-						<TextInput placeholder="Enter % Here" label="Inflation Rate" />
+						<TextInput
+							disabled={project.dollarvalue !== "current"}
+							placeholder="Enter % Here"
+							label="Inflation Rate"
+							onChange={(e) => setProject({ ...project, inflationRate: e.target.value })}
+						/>
 						<br />
 						<br />
-						<TextInput placeholder="Enter % Here" label="Nominal Discount Rate" />
+						<TextInput
+							disabled={project.dollarvalue !== "current"}
+							placeholder="Enter % Here"
+							label="Nominal Discount Rate"
+							onChange={(e) => setProject({ ...project, nominalDR: e.target.value })}
+						/>
 					</div>
 				</Stack>
 			</Stack>
-
+			<Typography variant="h6">{project.projectName}</Typography>
+			<br />
+			<br /> &nbsp;
+			<Typography variant="h6">{project.projectDesc}</Typography>
+			<br />
+			&nbsp;
+			<Typography variant="h6">{project.alts}</Typography>
+			<br />
+			&nbsp;
+			<Typography variant="h6">{project.studyperiod}</Typography>
+			<br />
+			&nbsp;
+			<Typography variant="h6">{project.realDR}</Typography>
+			<br />
+			&nbsp;
+			<Typography variant="h6">{project.inflationRate}</Typography>
+			<br />
+			&nbsp;
+			<Typography variant="h6">{project.nominalDR}</Typography>
 			{/*calculator image to side*/}
 			<img className="calculatorImage"></img>
 		</Stack>
