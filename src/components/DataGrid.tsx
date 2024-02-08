@@ -60,8 +60,8 @@ const getPeople = () => [
 	},
 	{
 		year: "Initial Investment",
-		"base-cost": "bc",
-		"base-rev": "br",
+		"base-cost": "14",
+		"base-rev": "17",
 		"alt0-cost": "12",
 		"alt0-rev": "21",
 		"alt1-cost": "26",
@@ -141,46 +141,6 @@ const getPeople = () => [
 	},
 ];
 
-// const getColumns = (): Column[] => [
-// 	{ columnId: "name", width: 150 },
-// 	{ columnId: "surname", width: 150 },
-// ];
-
-// const getCells = (n: number): Column[] => {
-// 	let col = [
-// 		{
-// 			type: "header",
-// 			text: "Year",
-// 		},
-// 		{
-// 			type: "header",
-// 			text: "Base Case",
-// 		},
-// 	];
-// 	for (let i = 0; i < n; i++) {
-// 		col.push({
-// 			type: "header",
-// 			text: `Alt ${i}`,
-// 		});
-// 	}
-// 	return col;
-// };
-
-// const headerRow: Row = {
-// 	rowId: "header",
-// 	cells: getCells(3),
-// };
-
-// const getCellss = () => {
-// 	rowss(5, 5).map((row) => {
-// 		return row;
-// 	});
-// };
-
-// getCellss();
-
-// const getColumns = () => [{ columnId: "year" }, { columnId: "base" }, { columnId: "surname" }, { columnId: "no" }];
-
 const getColumns = (n: number): Column[] => {
 	let col = [{ columnId: "year", nonEditable: false }, { columnId: "base-cost" }, { columnId: "base-rev" }];
 	for (let i = 0; i < n; i++) {
@@ -204,21 +164,6 @@ const headerRow = (n: number) => {
 	};
 };
 
-// console.log(headerRow(5));
-
-// const headerRows: Row = {
-// 	rowId: "header",
-// 	cells: [
-// 		{ type: "header", text: "Year" },
-// 		{ type: "header", text: "Base Case" },
-// 		// { type: "header", text: "" },
-// 		{ type: "header", text: "Surname" },
-// 		{ type: "header", text: "No" },
-// 	],
-// };
-
-// console.log(headerRows);
-
 const applyChangesToPeople = (changes: CellChange<TextCell>[], prevPeople) => {
 	changes.forEach((change) => {
 		const personIndex = change.rowId;
@@ -232,39 +177,8 @@ function DataGrid(props: { noOfAlts: number }) {
 	const [people, setPeople] = React.useState(getPeople());
 	const { noOfAlts } = props;
 
-	// console.log(people);
-
-	const getRowCells = (data, alts: number) => {
-		const cells = [];
-		for (let j = 0; j < data.length; j++) {
-			let i = 0;
-			let cell = [];
-			while (i < alts) {
-				cell.push(
-					{ type: "text", text: `data[${j}][alt${i}-cost]` },
-					{ type: "text", text: `data[${j}][alt${i}-rev]` },
-				);
-				i++;
-			}
-			cells.push(cell);
-		}
-		// }
-		return cells;
-	};
-
-	// console.log(getRowCells(people, noOfAlts));
-
 	const getRows = (people) => [
 		headerRow(noOfAlts),
-		// people.map((person, idx: number) => ({
-		// 	rowId: idx,
-		// 	cells: [
-		// 		{ type: "text", text: person.year, nonEditable: true },
-		// 		{ type: "text", text: person["base-cost"] },
-		// 		{ type: "text", text: person["base-rev"] },
-		// 		...getRowCells(people, noOfAlts),
-		// 	],
-		// })),
 		...people.map((person, idx: number) => {
 			const cells = [];
 			for (const [key, value] of Object.entries(person)) {
