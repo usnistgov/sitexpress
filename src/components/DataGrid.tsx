@@ -152,11 +152,11 @@ const getColumns = (n: number): Column[] => {
 const headerRow = (n: number) => {
 	let header = [
 		{ type: "header", text: "Year", nonEditable: false },
-		{ type: "header", text: "Base Case", colSpan: 2 },
+		{ type: "text", text: "Base Case", colSpan: 2 },
 		{ type: "header", text: "" },
 	];
 	for (let i = 0; i < n; i++) {
-		header.push({ type: "header", text: `Alt ${i}`, colSpan: 2 }, { type: "header", text: "" });
+		header.push({ type: "text", text: `Alt ${i}`, colSpan: 2 }, { type: "header", text: "" });
 	}
 	return {
 		rowId: "header",
