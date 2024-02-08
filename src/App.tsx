@@ -1,3 +1,5 @@
+import "./App.css";
+import Disclaimer from "./components/Disclaimer";
 import LandingSection from "./components/LandingSection";
 import StepOne from "./components/StepOne";
 import StepThree from "./components/StepThree";
@@ -12,6 +14,7 @@ function App() {
 			<StepOne />
 			<StepTwo />
 			<StepThree />
+			<Disclaimer />
 		</div>
 	);
 }
