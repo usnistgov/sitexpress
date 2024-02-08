@@ -1,10 +1,9 @@
-import "./App.css";
 import LandingSection from "./components/LandingSection";
 import StepOne from "./components/StepOne";
 import StepThree from "./components/StepThree";
 import StepTwo from "./components/StepTwo";
 
-import "react-data-grid/lib/styles.css";
+import "./index.css";
 
 function App() {
 	return (
