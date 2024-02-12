@@ -26,13 +26,13 @@ export default function StepOne() {
 	}
 	// style={{ border: "1px solid red" }}
 	return (
-		<Stack direction="row" className="w-full">
-			<Stack className="flex justify-center text-center p-2 w-1/3 max-w-1/3 bg-orange-400">
+		<Stack direction="column" className="w-full text-center">
+			<Stack className="flex justify-center  p-2 bg-orange-400">
 				<Typography variant="h6">Step One: Project Information</Typography>
 				<Typography variant="body1">Provide project details and assumptions for completing the analysis.</Typography>
 			</Stack>
 
-			<Stack className=" w-2/3 p-10">
+			<Stack className="p-10 flex flex-col justify-center">
 				<span>
 					<TextInput placeholder="Enter Name Here" label="Project Name" />
 					<BasicTooltip title="text" />
@@ -63,19 +63,23 @@ export default function StepOne() {
 				</span>
 				<br />
 
-				<div>
-					<span className="flex">
+				<div className="m-auto w-full">
+					<span className="flex justify-center">
 						<InputNumber placeholder="Study Period" min={0} max={25} />
 						<BasicTooltip title="text" />
 					</span>
-					<Typography variant="caption">Maximum study period of 25 years.</Typography>
+					<span className="">
+						<Typography className="" variant="caption">
+							Maximum study period of 25 years.
+						</Typography>
+					</span>
 				</div>
 				<br />
 
 				<Typography variant="body1">Dollar values will be entered in:</Typography>
 
 				<Stack direction="column">
-					<div className="flex">
+					<div className="flex justify-center">
 						<FormControlLabel
 							value="constant"
 							control={<RadioButton value="constant" />}
@@ -89,7 +93,7 @@ export default function StepOne() {
 				</Stack>
 				<br />
 				<Stack direction="column">
-					<div className="flex">
+					<div className="flex justify-center">
 						<FormControlLabel
 							value="current"
 							control={<RadioButton value="current" />}

@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { dataset } from "../data/dataset";
+import BasicTooltip from "./Tooltip";
 
 const labs = (n: number) => {
 	const lab = ["Base Case"];
@@ -44,35 +45,21 @@ const NoOfAlternatives = (n: number) => {
 
 export default function StepThree() {
 	return (
-		<Stack direction="row">
-			<Stack
-				className="w-1/3 max-w-1/3 bg-orange-400 flex justify-center p-2 items-center"
-				// style={{ border: "1px solid black" }}
-			>
+		<Stack direction="column">
+			<Stack className=" bg-orange-400 flex justify-center p-2 items-center">
 				<Stack direction="column" className="flex justify-center items-center">
 					<Typography variant="h6" className="text-center">
 						Step Three: <br />
 						Results
 					</Typography>
-
-					<span>
-						<Button
-							variant="contained"
-							className=""
-							onClick={() => {
-								console.log("Running results");
-							}}
-						>
-							Run Results
-						</Button>
-						{/* <BasicTooltip title="text" /> */}
-					</span>
 				</Stack>
-				<br />
-				<Stack className="items-center">
+			</Stack>
+			<Stack className="p-10">
+				<span className="flex ml-auto">
 					<Typography variant="h6" className="">
 						Save to:
-					</Typography>
+					</Typography>{" "}
+					&nbsp;
 					<Button
 						variant="contained"
 						className=""
@@ -82,7 +69,7 @@ export default function StepThree() {
 					>
 						CSV
 					</Button>
-					<br />
+					&nbsp;
 					<span>
 						<Button
 							variant="contained"
@@ -93,11 +80,11 @@ export default function StepThree() {
 						>
 							PDF
 						</Button>
-						{/* <BasicTooltip title="text" /> */}
+						<BasicTooltip title="text" />
 					</span>
-				</Stack>
-			</Stack>
-			<Stack className="w-2/3 p-10">
+				</span>
+				<br />
+
 				<TableContainer component={Paper}>
 					<Table aria-label="simple table" sx={{ "td, th": { border: "1px solid black" } }}>
 						<TableHead>
