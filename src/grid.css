@@ -1,0 +1,12 @@
+.rg-cell,
+.rg-header-cell {
+	background-color: whitesmoke !important;
+}
+
+.rg-header-cell,
+[data-cell-colidx~="0"],
+[data-cell-rowidx~="0"],
+[data-cell-rowidx~="1"] {
+	font-weight: bold !important;
+	/* justify-content: center !important; */
+}

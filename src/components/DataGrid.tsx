@@ -14,41 +14,7 @@ interface Data {
 	alt4?: string;
 }
 
-// const rowss = (years: number, n: number) => {
-// 	const row = [];
-// 	for (let i = 0; i < years; i++) {
-// 		let obj = { year: i };
-// 		for (let j = 0; j < n; j++) {
-// 			let object = {
-// 				[`cost+${j}`]: `${123 + j}`,
-// 				[`revenue+${j}`]: `${456 + j}`,
-// 			};
-
-// 			obj[`Alt ${i}`] = { ...obj[`Alt ${i}`], ...object };
-// 		}
-// 		row.push(obj);
-// 	}
-// 	return row;
-// };
-
-// console.log(rowss(5, 5));
-
-// const getPeople = () => [
-// 	{ year: 0, baseCase: 2, "Alt 0": "Thomas", "Alt 1": "Goldman" },
-// 	{ year: 0, baseCase: 2, "Alt 0": "Susie", "Alt 1": "Quattro" },
-// 	{ year: 0, baseCase: 2, "Alt 0": "Josh", "Alt 1": "Kneifel" },
-// 	{ year: 0, baseCase: 2, "Alt 0": "Thomas", "Alt 1": "Goldman" },
-// 	{ year: 0, baseCase: 2, "Alt 0": "Susie", "Alt 1": "Quattro" },
-// 	{ year: 0, baseCase: 2, "Alt 0": "Josh", "Alt 1": "Kneifel" },
-// 	{ year: 0, baseCase: 2, "Alt 0": "Thomas", "Alt 1": "Goldman" },
-// 	{ year: 0, baseCase: 2, "Alt 0": "Susie", "Alt 1": "Quattro" },
-// 	{ year: 0, baseCase: 2, "Alt 0": "Josh", "Alt 1": "Kneifel" },
-// 	{ year: 0, baseCase: 2, "Alt 0": "Thomas", "Alt 1": "Goldman" },
-// 	{ year: 0, baseCase: 2, "Alt 0": "Susie", "Alt 1": "Quattro" },
-// 	{ year: 0, baseCase: 2, "Alt 0": "Josh", "Alt 1": "Kneifel" },
-// ];
-
-const getPeople = () => [
+const getData = () => [
 	{
 		year: "",
 		"base-cost": "Cost",
@@ -142,7 +108,7 @@ const getPeople = () => [
 ];
 
 const getColumns = (n: number): Column[] => {
-	let col = [{ columnId: "year", nonEditable: false }, { columnId: "base-cost" }, { columnId: "base-rev" }];
+	let col = [{ columnId: "year", nonEditable: true }, { columnId: "base-cost" }, { columnId: "base-rev" }];
 	for (let i = 0; i < n; i++) {
 		col.push({ columnId: `alt${i}-cost` }, { columnId: `alt${i}-rev` });
 	}
@@ -151,7 +117,7 @@ const getColumns = (n: number): Column[] => {
 
 const headerRow = (n: number) => {
 	let header = [
-		{ type: "header", text: "Year", nonEditable: false },
+		{ type: "header", text: "Year", nonEditable: true },
 		{ type: "text", text: "Base Case", colSpan: 2 },
 		{ type: "header", text: "" },
 	];
@@ -164,24 +130,24 @@ const headerRow = (n: number) => {
 	};
 };
 
-const applyChangesToPeople = (changes: CellChange<TextCell>[], prevPeople) => {
+const applyChangesToData = (changes: CellChange<TextCell>[], prevData) => {
 	changes.forEach((change) => {
-		const personIndex = change.rowId;
+		const dataIndex = change.rowId;
 		const fieldName = change.columnId;
-		prevPeople[personIndex][fieldName] = change.newCell.text;
+		prevData[dataIndex][fieldName] = change.newCell.text;
 	});
-	return [...prevPeople];
+	return [...prevData];
 };
 
 function DataGrid(props: { noOfAlts: number }) {
-	const [people, setPeople] = React.useState(getPeople());
+	const [data, setData] = React.useState(getData());
 	const { noOfAlts } = props;
 
-	const getRows = (people) => [
+	const getRows = (data) => [
 		headerRow(noOfAlts),
-		...people.map((person, idx: number) => {
+		...data.map((dataPoint, idx: number) => {
 			const cells = [];
-			for (const [key, value] of Object.entries(person)) {
+			for (const [key, value] of Object.entries(dataPoint)) {
 				const obj = { type: "text", text: value };
 				cells.push(obj);
 			}
@@ -189,12 +155,12 @@ function DataGrid(props: { noOfAlts: number }) {
 		}),
 	];
 
-	const rows = getRows(people);
+	const rows = getRows(data);
 	const columns = getColumns(noOfAlts);
 
-	console.log(rows);
+	// console.log(rows);
 	const handleChanges = (changes: CellChange<TextCell>[]) => {
-		setPeople((prevPeople) => applyChangesToPeople(changes, prevPeople));
+		setData((prevData) => applyChangesToData(changes, prevData));
 	};
 
 	return (

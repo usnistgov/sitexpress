@@ -5,6 +5,7 @@ import StepOne from "./components/StepOne";
 import StepThree from "./components/StepThree";
 import StepTwo from "./components/StepTwo";
 
+import "./grid.css";
 import "./index.css";
 
 function App() {
