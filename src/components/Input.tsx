@@ -18,7 +18,7 @@ export type TextInputProps = {
 
 export default function TextInput(props: TextInputProps) {
 	return (
-		<div>
+		<>
 			<TextField
 				className={(props.className ?? "") + `${props.disabled ? TextInputType.DISABLED : props.type} w-1/3`}
 				label={props.label}
@@ -27,6 +27,6 @@ export default function TextInput(props: TextInputProps) {
 				helperText={props.helpertext}
 				disabled={props.disabled}
 			/>
-		</div>
+		</>
 	);
 }
