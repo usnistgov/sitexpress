@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { dataset } from "../data/dataset";
+import BasicTooltip from "./Tooltip";
 
 const labs = (n: number) => {
 	const lab = ["Base Case"];
@@ -42,13 +43,11 @@ const NoOfAlternatives = (n: number) => {
 	return alts;
 };
 
-export default function StepThree() {
+export default function StepThree(props) {
+	const { project } = props;
 	return (
 		<Stack direction="row">
-			<Stack
-				className="w-1/3 max-w-1/3 bg-orange-400 flex justify-center p-2 items-center"
-				// style={{ border: "1px solid black" }}
-			>
+			<Stack className="w-1/3 max-w-1/3 bg-orange-400 flex justify-center p-2 items-center">
 				<Stack direction="column" className="flex justify-center items-center">
 					<Typography variant="h6" className="text-center">
 						Step Three: <br />
@@ -65,7 +64,7 @@ export default function StepThree() {
 						>
 							Run Results
 						</Button>
-						{/* <BasicTooltip title="text" /> */}
+						<BasicTooltip title="text" />
 					</span>
 				</Stack>
 				<br />
@@ -93,7 +92,7 @@ export default function StepThree() {
 						>
 							PDF
 						</Button>
-						{/* <BasicTooltip title="text" /> */}
+						<BasicTooltip title="text" />
 					</span>
 				</Stack>
 			</Stack>
@@ -104,7 +103,7 @@ export default function StepThree() {
 							<TableRow>
 								<TableCell></TableCell>
 								<TableCell align="center">Base Case</TableCell>
-								{NoOfAlternatives(5)}
+								{NoOfAlternatives(project.alts)}
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -130,7 +129,7 @@ export default function StepThree() {
 				<BarChart
 					dataset={dataset}
 					height={250}
-					xAxis={[{ data: labs(5), scaleType: "band" }]}
+					xAxis={[{ data: labs(project.alts), scaleType: "band" }]}
 					margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
 					series={[
 						{ dataKey: "npvp", label: "Net Present Value Profit" },

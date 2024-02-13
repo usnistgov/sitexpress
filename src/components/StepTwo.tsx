@@ -1,10 +1,11 @@
 import { Stack, Typography } from "@mui/material";
 import DataGrid from "./DataGrid";
 
-export default function StepTwo() {
+export default function StepTwo(props) {
+	const { project } = props;
+	console.log(project);
 	return (
 		<div>
-			{/*Section Header Rectangle */}
 			<Stack direction="row">
 				<Stack className="flex justify-center text-center p-2 w-1/3 max-w-1/3 bg-orange-400">
 					<Typography variant="h6">Step Two</Typography>
@@ -14,7 +15,7 @@ export default function StepTwo() {
 
 				{/*Data table */}
 				<Stack className="flex justify-center text-center p-10 ">
-					<DataGrid noOfAlts={2} />
+					<DataGrid noOfAlts={project?.alts || 2} />
 				</Stack>
 			</Stack>
 		</div>

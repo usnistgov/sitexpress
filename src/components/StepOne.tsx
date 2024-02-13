@@ -1,31 +1,18 @@
-import { FormControlLabel, Radio, Stack, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Button, FormControlLabel, Radio, Stack, TextField, Typography } from "@mui/material";
 import InputNumber from "./NumberInput";
 
 import TextInput from "./Input";
 import BasicTooltip from "./Tooltip";
 
-export default function StepOne() {
-	const [project, setProject] = useState({
-		projectName: "",
-		projectDesc: "",
-		alts: "0",
-		studyperiod: "0",
-		dollarvalue: "constant",
-		realDR: "3",
-		inflationRate: "2.3",
-		nominalDR: "5.3",
-	});
-
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setProject({ ...project, dollarvalue: event.target.value });
-	};
+export default function StepOne(props) {
+	const project = props.project;
+	const handleChange = props.handleChange;
 
 	function RadioButton(props: { value: string }) {
 		return (
 			<Radio
-				checked={project.dollarvalue === props.value}
-				onChange={handleChange}
+				checked={project?.dollarValue === props.value}
+				onChange={(e) => handleChange("dollarValue", e)}
 				value={props.value}
 				name="radio-buttons"
 				inputProps={{ "aria-label": props.value }}
@@ -33,7 +20,7 @@ export default function StepOne() {
 			/>
 		);
 	}
-	// style={{ border: "1px solid red" }}
+
 	return (
 		<Stack direction="row" className="w-full">
 			<Stack className="flex justify-center text-center p-2 w-1/3 max-w-1/3 bg-orange-400">
@@ -45,10 +32,9 @@ export default function StepOne() {
 					<TextInput
 						placeholder="Enter Name Here"
 						label="Project Name"
-						onChange={(e) => setProject({ ...project, projectName: e.target.value })}
+						onChange={(e) => handleChange("projectName", e)}
 					/>
 					<BasicTooltip title="text" />
-					<Typography variant="h6">{project.projectName}</Typography>
 				</span>
 				<br />
 
@@ -61,7 +47,7 @@ export default function StepOne() {
 						minRows={4}
 						multiline
 						size="small"
-						onChange={(e) => setProject({ ...project, projectDesc: e.target.value })}
+						onChange={(e) => handleChange("projectDesc", e)}
 					/>
 					<BasicTooltip title="text" />
 				</span>
@@ -72,7 +58,7 @@ export default function StepOne() {
 						placeholder="Max Alternatives of 5 + Base Case"
 						label="Investment Options"
 						helpertext="No of Alternatives"
-						onChange={(e) => setProject({ ...project, alts: e.target.value })}
+						onChange={(e) => handleChange("alts", e)}
 					/>
 					<BasicTooltip title="text" />
 				</span>
@@ -80,13 +66,7 @@ export default function StepOne() {
 
 				<div>
 					<span className="flex">
-						<InputNumber
-							placeholder="Study Period"
-							min={0}
-							max={25}
-							onChange={(e) => setProject({ ...project, studyperiod: e.target.value })}
-						/>
-
+						<InputNumber placeholder="Study Period" min={0} max={25} onChange={(e) => handleChange("studyPeriod", e)} />
 						<BasicTooltip title="text" />
 					</span>
 					<Typography variant="caption">Maximum study period of 25 years.</Typography>
@@ -105,10 +85,11 @@ export default function StepOne() {
 					</div>
 					<div>
 						<TextInput
-							disabled={project.dollarvalue !== "constant"}
+							disabled={project?.dollarValue !== "constant"}
 							placeholder="Enter % Here"
 							label="Real Discount Rate"
-							onChange={(e) => setProject({ ...project, realDR: e.target.value })}
+							defaultValue={project?.realDR}
+							onChange={(e) => handleChange("realDR", e)}
 						/>
 						<br />
 					</div>
@@ -124,41 +105,25 @@ export default function StepOne() {
 					</div>
 					<div>
 						<TextInput
-							disabled={project.dollarvalue !== "current"}
+							disabled={project?.dollarValue !== "current"}
 							placeholder="Enter % Here"
 							label="Inflation Rate"
-							onChange={(e) => setProject({ ...project, inflationRate: e.target.value })}
+							defaultValue={project?.inflationRate}
+							onChange={(e) => handleChange("inflationRate", e)}
 						/>
 						<br />
 						<br />
 						<TextInput
-							disabled={project.dollarvalue !== "current"}
+							disabled={project?.dollarValue !== "current"}
 							placeholder="Enter % Here"
 							label="Nominal Discount Rate"
-							onChange={(e) => setProject({ ...project, nominalDR: e.target.value })}
+							defaultValue={project?.nominalDR}
+							onChange={(e) => handleChange("nominalDR", e)}
 						/>
 					</div>
+					<Button onClick={() => console.log(project)}>Click Me</Button>
 				</Stack>
 			</Stack>
-			<Typography variant="h6">{project.projectName}</Typography>
-			<br />
-			<br /> &nbsp;
-			<Typography variant="h6">{project.projectDesc}</Typography>
-			<br />
-			&nbsp;
-			<Typography variant="h6">{project.alts}</Typography>
-			<br />
-			&nbsp;
-			<Typography variant="h6">{project.studyperiod}</Typography>
-			<br />
-			&nbsp;
-			<Typography variant="h6">{project.realDR}</Typography>
-			<br />
-			&nbsp;
-			<Typography variant="h6">{project.inflationRate}</Typography>
-			<br />
-			&nbsp;
-			<Typography variant="h6">{project.nominalDR}</Typography>
 			{/*calculator image to side*/}
 			<img className="calculatorImage"></img>
 		</Stack>

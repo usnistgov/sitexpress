@@ -49,6 +49,7 @@ export default function InputNumber(props: {
 			max={props.max}
 			placeholder={props.placeholder}
 			onChange={props.onChange}
+			defaultValue={1}
 		/>
 	);
 }

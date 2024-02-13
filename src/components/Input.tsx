@@ -12,6 +12,7 @@ export type TextInputProps = {
 	className?: string;
 	type?: TextInputType;
 	disabled?: boolean;
+	defaultValue?: string;
 	placeholder?: string;
 	bordered?: boolean;
 	label?: string;
@@ -33,6 +34,7 @@ export default function TextInput(props: TextInputProps) {
 				helperText={props.helpertext}
 				onChange={props.onChange}
 				disabled={props.disabled}
+				defaultValue={props.defaultValue}
 			/>
 		</>
 	);
