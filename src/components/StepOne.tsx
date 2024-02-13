@@ -87,7 +87,12 @@ export default function StepOne() {
 						/>
 					</div>
 					<div>
-						<TextInput placeholder="Enter % Here" label="Real Discount Rate" />
+						<TextInput
+							className="disabled"
+							placeholder="Enter % Here"
+							label="Real Discount Rate"
+							disabled={selectedValue !== "constant"}
+						/>
 						<br />
 					</div>
 				</Stack>
@@ -101,10 +106,14 @@ export default function StepOne() {
 						/>
 					</div>
 					<div>
-						<TextInput placeholder="Enter % Here" label="Inflation Rate" />
+						<TextInput placeholder="Enter % Here" label="Inflation Rate" disabled={selectedValue === "constant"} />
 						<br />
 						<br />
-						<TextInput placeholder="Enter % Here" label="Nominal Discount Rate" />
+						<TextInput
+							placeholder="Enter % Here"
+							label="Nominal Discount Rate"
+							disabled={selectedValue === "constant"}
+						/>
 					</div>
 				</Stack>
 			</Stack>
