@@ -76,10 +76,11 @@ export default function StepThree() {
 	};
 	return (
 		<Stack direction="column">
-			<Stack className=" bg-orange-400 flex justify-center p-2 items-center">
+			<Stack className=" flex justify-center p-2 items-center" style={{ backgroundColor: "#ef860a" }}>
 				<Stack direction="column" className="flex justify-center items-center">
 					<Typography variant="h6" className="text-center">
-						Step Three: <br />
+						Step Three
+						<br />
 						Results
 					</Typography>
 				</Stack>
@@ -159,7 +160,7 @@ export default function StepThree() {
 							height={250}
 							xAxis={[{ data: labs(5), scaleType: "band" }]}
 							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-							series={[{ dataKey: "npvp", label: "Net Present Value Profit", color: "#f28e2c" }]}
+							series={[{ dataKey: "npvp", label: "Net Present Value Profit", color: "#ef860a" }]}
 						/>
 					</CustomTabPanel>
 					<CustomTabPanel value={tabValue} index={1}>
@@ -168,7 +169,7 @@ export default function StepThree() {
 							height={250}
 							xAxis={[{ data: labs(5), scaleType: "band" }]}
 							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-							series={[{ dataKey: "np", label: "Net Profit", color: "#f28e2c" }]}
+							series={[{ dataKey: "np", label: "Net Profit", color: "#ef860a" }]}
 						/>
 					</CustomTabPanel>
 					<CustomTabPanel value={tabValue} index={2}>
@@ -177,7 +178,7 @@ export default function StepThree() {
 							height={250}
 							xAxis={[{ data: labs(5), scaleType: "band" }]}
 							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-							series={[{ dataKey: "irr", label: " IRR", color: "#f28e2c" }]}
+							series={[{ dataKey: "irr", label: " IRR", color: "#ef860a" }]}
 						/>
 					</CustomTabPanel>
 					<CustomTabPanel value={tabValue} index={3}>
@@ -186,7 +187,7 @@ export default function StepThree() {
 							height={250}
 							xAxis={[{ data: labs(5), scaleType: "band" }]}
 							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-							series={[{ dataKey: "sp", label: "Simple Payback", color: "#f28e2c" }]}
+							series={[{ dataKey: "sp", label: "Simple Payback", color: "#ef860a" }]}
 						/>
 					</CustomTabPanel>
 					<CustomTabPanel value={tabValue} index={4}>
@@ -195,7 +196,7 @@ export default function StepThree() {
 							height={250}
 							xAxis={[{ data: labs(5), scaleType: "band" }]}
 							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-							series={[{ dataKey: "dp", label: "Discounted Payback", color: "#f28e2c" }]}
+							series={[{ dataKey: "dp", label: "Discounted Payback", color: "#ef860a" }]}
 						/>
 					</CustomTabPanel>
 					<CustomTabPanel value={tabValue} index={5}>
@@ -204,7 +205,7 @@ export default function StepThree() {
 							height={250}
 							xAxis={[{ data: labs(5), scaleType: "band" }]}
 							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-							series={[{ dataKey: "bcr", label: "BCR", color: "#f28e2c" }]}
+							series={[{ dataKey: "bcr", label: "BCR", color: "#ef860a" }]}
 						/>
 					</CustomTabPanel>
 				</Stack>

@@ -27,8 +27,11 @@ export default function StepOne() {
 	// style={{ border: "1px solid red" }}
 	return (
 		<Stack direction="column" className="w-full text-center">
-			<Stack className="flex justify-center  p-2 bg-orange-400">
-				<Typography variant="h6">Step One: Project Information</Typography>
+			<Stack className="flex justify-center  p-2" style={{ backgroundColor: "#ef860a" }}>
+				<Typography variant="h6">
+					Step One <br />
+					Project Information
+				</Typography>
 				<Typography variant="body1">Provide project details and assumptions for completing the analysis.</Typography>
 			</Stack>
 
