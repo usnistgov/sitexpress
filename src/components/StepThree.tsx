@@ -2,15 +2,18 @@ import {
 	Button,
 	Paper,
 	Stack,
+	Tab,
 	Table,
 	TableBody,
 	TableCell,
 	TableContainer,
 	TableHead,
 	TableRow,
+	Tabs,
 	Typography,
 } from "@mui/material";
 import { BarChart } from "@mui/x-charts/BarChart";
+import { useState } from "react";
 import { dataset } from "../data/dataset";
 import BasicTooltip from "./Tooltip";
 
@@ -43,35 +46,52 @@ const NoOfAlternatives = (n: number) => {
 	return alts;
 };
 
+interface TabPanelProps {
+	children?: React.ReactNode;
+	index: number;
+	value: number;
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+	const { children, value, index, ...other } = props;
+
+	return (
+		<div
+			role="tabpanel"
+			hidden={value !== index}
+			id={`simple-tabpanel-${index}`}
+			aria-labelledby={`simple-tab-${index}`}
+			{...other}
+		>
+			{value === index && <Typography>{children}</Typography>}
+		</div>
+	);
+}
+
 export default function StepThree(props) {
 	const { project } = props;
+	const [tabValue, setTabValue] = useState(0);
+
+	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+		setTabValue(newValue);
+	};
 	return (
-		<Stack direction="row">
-			<Stack className="w-1/3 max-w-1/3 bg-orange-400 flex justify-center p-2 items-center">
+		<Stack direction="column">
+			<Stack className=" flex justify-center p-2 items-center" style={{ backgroundColor: "#ef860a" }}>
 				<Stack direction="column" className="flex justify-center items-center">
 					<Typography variant="h6" className="text-center">
-						Step Three: <br />
+						Step Three
+						<br />
 						Results
 					</Typography>
-
-					<span>
-						<Button
-							variant="contained"
-							className=""
-							onClick={() => {
-								console.log("Running results");
-							}}
-						>
-							Run Results
-						</Button>
-						<BasicTooltip title="text" />
-					</span>
 				</Stack>
-				<br />
-				<Stack className="items-center">
+			</Stack>
+			<Stack className="p-10">
+				<span className="flex ml-auto">
 					<Typography variant="h6" className="">
 						Save to:
-					</Typography>
+					</Typography>{" "}
+					&nbsp;
 					<Button
 						variant="contained"
 						className=""
@@ -81,7 +101,7 @@ export default function StepThree(props) {
 					>
 						CSV
 					</Button>
-					<br />
+					&nbsp;
 					<span>
 						<Button
 							variant="contained"
@@ -94,16 +114,16 @@ export default function StepThree(props) {
 						</Button>
 						<BasicTooltip title="text" />
 					</span>
-				</Stack>
-			</Stack>
-			<Stack className="w-2/3 p-10">
+				</span>
+				<br />
+
 				<TableContainer component={Paper}>
 					<Table aria-label="simple table" sx={{ "td, th": { border: "1px solid black" } }}>
 						<TableHead>
 							<TableRow>
 								<TableCell></TableCell>
 								<TableCell align="center">Base Case</TableCell>
-								{NoOfAlternatives(project.alts)}
+								{NoOfAlternatives(project?.alts || 2)}
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -126,20 +146,70 @@ export default function StepThree(props) {
 					</Table>
 				</TableContainer>
 				<br />
-				<BarChart
-					dataset={dataset}
-					height={250}
-					xAxis={[{ data: labs(project.alts), scaleType: "band" }]}
-					margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
-					series={[
-						{ dataKey: "npvp", label: "Net Present Value Profit" },
-						{ dataKey: "np", label: "Net Profit" },
-						{ dataKey: "irr", label: " IRR" },
-						{ dataKey: "sp", label: "Simple Payback" },
-						{ dataKey: "dp", label: "Discounted Payback" },
-						{ dataKey: "bcr", label: "BCR" },
-					]}
-				/>
+				<Stack>
+					<Tabs value={tabValue} onChange={handleChange} aria-label="basic tabs example">
+						<Tab label="Net Present Value Profit" />
+						<Tab label="Net Profit" />
+						<Tab label="IRR" />
+						<Tab label="Simple Payback" />
+						<Tab label="Discounted Payback" />
+						<Tab label="BCR" />
+					</Tabs>
+					<CustomTabPanel value={tabValue} index={0}>
+						<BarChart
+							dataset={dataset}
+							height={250}
+							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
+							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
+							series={[{ dataKey: "npvp", label: "Net Present Value Profit", color: "#ef860a" }]}
+						/>
+					</CustomTabPanel>
+					<CustomTabPanel value={tabValue} index={1}>
+						<BarChart
+							dataset={dataset}
+							height={250}
+							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
+							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
+							series={[{ dataKey: "np", label: "Net Profit", color: "#ef860a" }]}
+						/>
+					</CustomTabPanel>
+					<CustomTabPanel value={tabValue} index={2}>
+						<BarChart
+							dataset={dataset}
+							height={250}
+							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
+							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
+							series={[{ dataKey: "irr", label: " IRR", color: "#ef860a" }]}
+						/>
+					</CustomTabPanel>
+					<CustomTabPanel value={tabValue} index={3}>
+						<BarChart
+							dataset={dataset}
+							height={250}
+							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
+							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
+							series={[{ dataKey: "sp", label: "Simple Payback", color: "#ef860a" }]}
+						/>
+					</CustomTabPanel>
+					<CustomTabPanel value={tabValue} index={4}>
+						<BarChart
+							dataset={dataset}
+							height={250}
+							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
+							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
+							series={[{ dataKey: "dp", label: "Discounted Payback", color: "#ef860a" }]}
+						/>
+					</CustomTabPanel>
+					<CustomTabPanel value={tabValue} index={5}>
+						<BarChart
+							dataset={dataset}
+							height={250}
+							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
+							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
+							series={[{ dataKey: "bcr", label: "BCR", color: "#ef860a" }]}
+						/>
+					</CustomTabPanel>
+				</Stack>
 			</Stack>
 		</Stack>
 	);

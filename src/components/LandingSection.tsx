@@ -1,43 +1,49 @@
+/// <reference types="vite-plugin-svgr/client" />
 import { Link, List, ListItem, ListItemText, ListSubheader, Stack, Typography } from "@mui/material";
+import Logo from "../SITExpress_logo.svg?react";
 
 export default function LandingSection() {
 	return (
-		<Stack direction="row">
-			<Stack className="text-center p-2 w-1/3 max-w-1/3">
-				<Typography className="italic" variant="h2" gutterBottom>
-					SITExpress
-				</Typography>
-				<Typography variant="h4" gutterBottom>
-					For Project Investment Analysis
-				</Typography>
+		<Stack direction="column" className="bg-gray-50">
+			<Stack className="p-2">
+				<div className="logo w-2/3 ml-auto mr-auto">
+					<Logo />
+				</div>
 
-				<Typography variant="h5" gutterBottom>
-					Powered by E3 <br />
+				<br />
+				<Typography className="ml-auto text-center" variant="h5" gutterBottom>
 					<Link href="https://e3.nist.gov/" underline="none" color="inherit" target="_blank" rel="noopener">
-						https://e3.nist.gov/
+						Powered by E3
 					</Link>
 				</Typography>
 			</Stack>
-			<Stack className="p-2 bg-sky-500 flex justify-center">
-				<Typography variant="h5" className="text-center">
-					Smart Investment Tool Express (SITExpress) completes investment analysis based on NIST Advanced Manufacturing
-					Series 200-5 to identify economical projects/investments.
-				</Typography>
-				<br />
-
-				<Typography variant="h5">Calculated metrics include:</Typography>
-				<List dense>
-					<ListSubheader></ListSubheader>
-					<ListItem>
-						<ListItemText primary="Net Present Value (NPV)" />
-					</ListItem>
-					<ListItem>
-						<ListItemText primary="Internal Rate of Return (IRR)" />
-					</ListItem>
-					<ListItem>
-						<ListItemText primary="Payback Period (PBP)" />
-					</ListItem>
-				</List>
+			<br />
+			<Stack direction="row" className="p-2 flex text-center ">
+				<div className="w-1/5"></div>
+				<div className="w-1/5">
+					<Typography variant="h5" gutterBottom>
+						For Project Investment Analysis
+					</Typography>
+					<Typography variant="body1" className="text-center">
+						Smart Investment Tool Express (SITExpress) completes investment analysis based on NIST Advanced
+						Manufacturing Series <br /> 200-5 to identify economical projects/investments.
+					</Typography>
+				</div>
+				<div className="w-1/5"></div>
+				<div className="w-1/5">
+					<Typography variant="h5">Calculated metrics include:</Typography>
+					<List dense>
+						<ListItem className="flex flex-col">
+							<ListItemText primary="Net Present Value (NPV)" />
+						</ListItem>
+						<ListItem className="flex flex-col">
+							<ListItemText primary="Internal Rate of Return (IRR)" />
+						</ListItem>
+						<ListItem className="flex flex-col">
+							<ListItemText primary="Payback Period (PBP)" />
+						</ListItem>
+					</List>
+				</div>
 			</Stack>
 		</Stack>
 	);

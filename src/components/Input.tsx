@@ -1,5 +1,5 @@
-import { List, ListItem, ListItemText, ListSubheader, Stack, TextField, Typography } from "@mui/material";
-import React, { ChangeEventHandler, PropsWithChildren } from "react";
+import { TextField } from "@mui/material";
+import { ChangeEventHandler } from "react";
 
 export enum TextInputType {
 	PRIMARY = " ",
@@ -14,7 +14,6 @@ export type TextInputProps = {
 	disabled?: boolean;
 	defaultValue?: string;
 	placeholder?: string;
-	bordered?: boolean;
 	label?: string;
 	helpertext?: string;
 	onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
@@ -23,18 +22,15 @@ export type TextInputProps = {
 export default function TextInput(props: TextInputProps) {
 	return (
 		<>
-			{/* <Typography variant="h5" gutterBottom>
-				{props.label}
-			</Typography> */}
 			<TextField
 				className={(props.className ?? "") + `${props.disabled ? TextInputType.DISABLED : props.type} w-1/3`}
 				label={props.label}
 				placeholder={props.placeholder}
 				size="small"
 				helperText={props.helpertext}
-				onChange={props.onChange}
 				disabled={props.disabled}
 				defaultValue={props.defaultValue}
+				onChange={props.onChange}
 			/>
 		</>
 	);
