@@ -57,21 +57,35 @@ export default function StepOne(props) {
 				</span>
 				<br />
 
-				<span>
-					<TextInput
-						placeholder="Max Alternatives of 5 + Base Case"
-						label="Investment Options"
-						helpertext="No of Alternatives"
-						onChange={(e) => handleChange("alts", e)}
-						defaultValue={project?.alts}
-					/>
-					<BasicTooltip title="text" />
-				</span>
+				<div className="m-auto w-full">
+					<span className="flex justify-center">
+						<InputNumber
+							placeholder="Max Alternatives of 5 + Base Case"
+							min={0}
+							max={5}
+							defaultValue={project?.alts || 2}
+							onChange={(e) => handleChange("alts", e)}
+						/>
+						<BasicTooltip title="text" />
+					</span>
+					<span className="">
+						<Typography className="" variant="caption">
+							No of Alternatives
+						</Typography>
+					</span>
+				</div>
 				<br />
 
 				<div className="m-auto w-full">
 					<span className="flex justify-center">
-						<InputNumber placeholder="Study Period" min={0} max={25} onChange={(e) => handleChange("studyPeriod", e)} />
+						<InputNumber
+							placeholder="Study Period"
+							min={0}
+							max={25}
+							defaultValue={project?.studyPeriod}
+							adornment="years"
+							onChange={(e) => handleChange("studyPeriod", e)}
+						/>
 						<BasicTooltip title="text" />
 					</span>
 					<span className="">
