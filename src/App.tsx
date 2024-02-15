@@ -14,7 +14,7 @@ function App() {
 		projectName: "",
 		projectDesc: "",
 		alts: 2,
-		studyPeriod: 1,
+		studyPeriod: 8,
 		dollarValue: "constant",
 		realDR: "3",
 		inflationRate: "2.3",

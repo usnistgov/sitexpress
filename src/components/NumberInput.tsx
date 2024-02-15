@@ -39,6 +39,7 @@ export default function InputNumber(props: {
 	placeholder: string;
 	min: number;
 	max: number;
+	defaultValue: number;
 	onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
 }) {
 	return (
@@ -49,7 +50,7 @@ export default function InputNumber(props: {
 			max={props.max}
 			placeholder={props.placeholder}
 			onChange={props.onChange}
-			defaultValue={1}
+			defaultValue={props.defaultValue}
 		/>
 	);
 }

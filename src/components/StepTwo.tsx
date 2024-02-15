@@ -17,7 +17,7 @@ export default function StepTwo(props) {
 				{/*Data table */}
 
 				<Stack className="flex justify-center text-center p-10 ">
-					<DataGrid noOfAlts={project?.alts || 2} />
+					<DataGrid noOfAlts={project?.alts || 2} years={project?.studyPeriod || 8} />
 					<br />
 					<Stack direction="column" className="ml-auto">
 						<span>

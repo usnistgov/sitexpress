@@ -110,18 +110,8 @@ interface Data {
 const generateData = (alts: number, years: number) => {
 	let data = [];
 
-	// Create header object
-	// let header = { year: "" };
-	// header["base-cost"] = "Cost";
-	// header["base-rev"] = "Revenue";
-	// for (let i = 0; i < alts; i++) {
-	// 	header[`alt${i}-cost`] = "Cost";
-	// 	header[`alt${i}-rev`] = "Revenue";
-	// }
-	// data.push(header);
-
 	let header = new Map();
-	header.set("year", "");
+	header.set("year", "Initial Investment");
 	header.set("base-cost", "Cost");
 	header.set("base-rev", "Revenue");
 
@@ -135,12 +125,12 @@ const generateData = (alts: number, years: number) => {
 	for (let y = 1; y <= years; y++) {
 		let yearData = new Map();
 		yearData.set("year", y.toString());
-		yearData.set("base-cost", "13");
-		yearData.set("base-rev", "13");
+		yearData.set("base-cost", "");
+		yearData.set("base-rev", "");
 
 		for (let i = 1; i <= alts; i++) {
-			yearData.set(`alt${i}-cost`, "12");
-			yearData.set(`alt${i}-rev`, "12");
+			yearData.set(`alt${i}-cost`, "");
+			yearData.set(`alt${i}-rev`, "");
 		}
 
 		data.push(Object.fromEntries(yearData));
@@ -157,13 +147,13 @@ const getColumns = (n: number): Column[] => {
 	return col;
 };
 
-const headerRow = (n: number) => {
+const headerRow = (alts: number) => {
 	let header = [
 		{ type: "header", text: "Year", nonEditable: true },
 		{ type: "text", text: "Base Case", colSpan: 2 },
 		{ type: "header", text: "" },
 	];
-	for (let i = 0; i < n; i++) {
+	for (let i = 0; i < alts; i++) {
 		header.push({ type: "text", text: `Alt ${i}`, colSpan: 2 }, { type: "header", text: "" });
 	}
 	return {
@@ -172,7 +162,7 @@ const headerRow = (n: number) => {
 	};
 };
 
-const getRows = (data, alts) => [
+const getRows = (data, alts: number) => [
 	headerRow(alts),
 	...data.map((dataPoint, idx: number) => {
 		const cells = [];
@@ -186,41 +176,42 @@ const getRows = (data, alts) => [
 
 const applyChangesToData = (changes: CellChange<TextCell>[], prevData) => {
 	changes.forEach((change) => {
-		const dataIndex = change.rowId;
-		const fieldName = change.columnId;
-		prevData[dataIndex][fieldName] = change.newCell.text;
+		const dataIndex = change?.rowId;
+		const fieldName = change?.columnId;
+		prevData[dataIndex][fieldName] = change?.newCell?.text;
 	});
 	return [...prevData];
 };
 
 function DataGrid(props: { noOfAlts: number; years: number }) {
 	const { noOfAlts, years } = props;
-	// React.useEffect(
-	// 	(noOfAlts, years) => {
-	// 		const datass = generateData(noOfAlts, years);
 
-	// 		return () => {
-	// 			datass;
-	// 		};
-	// 	},
-	// 	[noOfAlts, years],
-	// );
+	const initialData = generateData(noOfAlts, years);
+	const [gridData, setGridData] = React.useState(initialData);
 
-	let datas = generateData(noOfAlts, years);
-	const [data, setData] = React.useState(datas);
-	console.log(data, datas);
+	const initialRows = getRows(gridData, noOfAlts);
+	const [rows, setRows] = React.useState(initialRows);
 
-	const rows = getRows(data, noOfAlts);
-	const columns = getColumns(noOfAlts);
-	console.log(columns, rows);
+	const initialColumns = getColumns(noOfAlts);
+	const [columns, setColumns] = React.useState(initialColumns);
 
-	// console.log(rows);
+	React.useEffect(() => {
+		const updatedData = generateData(noOfAlts, years);
+		const updatedRows = getRows(updatedData, noOfAlts);
+		const updatedColumns = getColumns(noOfAlts);
+
+		setGridData(updatedData);
+		setRows(updatedRows);
+		setColumns(updatedColumns);
+	}, [noOfAlts, years]);
+
 	const handleChanges = (changes: CellChange<TextCell>[]) => {
-		setData((prevData) => applyChangesToData(changes, prevData));
+		setGridData((prevData) => applyChangesToData(changes, prevData));
 	};
 
 	return (
 		<ReactGrid
+			key={`${noOfAlts}+${years}`}
 			rows={rows}
 			columns={columns}
 			enableRangeSelection
