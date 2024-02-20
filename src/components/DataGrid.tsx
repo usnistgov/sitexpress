@@ -1,6 +1,6 @@
 import { CellChange, Column, ReactGrid, Row, TextCell } from "@silevis/reactgrid";
 import "@silevis/reactgrid/styles.css";
-import * as React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface Data {
 	year: string;
@@ -50,61 +50,8 @@ interface Data {
 // 		"alt0-rev": "32",
 // 		"alt1-cost": "26",
 // 		"alt1-rev": "21",
-// 	},
-// 	{
-// 		year: "3",
-// 		"base-cost": "12",
-// 		"base-rev": "12",
-// 		"alt0-cost": "34",
-// 		"alt0-rev": "43",
-// 		"alt1-cost": "26",
-// 		"alt1-rev": "21",
-// 	},
-// 	{
-// 		year: "4",
-// 		"base-cost": "12",
-// 		"base-rev": "12",
-// 		"alt0-cost": "45",
-// 		"alt0-rev": "54",
-// 		"alt1-cost": "26",
-// 		"alt1-rev": "21",
-// 	},
-// 	{
-// 		year: "5",
-// 		"base-cost": "12",
-// 		"base-rev": "12",
-// 		"alt0-cost": "56",
-// 		"alt0-rev": "65",
-// 		"alt1-cost": "26",
-// 		"alt1-rev": "21",
-// 	},
-// 	{
-// 		year: "6",
-// 		"base-cost": "12",
-// 		"base-rev": "12",
-// 		"alt0-cost": "67",
-// 		"alt0-rev": "76",
-// 		"alt1-cost": "26",
-// 		"alt1-rev": "21",
-// 	},
-// 	{
-// 		year: "7",
-// 		"base-cost": "12",
-// 		"base-rev": "12",
-// 		"alt0-cost": "78",
-// 		"alt0-rev": "87",
-// 		"alt1-cost": "26",
-// 		"alt1-rev": "21",
-// 	},
-// 	{
-// 		year: "8",
-// 		"base-cost": "12",
-// 		"base-rev": "12",
-// 		"alt0-cost": "89",
-// 		"alt0-rev": "98",
-// 		"alt1-cost": "26",
-// 		"alt1-rev": "21",
-// 	},
+// 	}
+// ]
 // ];
 
 const generateData = (alts: number, years: number) => {
@@ -115,7 +62,7 @@ const generateData = (alts: number, years: number) => {
 	header.set("base-cost", "Cost");
 	header.set("base-rev", "Revenue");
 
-	for (let i = 0; i < alts; i++) {
+	for (let i = 1; i <= alts; i++) {
 		header.set(`alt${i}-cost`, "Cost");
 		header.set(`alt${i}-rev`, "Revenue");
 	}
@@ -135,13 +82,13 @@ const generateData = (alts: number, years: number) => {
 
 		data.push(Object.fromEntries(yearData));
 	}
-
+	console.log("generate data");
 	return data;
 };
 
 const getColumns = (n: number): Column[] => {
 	let col = [{ columnId: "year", nonEditable: true }, { columnId: "base-cost" }, { columnId: "base-rev" }];
-	for (let i = 0; i < n; i++) {
+	for (let i = 1; i <= n; i++) {
 		col.push({ columnId: `alt${i}-cost` }, { columnId: `alt${i}-rev` });
 	}
 	return col;
@@ -153,7 +100,7 @@ const headerRow = (alts: number) => {
 		{ type: "text", text: "Base Case", colSpan: 2 },
 		{ type: "header", text: "" },
 	];
-	for (let i = 0; i < alts; i++) {
+	for (let i = 1; i <= alts; i++) {
 		header.push({ type: "text", text: `Alt ${i}`, colSpan: 2 }, { type: "header", text: "" });
 	}
 	return {
@@ -180,45 +127,92 @@ const applyChangesToData = (changes: CellChange<TextCell>[], prevData) => {
 		const fieldName = change?.columnId;
 		prevData[dataIndex][fieldName] = change?.newCell?.text;
 	});
+	console.log(changes);
+	console.log(...prevData);
+	console.log("changes to data");
 	return [...prevData];
 };
 
-function DataGrid(props: { noOfAlts: number; years: number }) {
-	const { noOfAlts, years } = props;
+function DataGrid(props: { noOfAlts: number; years: number; handleDataChange }) {
+	const { noOfAlts, years, handleDataChange } = props;
 
-	const initialData = generateData(noOfAlts, years);
-	const [gridData, setGridData] = React.useState(initialData);
+	const [alts, setAlts] = useState(noOfAlts);
+	const [newYears, setNewYears] = useState(years);
 
-	const initialRows = getRows(gridData, noOfAlts);
-	const [rows, setRows] = React.useState(initialRows);
+	// const initialData = generateData(noOfAlts, years);
+	const [tableData, setTableData] = useState(() => generateData(noOfAlts, years));
+
+	const initialRows = getRows(tableData, noOfAlts);
+	const [rows, setRows] = useState(initialRows);
 
 	const initialColumns = getColumns(noOfAlts);
-	const [columns, setColumns] = React.useState(initialColumns);
+	const [columns, setColumns] = useState(initialColumns);
 
-	React.useEffect(() => {
-		const updatedData = generateData(noOfAlts, years);
-		const updatedRows = getRows(updatedData, noOfAlts);
+	// const prevDataRef = useRef(initialData);
+	// const prevAltsRef = useRef(alts);
+
+	// useEffect(() => {
+	// 	prevDataRef.current = tableData;
+	// 	prevAltsRef.current = noOfAlts;
+	// }, [tableData, noOfAlts]);
+
+	// const changeAlts = (prevYears, newYears) => {
+	// 	let newData = [];
+	// 	if (prevYears < newYears) {
+	// 		const oldData = tableData;
+	// 		newData = oldData.slice(0, -1);
+	// 		setTableData(oldData.slice(0, -1));
+	// 		console.log(newData);
+	// 	}
+	// 	return newData;
+	// };
+
+	// only calls on first render
+	// useEffect(() => {
+	// 	console.log("useeffect on first render called");
+	// 	const updatedData = generateData(noOfAlts, years);
+	// 	const updatedRows = getRows(updatedData, noOfAlts);
+	// 	const updatedColumns = getColumns(noOfAlts);
+
+	// 	setRows(updatedRows);
+	// 	setColumns(updatedColumns);
+	// 	handleDataChange(tableData);
+	// }, []);
+
+	// updates the table when years/alts are changed
+	useEffect(() => {
+		console.log("useeffect with dependency called");
+		if (tableData.length === 0 || noOfAlts !== alts || years !== newYears) {
+			const updatedData = generateData(noOfAlts, years);
+			setTableData(updatedData);
+			setAlts(noOfAlts);
+			setNewYears(years);
+			console.log(updatedData);
+		}
+
+		const updatedRows = getRows(tableData, noOfAlts);
 		const updatedColumns = getColumns(noOfAlts);
-
-		setGridData(updatedData);
 		setRows(updatedRows);
 		setColumns(updatedColumns);
-	}, [noOfAlts, years]);
+		handleDataChange(tableData);
+	}, [noOfAlts, years, tableData]);
 
 	const handleChanges = (changes: CellChange<TextCell>[]) => {
-		setGridData((prevData) => applyChangesToData(changes, prevData));
+		setTableData((prevData) => applyChangesToData(changes, prevData));
+		handleDataChange(tableData);
 	};
 
 	return (
-		<ReactGrid
-			key={`${noOfAlts}+${years}`}
-			rows={rows}
-			columns={columns}
-			enableRangeSelection
-			onCellsChanged={handleChanges}
-			stickyRightColumns={0}
-			stickyTopRows={0}
-		/>
+		<>
+			<ReactGrid
+				rows={rows}
+				columns={columns}
+				enableRangeSelection
+				onCellsChanged={handleChanges}
+				stickyRightColumns={0}
+				stickyTopRows={0}
+			/>
+		</>
 	);
 }
 

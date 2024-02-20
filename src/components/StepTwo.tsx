@@ -1,10 +1,17 @@
 import { Button, Stack, Typography } from "@mui/material";
+import { useState } from "react";
 import DataGrid from "./DataGrid";
 import BasicTooltip from "./Tooltip";
 
 export default function StepTwo(props) {
 	const { project } = props;
-	console.log(project);
+	const [gridData, setGridData] = useState([]);
+
+	const handleDataChange = (data) => {
+		setGridData(data);
+	};
+
+	// console.log(project);
 	return (
 		<div>
 			<Stack direction="column">
@@ -17,7 +24,11 @@ export default function StepTwo(props) {
 				{/*Data table */}
 
 				<Stack className="flex justify-center text-center p-10 ">
-					<DataGrid noOfAlts={project?.alts || 2} years={project?.studyPeriod || 8} />
+					<DataGrid
+						noOfAlts={project?.alts || 2}
+						years={project?.studyPeriod || 2}
+						handleDataChange={handleDataChange}
+					/>
 					<br />
 					<Stack direction="column" className="ml-auto">
 						<span>
@@ -25,7 +36,7 @@ export default function StepTwo(props) {
 								variant="contained"
 								className=""
 								onClick={() => {
-									console.log("Running results");
+									console.log(gridData);
 								}}
 							>
 								Run Results
