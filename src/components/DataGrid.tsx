@@ -54,35 +54,76 @@ interface Data {
 // ]
 // ];
 
-const generateData = (alts: number, years: number) => {
-	let data = [];
+const generateData = (alts: number, years: number, existingData, oldAlts: number, oldYears: number) => {
+	let data = [...existingData];
+	let yearsOnly = existingData.slice(1);
+	let headerOnly = [existingData[0]];
 
-	let header = new Map();
-	header.set("year", "Initial Investment");
-	header.set("base-cost", "Cost");
-	header.set("base-rev", "Revenue");
-
-	for (let i = 1; i <= alts; i++) {
-		header.set(`alt${i}-cost`, "Cost");
-		header.set(`alt${i}-rev`, "Revenue");
-	}
-
-	data.push(Object.fromEntries(header));
-
-	for (let y = 1; y <= years; y++) {
-		let yearData = new Map();
-		yearData.set("year", y.toString());
-		yearData.set("base-cost", "");
-		yearData.set("base-rev", "");
+	if (data.length === 0) {
+		let header = new Map();
+		header.set("year", "Initial Investment");
+		header.set("base-cost", "Cost");
+		header.set("base-rev", "Revenue");
 
 		for (let i = 1; i <= alts; i++) {
-			yearData.set(`alt${i}-cost`, "");
-			yearData.set(`alt${i}-rev`, "");
+			header.set(`alt${i}-cost`, "Cost");
+			header.set(`alt${i}-rev`, "Revenue");
 		}
 
-		data.push(Object.fromEntries(yearData));
+		data.push(Object.fromEntries(header));
+
+		for (let y = 1; y <= years; y++) {
+			let yearData = new Map();
+			yearData.set("year", y.toString());
+			yearData.set("base-cost", "");
+			yearData.set("base-rev", "");
+
+			for (let i = 1; i <= alts; i++) {
+				yearData.set(`alt${i}-cost`, "");
+				yearData.set(`alt${i}-rev`, "");
+			}
+
+			data.push(Object.fromEntries(yearData));
+		}
+	} else {
+		let header = new Map();
+		let newHeader = {};
+		if (alts > oldAlts) {
+			for (let i = oldAlts + 1; i <= alts; i++) {
+				header.set(`alt${i}-cost`, "Cost");
+				header.set(`alt${i}-rev`, "Revenue");
+			}
+			newHeader = { ...existingData[0], ...Object.fromEntries(header) };
+		} else if (alts < oldAlts) {
+			for (let i = 1; i <= alts; i++) {
+				header.set(`alt${i}-cost`, "Cost");
+				header.set(`alt${i}-rev`, "Revenue");
+			}
+			newHeader = { ...Object.fromEntries(header) };
+		}
+		console.log("newHeader", newHeader);
+		// data.push(Object.fromEntries(header));
+		// ----------------------------------------------------------
+		// add or remove a row
+		if (years > oldYears) {
+			for (let i = oldYears + 1; i <= years; i++) {
+				let yearData = new Map();
+				yearData.set("year", i.toString());
+				yearData.set("base-cost", "");
+				yearData.set("base-rev", "");
+
+				for (let i = 1; i <= alts; i++) {
+					yearData.set(`alt${i}-cost`, "");
+					yearData.set(`alt${i}-rev`, "");
+				}
+				yearsOnly.push(Object.fromEntries(yearData));
+			}
+		} else if (years < oldYears) {
+			yearsOnly.pop();
+		}
+		data = [...headerOnly, ...yearsOnly];
 	}
-	console.log("generate data");
+	// console.log([...headerOnly, ...yearsOnly], data);
 	return data;
 };
 
@@ -140,21 +181,13 @@ function DataGrid(props: { noOfAlts: number; years: number; handleDataChange }) 
 	const [newYears, setNewYears] = useState(years);
 
 	// const initialData = generateData(noOfAlts, years);
-	const [tableData, setTableData] = useState(() => generateData(noOfAlts, years));
+	const [tableData, setTableData] = useState(() => generateData(noOfAlts, years, [], noOfAlts, years));
 
 	const initialRows = getRows(tableData, noOfAlts);
 	const [rows, setRows] = useState(initialRows);
 
 	const initialColumns = getColumns(noOfAlts);
 	const [columns, setColumns] = useState(initialColumns);
-
-	// const prevDataRef = useRef(initialData);
-	// const prevAltsRef = useRef(alts);
-
-	// useEffect(() => {
-	// 	prevDataRef.current = tableData;
-	// 	prevAltsRef.current = noOfAlts;
-	// }, [tableData, noOfAlts]);
 
 	// const changeAlts = (prevYears, newYears) => {
 	// 	let newData = [];
@@ -182,14 +215,14 @@ function DataGrid(props: { noOfAlts: number; years: number; handleDataChange }) 
 	// updates the table when years/alts are changed
 	useEffect(() => {
 		console.log("useeffect with dependency called");
+		// console.log("existing table data", tableData);
 		if (tableData.length === 0 || noOfAlts !== alts || years !== newYears) {
-			const updatedData = generateData(noOfAlts, years);
-			setTableData(updatedData);
 			setAlts(noOfAlts);
 			setNewYears(years);
+			const updatedData = generateData(noOfAlts, years, tableData, alts, newYears);
+			setTableData(updatedData);
 			console.log(updatedData);
 		}
-
 		const updatedRows = getRows(tableData, noOfAlts);
 		const updatedColumns = getColumns(noOfAlts);
 		setRows(updatedRows);
