@@ -57,7 +57,7 @@ interface Data {
 const generateData = (alts: number, years: number, existingData, oldAlts: number, oldYears: number) => {
 	let data = [...existingData];
 	let yearsOnly = existingData.slice(1);
-	let headerOnly = [existingData[0]];
+	let headerOnly = existingData[0];
 
 	if (data.length === 0) {
 		let header = new Map();
@@ -86,24 +86,29 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 			data.push(Object.fromEntries(yearData));
 		}
 	} else {
-		let header = new Map();
-		let newHeader = {};
+		let header = { ...headerOnly };
 		if (alts > oldAlts) {
 			for (let i = oldAlts + 1; i <= alts; i++) {
-				header.set(`alt${i}-cost`, "Cost");
-				header.set(`alt${i}-rev`, "Revenue");
+				header[`alt${i}-cost`] = "Cost";
+				header[`alt${i}-rev`] = "Revenue";
 			}
-			newHeader = { ...existingData[0], ...Object.fromEntries(header) };
+
+			let yearData = [];
+			yearsOnly.forEach((year) => {
+				for (let i = oldAlts + 1; i <= alts; i++) {
+					yearData.push({ ...year, [`alt${i}-cost`]: "", [`alt${i}-rev`]: "" });
+				}
+			});
+			headerOnly = { ...header };
+			yearsOnly = [...yearData];
 		} else if (alts < oldAlts) {
-			for (let i = 1; i <= alts; i++) {
-				header.set(`alt${i}-cost`, "Cost");
-				header.set(`alt${i}-rev`, "Revenue");
+			const lastKeys = Object.keys(headerOnly).slice(-2);
+			lastKeys.forEach((key) => delete headerOnly[key]);
+			for (let i = 0; i < yearsOnly.length; i++) {
+				lastKeys.forEach((key) => delete yearsOnly[i][key]);
 			}
-			newHeader = { ...Object.fromEntries(header) };
 		}
-		console.log("newHeader", newHeader);
-		// data.push(Object.fromEntries(header));
-		// ----------------------------------------------------------
+
 		// add or remove a row
 		if (years > oldYears) {
 			for (let i = oldYears + 1; i <= years; i++) {
@@ -121,9 +126,8 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 		} else if (years < oldYears) {
 			yearsOnly.pop();
 		}
-		data = [...headerOnly, ...yearsOnly];
+		data = [headerOnly, ...yearsOnly];
 	}
-	// console.log([...headerOnly, ...yearsOnly], data);
 	return data;
 };
 
