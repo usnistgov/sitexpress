@@ -96,9 +96,13 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 };
 
 const getColumns = (n: number): Column[] => {
-	let col = [{ columnId: "year", nonEditable: true }, { columnId: "base-cost" }, { columnId: "base-rev" }];
+	let col = [
+		{ columnId: "year", nonEditable: true },
+		{ columnId: "base-cost", width: 100 },
+		{ columnId: "base-rev", width: 100 },
+	];
 	for (let i = 1; i <= n; i++) {
-		col.push({ columnId: `alt${i}-cost` }, { columnId: `alt${i}-rev` });
+		col.push({ columnId: `alt${i}-cost`, width: 100 }, { columnId: `alt${i}-rev`, width: 100 });
 	}
 	return col;
 };
@@ -123,7 +127,13 @@ const getRows = (data, alts: number) => [
 	...data.map((dataPoint, idx: number) => {
 		const cells = [];
 		for (const [key, value] of Object.entries(dataPoint)) {
-			const obj = { type: "text", text: value };
+			let obj = {};
+			if (value === "Initial Investment" || value === "Cost" || value === "Revenue" || key === "year") {
+				obj = { type: "text", text: value, nonEditable: true };
+			} else {
+				obj = { type: "text", text: value };
+			}
+			console.log(key, value);
 			cells.push(obj);
 		}
 		return { rowId: idx, cells };
