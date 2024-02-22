@@ -24,6 +24,21 @@ export default function StepTwo(props) {
 				{/*Data table */}
 
 				<Stack className="flex justify-center text-center p-10 ">
+					<Stack direction="column" className="ml-auto">
+						<span>
+							<Button
+								variant="contained"
+								className=""
+								onClick={() => {
+									console.log(gridData);
+								}}
+							>
+								Reset Table
+							</Button>
+							<BasicTooltip title="text" />
+						</span>
+						<br />
+					</Stack>
 					<DataGrid
 						noOfAlts={project?.alts || 2}
 						years={project?.studyPeriod || 2}

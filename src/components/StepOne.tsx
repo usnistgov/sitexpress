@@ -61,9 +61,9 @@ export default function StepOne(props) {
 					<span className="flex justify-center">
 						<InputNumber
 							placeholder="Max Alternatives of 5 + Base Case"
-							min={0}
+							min={1}
 							max={5}
-							defaultValue={project?.alts || 2}
+							defaultValue={1}
 							onChange={(e) => handleChange("alts", e)}
 						/>
 						<BasicTooltip title="text" />
@@ -80,9 +80,9 @@ export default function StepOne(props) {
 					<span className="flex justify-center">
 						<InputNumber
 							placeholder="Study Period"
-							min={0}
+							min={1}
 							max={25}
-							defaultValue={project?.studyPeriod}
+							defaultValue={1}
 							adornment="years"
 							onChange={(e) => handleChange("studyPeriod", e)}
 						/>

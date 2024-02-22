@@ -13,16 +13,21 @@ function App() {
 	const [project, setProject] = useState({
 		projectName: "",
 		projectDesc: "",
-		alts: 2,
-		studyPeriod: 8,
+		alts: 1,
+		studyPeriod: 1,
 		dollarValue: "constant",
 		realDR: "3",
 		inflationRate: "2.3",
 		nominalDR: "5.3",
 	});
-
+	console.log(project);
 	const handleChange = (key: string, e) => {
-		setProject({ ...project, [key]: e.target.value });
+		if (key === "studyPeriod" || key === "alts") {
+			setProject({ ...project, [key]: +e.target.value });
+		} else {
+			setProject({ ...project, [key]: e.target.value });
+		}
+		console.log(e.target.value, e.currentTarget.value, typeof e.target.value);
 	};
 
 	return (

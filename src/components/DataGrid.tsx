@@ -92,15 +92,17 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 				header[`alt${i}-cost`] = "Cost";
 				header[`alt${i}-rev`] = "Revenue";
 			}
-
+			console.log(yearsOnly);
 			let yearData = [];
 			yearsOnly.forEach((year) => {
 				for (let i = oldAlts + 1; i <= alts; i++) {
 					yearData.push({ ...year, [`alt${i}-cost`]: "", [`alt${i}-rev`]: "" });
+					// console.log(yearData);
 				}
 			});
+			console.log(yearData);
 			headerOnly = { ...header };
-			yearsOnly = [...yearData];
+			yearsOnly = yearData;
 		} else if (alts < oldAlts) {
 			const lastKeys = Object.keys(headerOnly).slice(-2);
 			lastKeys.forEach((key) => delete headerOnly[key]);
@@ -124,7 +126,9 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 				yearsOnly.push(Object.fromEntries(yearData));
 			}
 		} else if (years < oldYears) {
-			yearsOnly.pop();
+			for (let i = 0; i < oldYears - years; i++) {
+				yearsOnly.pop();
+			}
 		}
 		data = [headerOnly, ...yearsOnly];
 	}
@@ -220,10 +224,10 @@ function DataGrid(props: { noOfAlts: number; years: number; handleDataChange }) 
 	useEffect(() => {
 		console.log("useeffect with dependency called");
 		// console.log("existing table data", tableData);
-		if (tableData.length === 0 || noOfAlts !== alts || years !== newYears) {
-			setAlts(noOfAlts);
-			setNewYears(years);
-			const updatedData = generateData(noOfAlts, years, tableData, alts, newYears);
+		if (tableData.length === 0 || +noOfAlts !== alts || +years !== newYears) {
+			setAlts(+noOfAlts);
+			setNewYears(+years);
+			const updatedData = generateData(noOfAlts, +years, tableData, +alts, newYears);
 			setTableData(updatedData);
 			console.log(updatedData);
 		}
