@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DataGrid from "./DataGrid";
 import BasicTooltip from "./Tooltip";
 
@@ -11,7 +11,11 @@ export default function StepTwo(props) {
 		setGridData(data);
 	};
 
-	// console.log(project);
+	const gridRef = useRef();
+	const handleReset = () => {
+		gridRef?.current.handleReset();
+		setGridData([]);
+	};
 	return (
 		<div>
 			<Stack direction="column">
@@ -26,20 +30,19 @@ export default function StepTwo(props) {
 				<Stack className="flex justify-center text-center p-10 ">
 					<Stack direction="column" className="ml-auto">
 						<span>
-							<Button
-								variant="contained"
-								className=""
-								onClick={() => {
-									console.log(gridData);
-								}}
-							>
+							<Button variant="contained" className="" onClick={handleReset}>
 								Reset Table
 							</Button>
 							<BasicTooltip title="text" />
 						</span>
 						<br />
 					</Stack>
-					<DataGrid noOfAlts={project?.alts} years={project?.studyPeriod} handleDataChange={handleDataChange} />
+					<DataGrid
+						noOfAlts={project?.alts}
+						years={project?.studyPeriod}
+						handleDataChange={handleDataChange}
+						ref={gridRef}
+					/>
 					<br />
 					<Stack direction="column" className="ml-auto">
 						<span>

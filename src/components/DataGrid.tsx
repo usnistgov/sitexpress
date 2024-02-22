@@ -1,6 +1,6 @@
 import { CellChange, Column, ReactGrid, Row, TextCell } from "@silevis/reactgrid";
 import "@silevis/reactgrid/styles.css";
-import React, { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 
 interface Data {
 	year: string;
@@ -136,13 +136,10 @@ const applyChangesToData = (changes: CellChange<TextCell>[], prevData) => {
 		const fieldName = change?.columnId;
 		prevData[dataIndex][fieldName] = change?.newCell?.text;
 	});
-	console.log(changes);
-	console.log(...prevData);
-	console.log("changes to data");
 	return [...prevData];
 };
 
-function DataGrid(props: { noOfAlts: number; years: number; handleDataChange }) {
+const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDataChange }, ref) => {
 	const { noOfAlts, years, handleDataChange } = props;
 
 	const [alts, setAlts] = useState(noOfAlts);
@@ -178,18 +175,25 @@ function DataGrid(props: { noOfAlts: number; years: number; handleDataChange }) 
 		handleDataChange(tableData);
 	};
 
+	useImperativeHandle(ref, () => ({
+		handleReset: () => {
+			const data = generateData(noOfAlts, years, [], noOfAlts, years);
+			getRows(data, 1);
+			getColumns(1);
+			setTableData(data);
+		},
+	}));
+
 	return (
-		<>
-			<ReactGrid
-				rows={rows}
-				columns={columns}
-				enableRangeSelection
-				onCellsChanged={handleChanges}
-				stickyRightColumns={0}
-				stickyTopRows={0}
-			/>
-		</>
+		<ReactGrid
+			rows={rows}
+			columns={columns}
+			enableRangeSelection
+			onCellsChanged={handleChanges}
+			stickyRightColumns={0}
+			stickyTopRows={0}
+		/>
 	);
-}
+});
 
 export default DataGrid;
