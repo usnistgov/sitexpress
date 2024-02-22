@@ -39,11 +39,7 @@ export default function StepTwo(props) {
 						</span>
 						<br />
 					</Stack>
-					<DataGrid
-						noOfAlts={project?.alts || 2}
-						years={project?.studyPeriod || 2}
-						handleDataChange={handleDataChange}
-					/>
+					<DataGrid noOfAlts={project?.alts} years={project?.studyPeriod} handleDataChange={handleDataChange} />
 					<br />
 					<Stack direction="column" className="ml-auto">
 						<span>

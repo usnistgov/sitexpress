@@ -64,7 +64,7 @@ export default function StepOne(props) {
 							min={1}
 							max={5}
 							defaultValue={1}
-							onChange={(e) => handleChange("alts", e)}
+							onChange={(e, val) => handleChange("alts", val)}
 						/>
 						<BasicTooltip title="text" />
 					</span>
@@ -84,7 +84,7 @@ export default function StepOne(props) {
 							max={25}
 							defaultValue={1}
 							adornment="years"
-							onChange={(e) => handleChange("studyPeriod", e)}
+							onChange={(e, val) => handleChange("studyPeriod", val)}
 						/>
 						<BasicTooltip title="text" />
 					</span>

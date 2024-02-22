@@ -23,11 +23,10 @@ function App() {
 	console.log(project);
 	const handleChange = (key: string, e) => {
 		if (key === "studyPeriod" || key === "alts") {
-			setProject({ ...project, [key]: +e.target.value });
+			setProject({ ...project, [key]: +e });
 		} else {
 			setProject({ ...project, [key]: e.target.value });
 		}
-		console.log(e.target.value, e.currentTarget.value, typeof e.target.value);
 	};
 
 	return (
