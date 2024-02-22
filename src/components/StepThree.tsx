@@ -19,7 +19,7 @@ import BasicTooltip from "./Tooltip";
 
 const labs = (n: number) => {
 	const lab = ["Base Case"];
-	for (let i = 0; i < n; i++) {
+	for (let i = 1; i <= n; i++) {
 		lab.push(`Alt ${i}`);
 	}
 	return lab;
@@ -40,7 +40,7 @@ const rows = [
 
 const NoOfAlternatives = (n: number) => {
 	const alts = [];
-	for (let i = 0; i < n; i++) {
+	for (let i = 1; i <= n; i++) {
 		alts.push(
 			<TableCell align="center" key={`alt-${i}`}>
 				Alt {i}
