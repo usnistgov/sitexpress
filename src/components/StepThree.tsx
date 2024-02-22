@@ -41,7 +41,11 @@ const rows = [
 const NoOfAlternatives = (n: number) => {
 	const alts = [];
 	for (let i = 0; i < n; i++) {
-		alts.push(<TableCell align="center">Alt {i}</TableCell>);
+		alts.push(
+			<TableCell align="center" key={`alt-${i}`}>
+				Alt {i}
+			</TableCell>,
+		);
 	}
 	return alts;
 };
@@ -90,7 +94,7 @@ export default function StepThree(props) {
 				<span className="flex ml-auto">
 					<Typography variant="h6" className="">
 						Save to:
-					</Typography>{" "}
+					</Typography>
 					&nbsp;
 					<Button
 						variant="contained"
@@ -122,7 +126,9 @@ export default function StepThree(props) {
 						<TableHead>
 							<TableRow>
 								<TableCell></TableCell>
-								<TableCell align="center">Base Case</TableCell>
+								<TableCell align="center" key={"base-case"}>
+									Base Case
+								</TableCell>
 								{NoOfAlternatives(project?.alts || 2)}
 							</TableRow>
 						</TableHead>
@@ -135,11 +141,21 @@ export default function StepThree(props) {
 									<TableCell component="th" align="right" scope="row">
 										{row.npvp}
 									</TableCell>
-									<TableCell align="right">{row.np}</TableCell>
-									<TableCell align="right">{row.irr}</TableCell>
-									<TableCell align="right">{row.sp}</TableCell>
-									<TableCell align="right">{row.dp}</TableCell>
-									<TableCell align="right">{row.bcr}</TableCell>
+									<TableCell align="right" key={row.np}>
+										{row.np}
+									</TableCell>
+									<TableCell align="right" key={row.irr}>
+										{row.irr}
+									</TableCell>
+									<TableCell align="right" key={row.sp}>
+										{row.sp}
+									</TableCell>
+									<TableCell align="right" key={row.dp}>
+										{row.dp}
+									</TableCell>
+									<TableCell align="right" key={row.bcr}>
+										{row.bcr}
+									</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
