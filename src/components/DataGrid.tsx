@@ -133,7 +133,6 @@ const getRows = (data, alts: number) => [
 			} else {
 				obj = { type: "text", text: value };
 			}
-			console.log(key, value);
 			cells.push(obj);
 		}
 		return { rowId: idx, cells };
@@ -165,13 +164,11 @@ const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDat
 
 	// updates the table when years/alts are changed
 	useEffect(() => {
-		console.log("useeffect with dependency called");
 		if (tableData.length === 0 || +noOfAlts !== alts || +years !== newYears) {
 			setAlts(+noOfAlts);
 			setNewYears(+years);
 			const updatedData = generateData(noOfAlts, +years, tableData, +alts, newYears);
 			setTableData(updatedData);
-			console.log(updatedData);
 		}
 		const updatedRows = getRows(tableData, noOfAlts);
 		const updatedColumns = getColumns(noOfAlts);

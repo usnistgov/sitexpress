@@ -1,7 +1,8 @@
-import { Button, FormControlLabel, Radio, Stack, TextField, Typography } from "@mui/material";
-import InputNumber from "./NumberInput";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { Button, FormControlLabel, Radio, Stack, TextField, Tooltip, Typography } from "@mui/material";
 
 import TextInput from "./Input";
+import InputNumber from "./NumberInput";
 import BasicTooltip from "./Tooltip";
 
 export default function StepOne(props) {
@@ -22,29 +23,30 @@ export default function StepOne(props) {
 	}
 
 	return (
-		<Stack direction="column" className="w-full text-center">
-			<Stack className="flex justify-center  p-2" style={{ backgroundColor: "#ef860a" }}>
+		<Stack direction="column" className="w-full ">
+			<Stack className="flex justify-center p-2 text-center" style={{ backgroundColor: "#ef860a" }}>
 				<Typography variant="h6">
 					Step One <br />
 					Project Information
 				</Typography>
 				<Typography variant="body1">Provide project details and assumptions for completing the analysis.</Typography>
 			</Stack>
-
-			<Stack className="p-10 flex flex-col justify-center">
-				<span>
+			<br />
+			<Stack className="m-auto w-1/2">
+				<div className="m-auto">
 					<TextInput
+						className="w-64"
 						placeholder="Enter Name Here"
 						label="Project Name"
 						onChange={(e) => handleChange("projectName", e)}
 					/>
 					<BasicTooltip title="text" />
-				</span>
+				</div>
 				<br />
-
-				<span>
+				<div className="m-auto">
 					<TextField
-						className="w-1/3"
+						required
+						className="w-64"
 						label="Project Description"
 						placeholder="Enter Description Here"
 						maxRows={8}
@@ -54,10 +56,10 @@ export default function StepOne(props) {
 						onChange={(e) => handleChange("projectDesc", e)}
 					/>
 					<BasicTooltip title="text" />
-				</span>
+				</div>
 				<br />
 
-				<div className="m-auto w-full">
+				<div className="">
 					<span className="flex justify-center">
 						<InputNumber
 							placeholder="Max Alternatives of 5 + Base Case"
@@ -66,17 +68,15 @@ export default function StepOne(props) {
 							defaultValue={1}
 							onChange={(e, val) => handleChange("alts", val)}
 						/>
-						<BasicTooltip title="text" />
+						<BasicTooltip title="No of Alternatives. Max Alternatives of 5 + Base Case" />
 					</span>
-					<span className="">
-						<Typography className="" variant="caption">
-							No of Alternatives
-						</Typography>
-					</span>
+					{/* <span className="">
+						<Typography className="" variant="caption"></Typography>
+					</span> */}
 				</div>
 				<br />
 
-				<div className="m-auto w-full">
+				<div className="">
 					<span className="flex justify-center">
 						<InputNumber
 							placeholder="Study Period"
@@ -86,69 +86,73 @@ export default function StepOne(props) {
 							adornment="years"
 							onChange={(e, val) => handleChange("studyPeriod", val)}
 						/>
-						<BasicTooltip title="text" />
+						<BasicTooltip title="Maximum study period of 25 years." />
 					</span>
-					<span className="">
-						<Typography className="" variant="caption">
-							Maximum study period of 25 years.
-						</Typography>
-					</span>
+					{/* <span className="">
+						<Typography className="" variant="caption"></Typography>
+					</span> */}
 				</div>
 				<br />
-
-				<Typography variant="body1">Dollar values will be entered in:</Typography>
-
-				<Stack direction="column">
-					<div className="flex justify-center">
-						<FormControlLabel
-							value="constant"
-							control={<RadioButton value="constant" />}
-							label="Constant Dollars With Real Discount Rate"
-						/>
+				<div className="m-auto">
+					<div className="flex flex-row justify-center items-center ">
+						<Typography variant="h6">Dollar values will be entered in</Typography>
+						<Button className="refresh-btn" onClick={(e) => handleChange("refresh", e)}>
+							<Tooltip title="Reset to Default Values">
+								<RefreshIcon className="p-1 cursor-pointer text-white rounded bg-sky-500" fontSize="medium" />
+							</Tooltip>
+						</Button>
 					</div>
-					<div>
-						<TextInput
-							disabled={project?.dollarValue !== "constant"}
-							placeholder="Enter % Here"
-							label="Real Discount Rate"
-							defaultValue={project?.realDR}
-							onChange={(e) => handleChange("realDR", e)}
-						/>
-						<br />
-					</div>
-				</Stack>
-				<br />
-				<Stack direction="column">
-					<div className="flex justify-center">
-						<FormControlLabel
-							value="current"
-							control={<RadioButton value="current" />}
-							label="Current Dollars With Real Discount Rate"
-						/>
-					</div>
-					<div>
-						<TextInput
-							disabled={project?.dollarValue !== "current"}
-							placeholder="Enter % Here"
-							label="Inflation Rate"
-							defaultValue={project?.inflationRate}
-							onChange={(e) => handleChange("inflationRate", e)}
-						/>
-						<br />
-						<br />
-						<TextInput
-							disabled={project?.dollarValue !== "current"}
-							placeholder="Enter % Here"
-							label="Nominal Discount Rate"
-							defaultValue={project?.nominalDR}
-							onChange={(e) => handleChange("nominalDR", e)}
-						/>
-					</div>
-					<Button onClick={() => console.log(project)}>Click Me</Button>
-				</Stack>
+					<Stack direction="column" className="m-auto mb-2">
+						<div className="mb-2">
+							<FormControlLabel
+								value="constant"
+								control={<RadioButton value="constant" />}
+								label="Constant Dollars With Real Discount Rate"
+							/>
+						</div>
+						<div className="m-auto">
+							<TextInput
+								disabled={project?.dollarValue !== "constant"}
+								placeholder="Enter % Here"
+								label="Real Discount Rate"
+								adornment="%"
+								defaultValue={project?.realDR}
+								onChange={(e) => handleChange("realDR", e)}
+							/>
+						</div>
+					</Stack>
+					<Stack direction="column">
+						<div className="flex justify-center mb-2">
+							<FormControlLabel
+								value="current"
+								control={<RadioButton value="current" />}
+								label="Current Dollars With Real Discount Rate"
+							/>
+						</div>
+						<div className="m-auto">
+							<TextInput
+								disabled={project?.dollarValue !== "current"}
+								placeholder="Enter % Here"
+								label="Inflation Rate"
+								adornment="%"
+								defaultValue={project?.inflationRate}
+								onChange={(e) => handleChange("inflationRate", e)}
+							/>
+							<br />
+							<br />
+							<TextInput
+								disabled={project?.dollarValue !== "current"}
+								placeholder="Enter % Here"
+								label="Nominal Discount Rate"
+								adornment="%"
+								defaultValue={project?.nominalDR}
+								onChange={(e) => handleChange("nominalDR", e)}
+							/>
+						</div>
+					</Stack>
+				</div>
 			</Stack>
-			{/*calculator image to side*/}
-			<img className="calculatorImage"></img>
+			<br />
 		</Stack>
 	);
 }

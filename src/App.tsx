@@ -27,6 +27,9 @@ function App() {
 		} else {
 			setProject({ ...project, [key]: e.target.value });
 		}
+		if (key === "refresh") {
+			setProject({ ...project, realDR: "3", inflationRate: "2.3", nominalDR: "5.3" });
+		}
 	};
 
 	return (
