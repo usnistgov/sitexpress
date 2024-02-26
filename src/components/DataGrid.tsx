@@ -64,7 +64,8 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 			headerOnly = header;
 			yearsOnly = yearData;
 		} else if (alts < oldAlts) {
-			const lastKeys = Object.keys(headerOnly).slice(-2);
+			const diff = oldAlts - alts;
+			const lastKeys = Object.keys(headerOnly).slice(-(diff * 2));
 			lastKeys.forEach((key) => delete headerOnly[key]);
 			for (let i = 0; i < yearsOnly.length; i++) {
 				lastKeys.forEach((key) => delete yearsOnly[i][key]);
