@@ -21,7 +21,7 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 
 	if (data.length === 0) {
 		let header = new Map();
-		header.set("year", "Initial Investment");
+		header.set("year", "");
 		header.set("base-cost", "Cost");
 		header.set("base-rev", "Revenue");
 
@@ -32,9 +32,9 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 
 		data.push(Object.fromEntries(header));
 
-		for (let y = 1; y <= years; y++) {
+		for (let y = 0; y <= years; y++) {
 			let yearData = new Map();
-			yearData.set("year", y.toString());
+			y === 0 ? yearData.set("year", `Initial Investment`) : yearData.set("year", y.toString());
 			yearData.set("base-cost", "");
 			yearData.set("base-rev", "");
 
