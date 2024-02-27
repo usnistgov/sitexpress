@@ -19,7 +19,7 @@ import BasicTooltip from "./Tooltip";
 
 const labs = (n: number) => {
 	const lab = ["Base Case"];
-	for (let i = 0; i < n; i++) {
+	for (let i = 1; i <= n; i++) {
 		lab.push(`Alt ${i}`);
 	}
 	return lab;
@@ -40,8 +40,12 @@ const rows = [
 
 const NoOfAlternatives = (n: number) => {
 	const alts = [];
-	for (let i = 0; i < n; i++) {
-		alts.push(<TableCell align="center">Alt {i}</TableCell>);
+	for (let i = 1; i <= n; i++) {
+		alts.push(
+			<TableCell align="center" key={`alt-${i}`}>
+				Alt {i}
+			</TableCell>,
+		);
 	}
 	return alts;
 };
@@ -68,7 +72,8 @@ function CustomTabPanel(props: TabPanelProps) {
 	);
 }
 
-export default function StepThree() {
+export default function StepThree(props) {
+	const { project } = props;
 	const [tabValue, setTabValue] = useState(0);
 
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -89,7 +94,7 @@ export default function StepThree() {
 				<span className="flex ml-auto">
 					<Typography variant="h6" className="">
 						Save to:
-					</Typography>{" "}
+					</Typography>
 					&nbsp;
 					<Button
 						variant="contained"
@@ -121,8 +126,10 @@ export default function StepThree() {
 						<TableHead>
 							<TableRow>
 								<TableCell></TableCell>
-								<TableCell align="center">Base Case</TableCell>
-								{NoOfAlternatives(5)}
+								<TableCell align="center" key={"base-case"}>
+									Base Case
+								</TableCell>
+								{NoOfAlternatives(project?.alts || 2)}
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -134,11 +141,21 @@ export default function StepThree() {
 									<TableCell component="th" align="right" scope="row">
 										{row.npvp}
 									</TableCell>
-									<TableCell align="right">{row.np}</TableCell>
-									<TableCell align="right">{row.irr}</TableCell>
-									<TableCell align="right">{row.sp}</TableCell>
-									<TableCell align="right">{row.dp}</TableCell>
-									<TableCell align="right">{row.bcr}</TableCell>
+									<TableCell align="right" key={row.np}>
+										{row.np}
+									</TableCell>
+									<TableCell align="right" key={row.irr}>
+										{row.irr}
+									</TableCell>
+									<TableCell align="right" key={row.sp}>
+										{row.sp}
+									</TableCell>
+									<TableCell align="right" key={row.dp}>
+										{row.dp}
+									</TableCell>
+									<TableCell align="right" key={row.bcr}>
+										{row.bcr}
+									</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
@@ -158,7 +175,7 @@ export default function StepThree() {
 						<BarChart
 							dataset={dataset}
 							height={250}
-							xAxis={[{ data: labs(5), scaleType: "band" }]}
+							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
 							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
 							series={[{ dataKey: "npvp", label: "Net Present Value Profit", color: "#ef860a" }]}
 						/>
@@ -167,7 +184,7 @@ export default function StepThree() {
 						<BarChart
 							dataset={dataset}
 							height={250}
-							xAxis={[{ data: labs(5), scaleType: "band" }]}
+							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
 							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
 							series={[{ dataKey: "np", label: "Net Profit", color: "#ef860a" }]}
 						/>
@@ -176,7 +193,7 @@ export default function StepThree() {
 						<BarChart
 							dataset={dataset}
 							height={250}
-							xAxis={[{ data: labs(5), scaleType: "band" }]}
+							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
 							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
 							series={[{ dataKey: "irr", label: " IRR", color: "#ef860a" }]}
 						/>
@@ -185,7 +202,7 @@ export default function StepThree() {
 						<BarChart
 							dataset={dataset}
 							height={250}
-							xAxis={[{ data: labs(5), scaleType: "band" }]}
+							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
 							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
 							series={[{ dataKey: "sp", label: "Simple Payback", color: "#ef860a" }]}
 						/>
@@ -194,7 +211,7 @@ export default function StepThree() {
 						<BarChart
 							dataset={dataset}
 							height={250}
-							xAxis={[{ data: labs(5), scaleType: "band" }]}
+							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
 							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
 							series={[{ dataKey: "dp", label: "Discounted Payback", color: "#ef860a" }]}
 						/>
@@ -203,7 +220,7 @@ export default function StepThree() {
 						<BarChart
 							dataset={dataset}
 							height={250}
-							xAxis={[{ data: labs(5), scaleType: "band" }]}
+							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
 							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
 							series={[{ dataKey: "bcr", label: "BCR", color: "#ef860a" }]}
 						/>

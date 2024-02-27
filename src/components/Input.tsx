@@ -1,4 +1,5 @@
-import { TextField } from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
+import { ChangeEventHandler } from "react";
 
 export enum TextInputType {
 	PRIMARY = " ",
@@ -11,22 +12,31 @@ export type TextInputProps = {
 	className?: string;
 	type?: TextInputType;
 	disabled?: boolean;
+	defaultValue?: string;
 	placeholder?: string;
 	label?: string;
 	helpertext?: string;
+	adornment?: string;
+	onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
+	value?: string;
 };
 
 export default function TextInput(props: TextInputProps) {
 	return (
-		<>
-			<TextField
-				className={(props.className ?? "") + `${props.disabled ? TextInputType.DISABLED : props.type} w-1/3`}
-				label={props.label}
-				placeholder={props.placeholder}
-				size="small"
-				helperText={props.helpertext}
-				disabled={props.disabled}
-			/>
-		</>
+		<TextField
+			required
+			className={(props?.className ?? "") + `${props?.disabled ? TextInputType.DISABLED : props?.type}`}
+			InputProps={{
+				endAdornment: <InputAdornment position="end">{props?.adornment}</InputAdornment>,
+			}}
+			label={props?.label}
+			placeholder={props?.placeholder}
+			size="small"
+			helperText={props?.helpertext}
+			disabled={props?.disabled}
+			defaultValue={props?.defaultValue}
+			value={props?.value}
+			onChange={props?.onChange}
+		/>
 	);
 }

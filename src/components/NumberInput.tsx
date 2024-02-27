@@ -3,10 +3,10 @@ import {
 	NumberInputProps,
 	numberInputClasses,
 } from "@mui/base/Unstable_NumberInput";
-// import { InputAdornment } from "@mui/material";
 
 import { styled } from "@mui/system";
 import * as React from "react";
+import { ChangeEventHandler } from "react";
 
 const NumberInput = React.forwardRef(function CustomNumberInput(
 	props: NumberInputProps,
@@ -34,14 +34,24 @@ const NumberInput = React.forwardRef(function CustomNumberInput(
 	);
 });
 
-export default function InputNumber(props: { placeholder: string; min: number; max: number }) {
+export default function InputNumber(props: {
+	placeholder: string;
+	min: number;
+	max: number;
+	defaultValue: number;
+	adornment?: string;
+	onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+}) {
 	return (
 		<NumberInput
 			className="w-1/3"
-			endAdornment={<InputAdornment>years</InputAdornment>}
+			endAdornment={<InputAdornment>{props?.adornment}</InputAdornment>}
 			min={props.min}
 			max={props.max}
 			placeholder={props.placeholder}
+			onChange={props.onChange}
+			defaultValue={props?.defaultValue || 2}
+			inputProps={{ inputMode: "numeric" }}
 		/>
 	);
 }

@@ -1,11 +1,23 @@
 import { Button, Stack, Typography } from "@mui/material";
+import { useRef, useState } from "react";
 import DataGrid from "./DataGrid";
 import BasicTooltip from "./Tooltip";
 
-export default function StepTwo() {
+export default function StepTwo(props) {
+	const { project } = props;
+	const [gridData, setGridData] = useState([]);
+
+	const handleDataChange = (data) => {
+		setGridData(data);
+	};
+
+	const gridRef = useRef();
+	const handleReset = () => {
+		gridRef?.current.handleReset();
+		setGridData([]);
+	};
 	return (
 		<div>
-			{/*Section Header Rectangle */}
 			<Stack direction="column">
 				<Stack className="flex justify-center text-center p-2" style={{ backgroundColor: "#ef860a" }}>
 					<Typography variant="h6">Step Two</Typography>
@@ -15,8 +27,22 @@ export default function StepTwo() {
 
 				{/*Data table */}
 
-				<Stack className="flex p-10 text-center">
-					<DataGrid noOfAlts={2} />
+				<Stack className="flex justify-center text-center p-10 ">
+					<Stack direction="column" className="ml-auto">
+						<span>
+							<Button variant="contained" className="" onClick={handleReset}>
+								Reset Table
+							</Button>
+							<BasicTooltip title="text" />
+						</span>
+						<br />
+					</Stack>
+					<DataGrid
+						noOfAlts={project?.alts}
+						years={project?.studyPeriod}
+						handleDataChange={handleDataChange}
+						ref={gridRef}
+					/>
 					<br />
 					<Stack direction="column" className="ml-auto">
 						<span>
@@ -24,7 +50,7 @@ export default function StepTwo() {
 								variant="contained"
 								className=""
 								onClick={() => {
-									console.log("Running results");
+									console.log(gridData);
 								}}
 							>
 								Run Results

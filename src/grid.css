@@ -1,3 +1,8 @@
+.reactgrid {
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
 .rg-cell,
 .rg-header-cell {
 	background-color: whitesmoke !important;
