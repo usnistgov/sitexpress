@@ -39,3 +39,10 @@ html {
 	height: 100%;
 	background-color: #f0f0f0;
 }
+.refresh-btn {
+	padding: 0 !important;
+}
+.refresh-btn:hover {
+	text-decoration: none !important;
+	background-color: #f0f0f0 !important;
+}
