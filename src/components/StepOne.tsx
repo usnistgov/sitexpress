@@ -35,7 +35,7 @@ export default function StepOne(props) {
 			<Stack className="m-auto w-1/2">
 				<div className="m-auto">
 					<TextInput
-						className="w-64"
+						className="w-80 "
 						placeholder="Enter Name Here"
 						label="Project Name"
 						onChange={(e) => handleChange("projectName", e)}
@@ -46,7 +46,7 @@ export default function StepOne(props) {
 				<div className="m-auto">
 					<TextField
 						required
-						className="w-64"
+						className="w-80"
 						label="Project Description"
 						placeholder="Enter Description Here"
 						maxRows={8}
@@ -70,9 +70,6 @@ export default function StepOne(props) {
 						/>
 						<BasicTooltip title="No of Alternatives. Max Alternatives of 5 + Base Case" />
 					</span>
-					{/* <span className="">
-						<Typography className="" variant="caption"></Typography>
-					</span> */}
 				</div>
 				<br />
 
@@ -88,9 +85,6 @@ export default function StepOne(props) {
 						/>
 						<BasicTooltip title="Maximum study period of 25 years." />
 					</span>
-					{/* <span className="">
-						<Typography className="" variant="caption"></Typography>
-					</span> */}
 				</div>
 				<br />
 				<div className="m-auto">
@@ -116,7 +110,8 @@ export default function StepOne(props) {
 								placeholder="Enter % Here"
 								label="Real Discount Rate"
 								adornment="%"
-								defaultValue={project?.realDR}
+								// defaultValue={project?.realDR}
+								value={project?.realDR}
 								onChange={(e) => handleChange("realDR", e)}
 							/>
 						</div>
@@ -135,7 +130,8 @@ export default function StepOne(props) {
 								placeholder="Enter % Here"
 								label="Inflation Rate"
 								adornment="%"
-								defaultValue={project?.inflationRate}
+								// defaultValue={project?.inflationRate}
+								value={project?.inflationRate}
 								onChange={(e) => handleChange("inflationRate", e)}
 							/>
 							<br />
@@ -145,7 +141,8 @@ export default function StepOne(props) {
 								placeholder="Enter % Here"
 								label="Nominal Discount Rate"
 								adornment="%"
-								defaultValue={project?.nominalDR}
+								// defaultValue={project?.nominalDR}
+								value={project?.nominalDR}
 								onChange={(e) => handleChange("nominalDR", e)}
 							/>
 						</div>

@@ -18,21 +18,25 @@ export type TextInputProps = {
 	helpertext?: string;
 	adornment?: string;
 	onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
+	value?: string;
 };
 
 export default function TextInput(props: TextInputProps) {
 	return (
 		<TextField
 			required
-			className={(props.className ?? "") + `${props.disabled ? TextInputType.DISABLED : props.type}`}
-			endAdornment={<InputAdornment position="end">{props?.adornment}</InputAdornment>}
-			label={props.label}
-			placeholder={props.placeholder}
+			className={(props?.className ?? "") + `${props?.disabled ? TextInputType.DISABLED : props?.type}`}
+			InputProps={{
+				endAdornment: <InputAdornment position="end">{props?.adornment}</InputAdornment>,
+			}}
+			label={props?.label}
+			placeholder={props?.placeholder}
 			size="small"
-			helperText={props.helpertext}
-			disabled={props.disabled}
-			defaultValue={props.defaultValue}
-			onChange={props.onChange}
+			helperText={props?.helpertext}
+			disabled={props?.disabled}
+			defaultValue={props?.defaultValue}
+			value={props?.value}
+			onChange={props?.onChange}
 		/>
 	);
 }
