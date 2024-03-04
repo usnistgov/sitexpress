@@ -1,5 +1,6 @@
 import { Button, Stack, Typography } from "@mui/material";
 import { useRef, useState } from "react";
+import { E3Request, toE3Object } from "../data/E3Request";
 import DataGrid from "./DataGrid";
 import BasicTooltip from "./Tooltip";
 
@@ -50,7 +51,9 @@ export default function StepTwo(props) {
 								variant="contained"
 								className=""
 								onClick={() => {
-									console.log(gridData);
+									const obj = toE3Object(project);
+									console.log(obj);
+									// E3Request();
 								}}
 							>
 								Run Results
