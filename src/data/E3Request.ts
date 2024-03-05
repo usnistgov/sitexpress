@@ -19,7 +19,6 @@ import {
 // take the project and create an E3 reqeust.
 export function toE3Object(project) {
 	const builder = new RequestBuilder();
-	console.log(project);
 
 	// Setup base E3 options
 	const analysisBuilder = new AnalysisBuilder()
@@ -44,7 +43,6 @@ export function toE3Object(project) {
 	);
 
 	const alternatives = project.costs;
-	console.log(alternatives);
 	const alternativeBuilders = project.costs.map((alternative) => {
 		const builder = new AlternativeBuilder().name(alternative.name);
 		costMap.get(alternative?.name).forEach((costMapItem) => {
@@ -63,24 +61,24 @@ export function toE3Object(project) {
 
 // tasks an E3 Request Builder object and executes the request and returns the E3 output object.
 
-// export function E3Request(builder) {
-// 	// Perform the E3 analysis using the provided builder
-// 	const analyzeE3 = async () => {
-// 		try {
-// 			// Replace the following line with your actual E3 analysis logic
-// 			const result = await E3.analyze(import.meta.env.VITE_REQUEST_URL, builder, import.meta.env.VITE_API_TOKEN);
+export function E3Request(builder) {
+	// 	// Perform the E3 analysis using the provided builder
+	const analyzeE3 = async () => {
+		try {
+			// Replace the following line with your actual E3 analysis logic
+			const result = await E3.analyze(import.meta.env.VITE_REQUEST_URL, builder, import.meta.env.VITE_API_TOKEN);
 
-// 			// Handle the result as needed (e.g., update UI, store data, etc.)
-// 			console.log("E3 analysis result:", result);
-// 		} catch (error) {
-// 			console.error("Error performing E3 analysis:", error);
-// 			// Handle the error appropriately (e.g., show an error message to the user)
-// 		}
-// 	};
+			// Handle the result as needed (e.g., update UI, store data, etc.)
+			console.log("E3 analysis result:", result);
+		} catch (error) {
+			console.error("Error performing E3 analysis:", error);
+			// Handle the error appropriately (e.g., show an error message to the user)
+		}
+	};
 
-// 	// Call the analyzeE3 function
-// 	analyzeE3();
-// }
+	// Call the analyzeE3 function
+	analyzeE3();
+}
 
 function costToBuilders(cost): BcnBuilder[] {
 	return [energyCostToBuilderCost(cost), energyCostToBuilderBenefit(cost)];
@@ -151,7 +149,7 @@ function energyCostToBuilderCost(cost): BcnBuilder[] {
 		.quantityValue(1)
 		.quantity(1)
 		.quantityVarRate(VarRate.YEAR_BY_YEAR)
-		.quantityVarValue(cost.cost);
+		.quantityVarValue(cost.cost.map(Number));
 
 	return [builder];
 }
@@ -165,7 +163,7 @@ function energyCostToBuilderBenefit(cost): BcnBuilder[] {
 		.quantityValue(1)
 		.quantity(1)
 		.quantityVarRate(VarRate.YEAR_BY_YEAR)
-		.quantityVarValue(cost.revenue);
+		.quantityVarValue(cost.revenue.map(Number));
 
 	return [builder];
 }

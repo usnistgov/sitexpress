@@ -89,7 +89,7 @@ export default function StepTwo(props) {
 								onClick={() => {
 									const obj = toE3Object(project);
 									console.log(obj);
-									// E3Request();
+									E3Request(obj);
 								}}
 							>
 								Run Results
