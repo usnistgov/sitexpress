@@ -19,6 +19,7 @@ function App() {
 		realDR: "3",
 		inflationRate: "2.3",
 		nominalDR: "5.3",
+		costs: [],
 	});
 	console.log(project);
 	const handleChange = (key: string, e) => {
