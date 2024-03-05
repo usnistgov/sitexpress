@@ -36,29 +36,29 @@ export function toE3Object(project) {
 		.reinvestRate(project.inflationRate ?? 2.3); //replace with actual reinvest rate
 
 	// Create costs
-	// const costs = await db.costs.where("id").anyOf(project.costs).toArray();
-	// const costMap = new Map(costs.map((cost) => [cost.id, costToBuilders(cost, project.studyPeriod)]));
+	const costs = project?.costs;
+	const costMap = new Map(
+		costs.map((cost) => {
+			return [cost.name, costToBuilders(cost)];
+		}),
+	);
 
-	// Define alternatives
-	// const alternatives = await db.alternatives.where("id").anyOf(project.alternatives).toArray();
-	// const alternativeBuilders = alternatives.map((alternative) => {
-	// 	const builder = new AlternativeBuilder()
-	// 		.name(alternative.name)
-	// 		.addBcn(...alternative.costs.flatMap((id) => costMap.get(id)).filter((x): x is BcnBuilder => x !== undefined));
+	const alternatives = project.costs;
+	console.log(alternatives);
+	const alternativeBuilders = project.costs.map((alternative) => {
+		const builder = new AlternativeBuilder().name(alternative.name);
+		costMap.get(alternative?.name).forEach((costMapItem) => {
+			builder.addBcn(...costMapItem.filter((x): x is BcnBuilder => x !== undefined));
+		});
+		if (alternative.name) builder.name(alternative.name);
+		return builder;
+	});
 
-	// 	if (alternative.id) builder.id(alternative.id);
-	// 	if (alternative.baseline) return builder.baseline();
-
-	// 	return builder;
-	// });
-
-	// const hasBaseline = !!alternatives.find((alt) => alt["baseline"]);
-	// if (!hasBaseline && alternativeBuilders[0]) alternativeBuilders[0].baseline();
+	const hasBaseline = !!alternatives.find((alt) => alt["baseline"]);
+	if (!hasBaseline && alternativeBuilders[0]) alternativeBuilders[0].baseline();
 
 	// Create complete Request Builder and return
-	// return builder.analysis(analysisBuilder).addAlternative(...alternativeBuilders);
-	return analysisBuilder;
-	// };
+	return builder.analysis(analysisBuilder).addAlternative(...alternativeBuilders);
 }
 
 // tasks an E3 Request Builder object and executes the request and returns the E3 output object.
@@ -82,27 +82,8 @@ export function toE3Object(project) {
 // 	analyzeE3();
 // }
 
-function costToBuilders(cost, studyPeriod: number): BcnBuilder[] {
-	// switch (cost.type) {
-	// case CostTypes.CAPITAL:
-	// 	return capitalCostToBuilder(cost, studyPeriod);
-	// case CostTypes.ENERGY:
-	return energyCostToBuilder(cost);
-	// case CostTypes.WATER:
-	// 	return waterCostToBuilder(cost);
-	// case CostTypes.REPLACEMENT_CAPITAL:
-	// 	return replacementCapitalCostToBuilder(cost, studyPeriod);
-	// case CostTypes.OMR:
-	// 	return omrCostToBuilder(cost);
-	// case CostTypes.IMPLEMENTATION_CONTRACT:
-	// 	return implementationContractCostToBuilder(cost);
-	// case CostTypes.RECURRING_CONTRACT:
-	// 	return recurringContractCostToBuilder(cost);
-	// case CostTypes.OTHER:
-	// 	return otherCostToBuilder(cost);
-	// case CostTypes.OTHER_NON_MONETARY:
-	// 	return otherNonMonetaryCostToBuilder(cost);
-	// }
+function costToBuilders(cost): BcnBuilder[] {
+	return [energyCostToBuilderCost(cost), energyCostToBuilderBenefit(cost)];
 }
 
 // function capitalCostToBuilder(cost: CapitalCost, studyPeriod: number): BcnBuilder[] {
@@ -161,24 +142,30 @@ function costToBuilders(cost, studyPeriod: number): BcnBuilder[] {
 // 	return result;
 // }
 
-function energyCostToBuilder(cost): BcnBuilder[] {
+function energyCostToBuilderCost(cost): BcnBuilder[] {
 	const builder = new BcnBuilder()
-		.name(cost.name)
-		.addTag("Energy", cost.fuelType, cost.unit)
 		.name(cost.name)
 		.real()
 		.type(BcnType.COST)
 		.subType(BcnSubType.DIRECT)
-		// .recur(recurrence(cost))
-		.quantityValue(cost.costPerUnit)
-		.quantity(cost.annualConsumption);
+		.quantityValue(1)
+		.quantity(1)
+		.quantityVarRate(VarRate.YEAR_BY_YEAR)
+		.quantityVarValue(cost.cost);
 
-	if (cost.useIndex) {
-		const varValue = Array.isArray(cost.useIndex) ? cost.useIndex : [cost.useIndex];
-		builder.quantityVarValue(varValue).quantityVarRate(VarRate.YEAR_BY_YEAR);
-	}
+	return [builder];
+}
 
-	if (cost.customerSector) builder.addTag(cost.customerSector);
+function energyCostToBuilderBenefit(cost): BcnBuilder[] {
+	const builder = new BcnBuilder()
+		.name(cost.name)
+		.real()
+		.type(BcnType.BENEFIT)
+		.subType(BcnSubType.DIRECT)
+		.quantityValue(1)
+		.quantity(1)
+		.quantityVarRate(VarRate.YEAR_BY_YEAR)
+		.quantityVarValue(cost.revenue);
 
 	return [builder];
 }
