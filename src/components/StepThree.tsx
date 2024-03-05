@@ -73,12 +73,15 @@ function CustomTabPanel(props: TabPanelProps) {
 }
 
 export default function StepThree(props) {
-	const { project } = props;
+	const { project, results } = props;
 	const [tabValue, setTabValue] = useState(0);
 
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setTabValue(newValue);
 	};
+
+	console.log(results);
+
 	return (
 		<Stack direction="column">
 			<Stack className=" flex justify-center p-2 items-center" style={{ backgroundColor: "#ef860a" }}>

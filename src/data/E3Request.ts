@@ -61,21 +61,23 @@ export function toE3Object(project) {
 export function E3Request(builder) {
 	// Perform the E3 analysis using the provided builder
 	const analyzeE3 = async () => {
+		let res = null;
 		try {
 			// Replace the following line with your actual E3 analysis logic
-			const result = await E3.analyze(import.meta.env.VITE_REQUEST_URL, builder, import.meta.env.VITE_API_TOKEN);
+			res = await E3.analyze(import.meta.env.VITE_REQUEST_URL, builder, import.meta.env.VITE_API_TOKEN);
 
 			// Handle the result as needed (e.g., update UI, store data, etc.)
-			console.log("E3 analysis result:", result);
-			return result;
+			console.log("E3 analysis result:", res);
 		} catch (error) {
 			console.error("Error performing E3 analysis:", error);
+			alert(`Error performing E3 analysis:${error}`);
 			// Handle the error appropriately (e.g., show an error message to the user)
 		}
+		return res;
 	};
 
 	// Call the analyzeE3 function
-	analyzeE3();
+	return analyzeE3();
 }
 
 function costToBuilders(cost): BcnBuilder[] {

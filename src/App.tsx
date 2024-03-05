@@ -21,6 +21,7 @@ function App() {
 		nominalDR: "5.3",
 		costs: [],
 	});
+	const [result, setResult] = useState({});
 	console.log(project);
 	const handleChange = (key: string, e) => {
 		if (key === "studyPeriod" || key === "alts") {
@@ -37,8 +38,8 @@ function App() {
 		<div className="App">
 			<LandingSection />
 			<StepOne project={project} handleChange={handleChange} />
-			<StepTwo project={project} />
-			<StepThree project={project} />
+			<StepTwo project={project} getResults={setResult} />
+			<StepThree project={project} results={result} />
 			<Disclaimer />
 		</div>
 	);

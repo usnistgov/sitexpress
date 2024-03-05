@@ -5,7 +5,7 @@ import DataGrid from "./DataGrid";
 import BasicTooltip from "./Tooltip";
 
 export default function StepTwo(props) {
-	const { project } = props;
+	const { project, getResults } = props;
 	const [gridData, setGridData] = useState([]);
 
 	const transformTableData = (data, alts = 3) => {
@@ -86,10 +86,10 @@ export default function StepTwo(props) {
 							<Button
 								variant="contained"
 								className=""
-								onClick={() => {
+								onClick={async () => {
 									const obj = toE3Object(project);
-									console.log(obj);
-									E3Request(obj);
+									const res = await E3Request(obj);
+									getResults(res);
 								}}
 							>
 								Run Results
