@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { useState } from "react";
-import { dataset } from "../data/dataset";
 import BasicTooltip from "./Tooltip";
 
 const labs = (n: number) => {
@@ -25,29 +24,41 @@ const labs = (n: number) => {
 	return lab;
 };
 
-function createData(metric: string, npvp: number, np: number, irr: number, sp: number, dp: number, bcr: number) {
-	return { metric, npvp, np, irr, sp, dp, bcr };
+const createDataset = (alts: number, measure) => {
+	const data = [];
+	for (let i = 0; i <= alts; i++) {
+		data.push({
+			npvp: measure[i]?.totalBenefits - measure[i]?.totalCosts,
+			np: measure[i]?.totalBenefits || 0,
+			irr: measure[i]?.irr || 0,
+			sp: measure[i]?.spp || 0,
+			dp: measure[i]?.dpp || 0,
+			bcr: measure[i]?.bcr || 0,
+		});
+	}
+	return data;
+};
+
+function createData(alt: string, npvp: number, np: number, irr: number, sp: number, dp: number, bcr: number) {
+	return { alt, npvp, np, irr, sp, dp, bcr };
 }
 
-const rows = [
-	createData("Net Present Value Profit", 1.59, 6.0, 2.4, 4.0, 2.3, 5.6),
-	createData("Net Profit", 23.7, 9.0, 3.7, 4.3, 2.3, 5.6),
-	createData("IRR", 26.2, 16.0, 24, 6.0, 2.3, 5.6),
-	createData("Simple Payback", 30.5, 3.7, 6.7, 4.3, 2.3, 5.6),
-	createData("Discounted Payback", 35.6, 16.0, 4.9, 3.9, 2.3, 5.6),
-	createData("BCR", 35.4, 16.0, 4.9, 3.9, 2.3, 5.6),
-];
-
-const NoOfAlternatives = (n: number) => {
-	const alts = [];
-	for (let i = 1; i <= n; i++) {
-		alts.push(
-			<TableCell align="center" key={`alt-${i}`}>
-				Alt {i}
-			</TableCell>,
+const getRows = (measure) => {
+	let rows = [];
+	for (let i = 0; i < measure?.length; i++) {
+		rows.push(
+			createData(
+				i === 0 ? "Base Case" : `Alt ${i}`,
+				measure[i]?.totalBenefits - measure[i]?.totalCosts,
+				measure[i]?.totalBenefits || "NA",
+				measure[i]?.irr || "NA",
+				measure[i]?.spp || "NA",
+				measure[i]?.dpp || "NA",
+				measure[i]?.bcr || "NA",
+			),
 		);
 	}
-	return alts;
+	return rows;
 };
 
 interface TabPanelProps {
@@ -80,7 +91,7 @@ export default function StepThree(props) {
 		setTabValue(newValue);
 	};
 
-	console.log(results);
+	const measure = results?.measure;
 
 	return (
 		<Stack direction="column">
@@ -93,143 +104,167 @@ export default function StepThree(props) {
 					</Typography>
 				</Stack>
 			</Stack>
-			<Stack className="p-10">
-				<span className="flex ml-auto">
-					<Typography variant="h6" className="">
-						Save to:
-					</Typography>
-					&nbsp;
-					<Button
-						variant="contained"
-						className=""
-						onClick={() => {
-							console.log("saved to csv");
-						}}
-					>
-						CSV
-					</Button>
-					&nbsp;
-					<span>
+			{measure ? (
+				<Stack className="p-10">
+					<span className="flex ml-auto">
+						<Typography variant="h6" className="">
+							Save to:
+						</Typography>
+						&nbsp;
 						<Button
 							variant="contained"
 							className=""
 							onClick={() => {
-								console.log("saved to pdf");
+								console.log("saved to csv");
 							}}
 						>
-							PDF
+							CSV
 						</Button>
-						<BasicTooltip title="text" />
+						&nbsp;
+						<span>
+							<Button
+								variant="contained"
+								className=""
+								onClick={() => {
+									console.log("saved to pdf");
+								}}
+							>
+								PDF
+							</Button>
+							<BasicTooltip title="text" />
+						</span>
 					</span>
-				</span>
-				<br />
+					<br />
 
-				<TableContainer component={Paper}>
-					<Table aria-label="simple table" sx={{ "td, th": { border: "1px solid black" } }}>
-						<TableHead>
-							<TableRow>
-								<TableCell></TableCell>
-								<TableCell align="center" key={"base-case"}>
-									Base Case
-								</TableCell>
-								{NoOfAlternatives(project?.alts || 2)}
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{rows.map((row) => (
-								<TableRow key={row.npvp}>
-									<TableCell component="th" scope="row">
-										{row.metric}
+					<TableContainer component={Paper}>
+						<Table aria-label="simple table" sx={{ "td, th": { border: "1px solid black" } }}>
+							<TableHead>
+								<TableRow>
+									<TableCell></TableCell>
+									<TableCell align="center" key={"npvp"}>
+										Net Present Value Profit
 									</TableCell>
-									<TableCell component="th" align="right" scope="row">
-										{row.npvp}
+									<TableCell align="center" key={"np"}>
+										Change in Profit
 									</TableCell>
-									<TableCell align="right" key={row.np}>
-										{row.np}
+									<TableCell align="center" key={"irr"}>
+										IRR
 									</TableCell>
-									<TableCell align="right" key={row.irr}>
-										{row.irr}
+									<TableCell align="center" key={"sp"}>
+										Simple Payback
 									</TableCell>
-									<TableCell align="right" key={row.sp}>
-										{row.sp}
+									<TableCell align="center" key={"dp"}>
+										Discounted Payback
 									</TableCell>
-									<TableCell align="right" key={row.dp}>
-										{row.dp}
-									</TableCell>
-									<TableCell align="right" key={row.bcr}>
-										{row.bcr}
+									<TableCell align="center" key={"bcr"}>
+										BCR
 									</TableCell>
 								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</TableContainer>
-				<br />
-				<Stack>
-					<Tabs value={tabValue} onChange={handleChange} aria-label="basic tabs example">
-						<Tab label="Net Present Value Profit" />
-						<Tab label="Net Profit" />
-						<Tab label="IRR" />
-						<Tab label="Simple Payback" />
-						<Tab label="Discounted Payback" />
-						<Tab label="BCR" />
-					</Tabs>
-					<CustomTabPanel value={tabValue} index={0}>
-						<BarChart
-							dataset={dataset}
-							height={250}
-							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
-							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-							series={[{ dataKey: "npvp", label: "Net Present Value Profit", color: "#ef860a" }]}
-						/>
-					</CustomTabPanel>
-					<CustomTabPanel value={tabValue} index={1}>
-						<BarChart
-							dataset={dataset}
-							height={250}
-							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
-							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-							series={[{ dataKey: "np", label: "Net Profit", color: "#ef860a" }]}
-						/>
-					</CustomTabPanel>
-					<CustomTabPanel value={tabValue} index={2}>
-						<BarChart
-							dataset={dataset}
-							height={250}
-							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
-							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-							series={[{ dataKey: "irr", label: " IRR", color: "#ef860a" }]}
-						/>
-					</CustomTabPanel>
-					<CustomTabPanel value={tabValue} index={3}>
-						<BarChart
-							dataset={dataset}
-							height={250}
-							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
-							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-							series={[{ dataKey: "sp", label: "Simple Payback", color: "#ef860a" }]}
-						/>
-					</CustomTabPanel>
-					<CustomTabPanel value={tabValue} index={4}>
-						<BarChart
-							dataset={dataset}
-							height={250}
-							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
-							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-							series={[{ dataKey: "dp", label: "Discounted Payback", color: "#ef860a" }]}
-						/>
-					</CustomTabPanel>
-					<CustomTabPanel value={tabValue} index={5}>
-						<BarChart
-							dataset={dataset}
-							height={250}
-							xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
-							margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-							series={[{ dataKey: "bcr", label: "BCR", color: "#ef860a" }]}
-						/>
-					</CustomTabPanel>
+							</TableHead>
+							<TableBody>
+								{getRows(measure).map((row) => (
+									<TableRow key={row.alt + "-row"}>
+										<TableCell component="th" key={row.alt} scope="row">
+											{row.alt}
+										</TableCell>
+										<TableCell component="th" key={"npvp-" + row.alt} align="right" scope="row">
+											{row.npvp}
+										</TableCell>
+										<TableCell align="right" key={"np-" + row.alt}>
+											{row.np}
+										</TableCell>
+										<TableCell align="right" key={"irr-" + row.alt}>
+											{row.irr}
+										</TableCell>
+										<TableCell align="right" key={"sp-" + row.alt}>
+											{row.sp}
+										</TableCell>
+										<TableCell align="right" key={"dp-" + row.alt}>
+											{row.dp}
+										</TableCell>
+										<TableCell align="right" key={"bcr-" + row.alt}>
+											{row.bcr}
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+					<br />
+					<Stack>
+						<Tabs value={tabValue} onChange={handleChange} aria-label="basic tabs example">
+							<Tab label="Net Present Value Profit" />
+							<Tab label="Net Profit" />
+							<Tab label="IRR" />
+							<Tab label="Simple Payback" />
+							<Tab label="Discounted Payback" />
+							<Tab label="BCR" />
+						</Tabs>
+						<CustomTabPanel value={tabValue} index={0}>
+							<BarChart
+								dataset={createDataset(project?.alts, measure)}
+								height={250}
+								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
+								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
+								series={[{ dataKey: "npvp", label: "Net Present Value Profit", color: "#ef860a" }]}
+							/>
+						</CustomTabPanel>
+						<CustomTabPanel value={tabValue} index={1}>
+							<BarChart
+								dataset={createDataset(project?.alts, measure)}
+								height={250}
+								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
+								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
+								series={[{ dataKey: "np", label: "Net Profit", color: "#ef860a" }]}
+							/>
+						</CustomTabPanel>
+						<CustomTabPanel value={tabValue} index={2}>
+							<BarChart
+								dataset={createDataset(project?.alts, measure)}
+								height={250}
+								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
+								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
+								series={[{ dataKey: "irr", label: " IRR", color: "#ef860a" }]}
+							/>
+						</CustomTabPanel>
+						<CustomTabPanel value={tabValue} index={3}>
+							<BarChart
+								dataset={createDataset(project?.alts, measure)}
+								height={250}
+								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
+								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
+								series={[{ dataKey: "sp", label: "Simple Payback", color: "#ef860a" }]}
+							/>
+						</CustomTabPanel>
+						<CustomTabPanel value={tabValue} index={4}>
+							<BarChart
+								dataset={createDataset(project?.alts, measure)}
+								height={250}
+								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
+								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
+								series={[{ dataKey: "dp", label: "Discounted Payback", color: "#ef860a" }]}
+							/>
+						</CustomTabPanel>
+						<CustomTabPanel value={tabValue} index={5}>
+							<BarChart
+								dataset={createDataset(project?.alts, measure)}
+								height={250}
+								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
+								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
+								series={[{ dataKey: "bcr", label: "BCR", color: "#ef860a" }]}
+							/>
+						</CustomTabPanel>
+					</Stack>
 				</Stack>
-			</Stack>
+			) : (
+				<Stack direction="column" className="flex justify-center items-center h-96">
+					<br />
+					<Typography variant="h4" className="text-center">
+						Run results to display table.
+					</Typography>
+					<br />
+				</Stack>
+			)}
 		</Stack>
 	);
 }
