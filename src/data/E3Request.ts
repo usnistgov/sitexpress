@@ -84,11 +84,27 @@ export function E3Request(builder) {
 }
 
 function costToBuilders(cost): BcnBuilder[] {
-	return [energyCostToBuilderCost(cost), energyCostToBuilderBenefit(cost)];
+	return [[...energyCostToBuilderCost(cost)], energyCostToBuilderBenefit(cost)];
 }
 
 function energyCostToBuilderCost(cost): BcnBuilder[] {
-	const builder = new BcnBuilder()
+	const costArr = [...cost.cost];
+	const initialInvestmentVal = costArr.shift();
+
+	// BCN builder for the base case
+	const initialInvestmentCostbuilder = new BcnBuilder()
+		.name(cost.name)
+		.real()
+		.invest()
+		.type(BcnType.COST)
+		.subType(BcnSubType.DIRECT)
+		.quantityValue(1)
+		.quantity(1)
+		.quantityVarRate(VarRate.YEAR_BY_YEAR)
+		.quantityVarValue([initialInvestmentVal].map(Number));
+
+	// BCN builder for the other non-base cases
+	const costBuilder = new BcnBuilder()
 		.name(cost.name)
 		.real()
 		.type(BcnType.COST)
@@ -96,12 +112,15 @@ function energyCostToBuilderCost(cost): BcnBuilder[] {
 		.quantityValue(1)
 		.quantity(1)
 		.quantityVarRate(VarRate.YEAR_BY_YEAR)
-		.quantityVarValue(cost.cost.map(Number));
+		.quantityVarValue(costArr.map(Number));
 
-	return [builder];
+	return [costBuilder, initialInvestmentCostbuilder];
 }
 
 function energyCostToBuilderBenefit(cost): BcnBuilder[] {
+	const revArr = [...cost.revenue];
+	revArr.shift(); // removes the "Initial Investment value as it is 0"
+
 	const builder = new BcnBuilder()
 		.name(cost.name)
 		.real()
@@ -110,7 +129,7 @@ function energyCostToBuilderBenefit(cost): BcnBuilder[] {
 		.quantityValue(1)
 		.quantity(1)
 		.quantityVarRate(VarRate.YEAR_BY_YEAR)
-		.quantityVarValue(cost.revenue.map(Number));
+		.quantityVarValue(revArr.map(Number));
 
 	return [builder];
 }
