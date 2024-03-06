@@ -129,13 +129,12 @@ const getRows = (data, alts: number) => [
 		const cells = [];
 		for (const [key, value] of Object.entries(dataPoint)) {
 			let obj = {};
-			// let match =
 			if (value === "Initial Investment" || value === "Cost" || value === "Revenue" || key === "year") {
 				obj = { type: "text", text: value, nonEditable: true };
 			} else {
 				obj = { type: "text", text: value };
 			}
-			if ((/alt[1-5]-rev/.test(key) || key === "base-rev") && value === "0") {
+			if ((/alt[1-5]-rev/.test(key) || key === "base-rev") && dataPoint.year === "Initial Investment") {
 				obj = { type: "text", text: value, nonEditable: true };
 			}
 			cells.push(obj);
