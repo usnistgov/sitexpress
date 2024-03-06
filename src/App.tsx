@@ -16,9 +16,9 @@ function App() {
 		alts: 1,
 		studyPeriod: 1,
 		dollarValue: "constant",
-		realDR: "3",
-		inflationRate: "2.3",
-		nominalDR: "5.3",
+		realDR: 3,
+		inflationRate: 2.3,
+		nominalDR: 5.3,
 		costs: [],
 	});
 	const [result, setResult] = useState({});
@@ -30,7 +30,7 @@ function App() {
 			setProject({ ...project, [key]: e.target.value });
 		}
 		if (key === "refresh") {
-			setProject({ ...project, realDR: "3", inflationRate: "2.3", nominalDR: "5.3" });
+			setProject({ ...project, realDR: 3, inflationRate: 2.3, nominalDR: 5.3 });
 		}
 	};
 

@@ -25,11 +25,14 @@ export function toE3Object(project) {
 		.studyPeriod(project.studyPeriod)
 		.timestepValue(TimestepValue.YEAR)
 		.timestepComp(TimestepComp.END_OF_YEAR)
-		.outputReal() // TODO add interest rate
-		.discountRateReal(project.realDiscountRate ?? 3)
-		.discountRateNominal(project.nominalDiscountRate ?? 5.3)
-		.inflationRate(project.inflationRate ?? 2.3)
-		.reinvestRate(project.inflationRate ?? 2.3); //replace with actual reinvest rate
+		.outputReal();
+
+	project?.dollarValue === "current"
+		? analysisBuilder
+				.discountRateReal(0)
+				.discountRateNominal(+project?.nominalDR)
+				.inflationRate(+project?.inflationRate)
+		: analysisBuilder.discountRateReal(+project?.realDR).discountRateNominal(0).inflationRate(0);
 
 	// Create costs
 	const costs = project?.costs;
