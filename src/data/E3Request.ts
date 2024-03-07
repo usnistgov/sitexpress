@@ -32,14 +32,14 @@ export function toE3Object(project: Project) {
 	project?.dollarValue === "current"
 		? analysisBuilder
 				.discountRateReal(0)
-				.discountRateNominal(+project?.nominalDR)
-				.inflationRate(+project?.inflationRate)
-				.reinvestRate(+project?.realDR)
+				.discountRateNominal(+project?.nominalDR / 100)
+				.inflationRate(+project?.inflationRate / 100)
+				.reinvestRate(+project?.inflationRate / 100)
 		: analysisBuilder
-				.discountRateReal(+project?.realDR)
+				.discountRateReal(+project?.realDR / 100)
 				.discountRateNominal(0)
 				.inflationRate(0)
-				.reinvestRate(+project?.realDR);
+				.reinvestRate(+project?.realDR / 100);
 
 	// Create costs
 	const costs = project?.costs;

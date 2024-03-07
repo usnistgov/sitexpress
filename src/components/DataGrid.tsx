@@ -22,12 +22,12 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 	if (data.length === 0) {
 		let header = new Map();
 		header.set("year", "");
-		header.set("base-cost", "Cost");
-		header.set("base-rev", "Revenue");
+		header.set("base-cost", "Cost ($)");
+		header.set("base-rev", "Revenue ($)");
 
 		for (let i = 1; i <= alts; i++) {
-			header.set(`alt${i}-cost`, "Cost");
-			header.set(`alt${i}-rev`, "Revenue");
+			header.set(`alt${i}-cost`, "Cost ($)");
+			header.set(`alt${i}-rev`, "Revenue ($)");
 		}
 
 		data.push(Object.fromEntries(header));
@@ -49,8 +49,8 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 		let header = headerOnly;
 		if (alts > oldAlts) {
 			for (let i = oldAlts + 1; i <= alts; i++) {
-				header[`alt${i}-cost`] = "Cost";
-				header[`alt${i}-rev`] = "Revenue";
+				header[`alt${i}-cost`] = "Cost ($)";
+				header[`alt${i}-rev`] = "Revenue ($)";
 			}
 			let yearData = [];
 			yearsOnly.forEach((year) => {
@@ -129,7 +129,7 @@ const getRows = (data, alts: number) => [
 		const cells = [];
 		for (const [key, value] of Object.entries(dataPoint)) {
 			let obj = {};
-			if (value === "Initial Investment" || value === "Cost" || value === "Revenue" || key === "year") {
+			if (value === "Initial Investment" || value === "Cost ($)" || value === "Revenue ($)" || key === "year") {
 				obj = { type: "text", text: value, nonEditable: true };
 			} else {
 				obj = { type: "text", text: value };

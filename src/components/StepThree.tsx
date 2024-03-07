@@ -29,10 +29,10 @@ const createDataset = (alts: number, measure) => {
 	for (let i = 0; i <= alts; i++) {
 		data.push({
 			npvp: measure[i]?.totalBenefits - measure[i]?.totalCosts,
-			np: measure[i]?.totalBenefits || 0,
+			np: measure[i]?.netBenefits || 0,
 			irr: measure[i]?.irr || 0,
 			sp: measure[i]?.spp || 0,
-			dp: measure[i]?.dpp || 0,
+			dp: measure[i]?.dpp === "Infinity" ? 0 : measure[i]?.dpp,
 			bcr: measure[i]?.bcr || 0,
 		});
 	}
@@ -49,12 +49,12 @@ const getRows = (measure) => {
 		rows.push(
 			createData(
 				i === 0 ? "Base Case" : `Alt ${i}`,
-				measure[i]?.totalBenefits - measure[i]?.totalCosts,
-				measure[i]?.totalBenefits || "NA",
-				measure[i]?.irr || "NA",
-				measure[i]?.spp || "NA",
-				measure[i]?.dpp || "NA",
-				measure[i]?.bcr || "NA",
+				+(measure[i]?.totalBenefits - measure[i]?.totalCosts)?.toFixed(2),
+				measure[i]?.netBenefits ? measure[i]?.netBenefits.toFixed(2) : "NA",
+				measure[i]?.irr ? measure[i]?.irr?.toFixed(3) : "NA",
+				measure[i]?.spp !== "Infinity" ? measure[i]?.spp?.toFixed(2) : "NA",
+				measure[i]?.dpp !== "Infinity" ? measure[i]?.dpp?.toFixed(2) : "NA",
+				measure[i]?.bcr ? measure[i]?.bcr?.toFixed(2) : "NA",
 			),
 		);
 	}
