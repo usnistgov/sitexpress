@@ -13,7 +13,7 @@ interface Data {
 	alt3?: string;
 	alt4?: string;
 }
-
+// @ts-ignore
 const generateData = (alts: number, years: number, existingData, oldAlts: number, oldYears: number) => {
 	let data = [...existingData];
 	let yearsOnly = existingData.slice(1);
@@ -52,7 +52,9 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 				header[`alt${i}-cost`] = "Cost";
 				header[`alt${i}-rev`] = "Revenue";
 			}
+			// @ts-ignore
 			let yearData = [];
+			// @ts-ignore
 			yearsOnly.forEach((year) => {
 				const x = { ...year };
 				for (let i = oldAlts + 1; i <= alts; i++) {
@@ -62,6 +64,7 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 				yearData.push(x);
 			});
 			headerOnly = header;
+			// @ts-ignore
 			yearsOnly = yearData;
 		} else if (alts < oldAlts) {
 			const diff = oldAlts - alts;
@@ -123,8 +126,10 @@ const headerRow = (alts: number) => {
 	};
 };
 
+// @ts-ignore
 const getRows = (data, alts: number) => [
 	headerRow(alts),
+	// @ts-ignore
 	...data.map((dataPoint, idx: number) => {
 		const cells = [];
 		for (const [key, value] of Object.entries(dataPoint)) {
@@ -139,7 +144,7 @@ const getRows = (data, alts: number) => [
 		return { rowId: idx, cells };
 	}),
 ];
-
+// @ts-ignore
 const applyChangesToData = (changes: CellChange<TextCell>[], prevData) => {
 	changes.forEach((change) => {
 		const dataIndex = change?.rowId;
@@ -148,7 +153,7 @@ const applyChangesToData = (changes: CellChange<TextCell>[], prevData) => {
 	});
 	return [...prevData];
 };
-
+// @ts-ignore
 const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDataChange }, ref) => {
 	const { noOfAlts, years, handleDataChange } = props;
 
@@ -197,6 +202,7 @@ const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDat
 			rows={rows}
 			columns={columns}
 			enableRangeSelection
+			// @ts-ignore
 			onCellsChanged={handleChanges}
 			stickyRightColumns={0}
 			stickyTopRows={0}

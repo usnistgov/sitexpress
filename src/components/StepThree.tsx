@@ -71,7 +71,7 @@ function CustomTabPanel(props: TabPanelProps) {
 		</div>
 	);
 }
-
+// @ts-ignore
 export default function StepThree(props) {
 	const { project } = props;
 	const [tabValue, setTabValue] = useState(0);

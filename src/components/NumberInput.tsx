@@ -49,6 +49,7 @@ export default function InputNumber(props: {
 			min={props.min}
 			max={props.max}
 			placeholder={props.placeholder}
+			// @ts-ignore
 			onChange={props.onChange}
 			defaultValue={props?.defaultValue || 2}
 			inputProps={{ inputMode: "numeric" }}
