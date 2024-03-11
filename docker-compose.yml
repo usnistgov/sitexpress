@@ -1,0 +1,14 @@
+version: "3"
+services:
+  sitexpress:
+    image: node:14
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://api.example.com
+      - REACT_APP_DEBUG=true
+    volumes:
+      - ./src:/app/src
