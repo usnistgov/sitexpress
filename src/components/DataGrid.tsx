@@ -22,12 +22,12 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 	if (data.length === 0) {
 		let header = new Map();
 		header.set("year", "");
-		header.set("base-cost", "Cost");
-		header.set("base-rev", "Revenue");
+		header.set("base-cost", "Cost ($)");
+		header.set("base-rev", "Revenue ($)");
 
 		for (let i = 1; i <= alts; i++) {
-			header.set(`alt${i}-cost`, "Cost");
-			header.set(`alt${i}-rev`, "Revenue");
+			header.set(`alt${i}-cost`, "Cost ($)");
+			header.set(`alt${i}-rev`, "Revenue ($)");
 		}
 
 		data.push(Object.fromEntries(header));
@@ -36,11 +36,11 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 			let yearData = new Map();
 			y === 0 ? yearData.set("year", `Initial Investment`) : yearData.set("year", y.toString());
 			yearData.set("base-cost", "");
-			yearData.set("base-rev", "");
+			y === 0 ? yearData.set("base-rev", "0") : yearData.set("base-rev", "");
 
 			for (let i = 1; i <= alts; i++) {
 				yearData.set(`alt${i}-cost`, "");
-				yearData.set(`alt${i}-rev`, "");
+				y === 0 ? yearData.set(`alt${i}-rev`, "0") : yearData.set(`alt${i}-rev`, "");
 			}
 
 			data.push(Object.fromEntries(yearData));
@@ -49,8 +49,8 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 		let header = headerOnly;
 		if (alts > oldAlts) {
 			for (let i = oldAlts + 1; i <= alts; i++) {
-				header[`alt${i}-cost`] = "Cost";
-				header[`alt${i}-rev`] = "Revenue";
+				header[`alt${i}-cost`] = "Cost ($)";
+				header[`alt${i}-rev`] = "Revenue ($)";
 			}
 			// @ts-ignore
 			let yearData = [];
@@ -59,7 +59,7 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 				const x = { ...year };
 				for (let i = oldAlts + 1; i <= alts; i++) {
 					x[`alt${i}-cost`] = "";
-					x[`alt${i}-rev`] = "";
+					x.year.startsWith("Initial") ? (x[`alt${i}-rev`] = "0") : (x[`alt${i}-rev`] = "");
 				}
 				yearData.push(x);
 			});
@@ -134,10 +134,13 @@ const getRows = (data, alts: number) => [
 		const cells = [];
 		for (const [key, value] of Object.entries(dataPoint)) {
 			let obj = {};
-			if (value === "Initial Investment" || value === "Cost" || value === "Revenue" || key === "year") {
+			if (value === "Initial Investment" || value === "Cost ($)" || value === "Revenue ($)" || key === "year") {
 				obj = { type: "text", text: value, nonEditable: true };
 			} else {
 				obj = { type: "text", text: value };
+			}
+			if ((/alt[1-5]-rev/.test(key) || key === "base-rev") && dataPoint.year === "Initial Investment") {
+				obj = { type: "text", text: value, nonEditable: true };
 			}
 			cells.push(obj);
 		}

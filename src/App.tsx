@@ -16,10 +16,12 @@ function App() {
 		alts: 1,
 		studyPeriod: 1,
 		dollarValue: "constant",
-		realDR: "3",
-		inflationRate: "2.3",
-		nominalDR: "5.3",
+		realDR: 3,
+		inflationRate: 2.3,
+		nominalDR: 5.3,
+		costs: [],
 	});
+	const [result, setResult] = useState({});
 	console.log(project);
 	// @ts-ignore
 	const handleChange = (key: string, e) => {
@@ -29,7 +31,7 @@ function App() {
 			setProject({ ...project, [key]: e.target.value });
 		}
 		if (key === "refresh") {
-			setProject({ ...project, realDR: "3", inflationRate: "2.3", nominalDR: "5.3" });
+			setProject({ ...project, realDR: 3, inflationRate: 2.3, nominalDR: 5.3 });
 		}
 	};
 
@@ -37,8 +39,8 @@ function App() {
 		<div className="App">
 			<LandingSection />
 			<StepOne project={project} handleChange={handleChange} />
-			<StepTwo project={project} />
-			<StepThree project={project} />
+			<StepTwo project={project} getResults={setResult} />
+			<StepThree project={project} results={result} />
 			<Disclaimer />
 		</div>
 	);
