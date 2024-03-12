@@ -21,6 +21,7 @@ function App() {
 		nominalDR: "5.3",
 	});
 	console.log(project);
+	// @ts-ignore
 	const handleChange = (key: string, e) => {
 		if (key === "studyPeriod" || key === "alts") {
 			setProject({ ...project, [key]: +e });

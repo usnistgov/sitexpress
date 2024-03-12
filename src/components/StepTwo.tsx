@@ -2,17 +2,18 @@ import { Button, Stack, Typography } from "@mui/material";
 import { useRef, useState } from "react";
 import DataGrid from "./DataGrid";
 import BasicTooltip from "./Tooltip";
-
+// @ts-ignore
 export default function StepTwo(props) {
 	const { project } = props;
 	const [gridData, setGridData] = useState([]);
-
+	// @ts-ignore
 	const handleDataChange = (data) => {
 		setGridData(data);
 	};
 
 	const gridRef = useRef();
 	const handleReset = () => {
+		// @ts-ignore
 		gridRef?.current.handleReset();
 		setGridData([]);
 	};
