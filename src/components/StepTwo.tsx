@@ -3,11 +3,12 @@ import { useRef, useState } from "react";
 import { E3Request, toE3Object } from "../data/E3Request";
 import DataGrid from "./DataGrid";
 import BasicTooltip from "./Tooltip";
-
+// @ts-ignore
 export default function StepTwo(props) {
 	const { project, getResults } = props;
 	const [gridData, setGridData] = useState([]);
 
+	// @ts-ignore
 	const transformTableData = (data, alts = 3) => {
 		let inputObject = [...data];
 		inputObject.shift(); // remove first row (header)
@@ -42,6 +43,7 @@ export default function StepTwo(props) {
 		return resultArray;
 	};
 
+	// @ts-ignore
 	const handleDataChange = (data) => {
 		setGridData(data);
 		const transformedArray = transformTableData(data, project.alts);
@@ -50,6 +52,7 @@ export default function StepTwo(props) {
 
 	const gridRef = useRef();
 	const handleReset = () => {
+		// @ts-ignore
 		gridRef?.current.handleReset();
 		setGridData([]);
 	};

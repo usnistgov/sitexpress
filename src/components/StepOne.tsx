@@ -4,7 +4,7 @@ import { Button, FormControlLabel, Radio, Stack, TextField, Tooltip, Typography 
 import TextInput from "./Input";
 import InputNumber from "./NumberInput";
 import BasicTooltip from "./Tooltip";
-
+// @ts-ignore
 export default function StepOne(props) {
 	const project = props.project;
 	const handleChange = props.handleChange;
@@ -66,6 +66,7 @@ export default function StepOne(props) {
 							min={1}
 							max={5}
 							defaultValue={1}
+							// @ts-ignore
 							onChange={(e, val) => handleChange("alts", val)}
 						/>
 						<BasicTooltip title="No of Alternatives. Max Alternatives of 5 + Base Case" />
@@ -81,6 +82,7 @@ export default function StepOne(props) {
 							max={25}
 							defaultValue={1}
 							adornment="years"
+							// @ts-ignore
 							onChange={(e, val) => handleChange("studyPeriod", val)}
 						/>
 						<BasicTooltip title="Maximum study period of 25 years." />

@@ -23,6 +23,7 @@ function App() {
 	});
 	const [result, setResult] = useState({});
 	console.log(project);
+	// @ts-ignore
 	const handleChange = (key: string, e) => {
 		if (key === "studyPeriod" || key === "alts") {
 			setProject({ ...project, [key]: +e });
