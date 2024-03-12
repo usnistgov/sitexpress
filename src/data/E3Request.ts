@@ -51,7 +51,9 @@ export function toE3Object(project: Project) {
 
 	const alternativeBuilders = project.costs.map((alternative: Cost) => {
 		const builder = new AlternativeBuilder().name(alternative.name);
+		// @ts-ignore
 		costMap.get(alternative?.name).forEach((costMapItem) => {
+			// @ts-ignore
 			builder.addBcn(...costMapItem.filter((x: BcnBuilder): x is BcnBuilder => x !== undefined));
 		});
 		if (alternative.name) builder.name(alternative.name);
@@ -89,6 +91,7 @@ export function E3Request(builder: RequestBuilder) {
 }
 
 function costToBuilders(cost: Cost, project: Project): BcnBuilder[] {
+	// @ts-ignore
 	return [[...energyCostToBuilderCost(cost, project)], energyCostToBuilderBenefit(cost, project)];
 }
 

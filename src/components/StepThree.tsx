@@ -24,6 +24,7 @@ const labs = (n: number) => {
 	return lab;
 };
 
+// @ts-ignore
 const createDataset = (alts: number, measure) => {
 	const data = [];
 	for (let i = 0; i <= alts; i++) {
@@ -43,6 +44,7 @@ function createData(alt: string, npvp: number, np: number, irr: number, sp: numb
 	return { alt, npvp, np, irr, sp, dp, bcr };
 }
 
+// @ts-ignore
 const getRows = (measure) => {
 	let rows = [];
 	for (let i = 0; i < measure?.length; i++) {
