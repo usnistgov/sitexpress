@@ -14,7 +14,7 @@ const Header = () => {
 	};
 
 	return (
-		<AppBar position="static" style={{ backgroundColor: "rgb(249 250 251)", color: "#000" }}>
+		<AppBar className="header" position="static">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
 					<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
