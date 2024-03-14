@@ -21,6 +21,9 @@ FROM nginx:alpine
 # Copy the built React app to Nginx's web server directory
 COPY --from=sitexpress /app/dist /usr/share/nginx/html
 
+# Add your custom NGINX configuration
+COPY custom_headers.conf /etc/nginx/conf.d/custom_headers.conf
+
 # Expose port 80 for the Nginx server
 EXPOSE 80
 
