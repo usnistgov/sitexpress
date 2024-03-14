@@ -46,3 +46,11 @@ html {
 	text-decoration: none !important;
 	background-color: #f0f0f0 !important;
 }
+
+.headerBtn {
+	margin-bottom: 6px !important;
+}
+
+.headerBtn:hover {
+	background-color: inherit !important;
+}

@@ -1,6 +1,7 @@
 // import "./App.css";
 import { useState } from "react";
 import Disclaimer from "./components/Disclaimer";
+import Header from "./components/Header";
 import LandingSection from "./components/LandingSection";
 import StepOne from "./components/StepOne";
 import StepThree from "./components/StepThree";
@@ -37,6 +38,7 @@ function App() {
 
 	return (
 		<div className="App">
+			<Header />
 			<LandingSection />
 			<StepOne project={project} handleChange={handleChange} />
 			<StepTwo project={project} getResults={setResult} />
