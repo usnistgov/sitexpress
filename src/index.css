@@ -64,3 +64,8 @@ html {
 	text-decoration: none !important;
 	background-color: #f0f0f0 !important;
 }
+
+.results-table-header,
+.results-table-cell {
+	font-weight: 800 !important;
+}

@@ -54,8 +54,8 @@ const getRows = (measure) => {
 				+(measure[i]?.totalBenefits - measure[i]?.totalCosts)?.toFixed(2),
 				measure[i]?.netBenefits ? measure[i]?.netBenefits.toFixed(2) : "NA",
 				measure[i]?.irr ? measure[i]?.irr?.toFixed(3) : "NA",
-				measure[i]?.spp !== "Infinity" ? measure[i]?.spp?.toFixed(2) : "NA",
-				measure[i]?.dpp !== "Infinity" ? measure[i]?.dpp?.toFixed(2) : "NA",
+				measure[i]?.spp !== "Infinity" ? measure[i]?.spp : "NA",
+				measure[i]?.dpp !== "Infinity" ? measure[i]?.dpp : "NA",
 				measure[i]?.bcr ? measure[i]?.bcr?.toFixed(2) : "NA",
 			),
 		);
@@ -141,24 +141,24 @@ export default function StepThree(props) {
 					<TableContainer component={Paper}>
 						<Table aria-label="simple table" sx={{ "td, th": { border: "1px solid black" } }}>
 							<TableHead>
-								<TableRow>
+								<TableRow >
 									<TableCell></TableCell>
-									<TableCell align="center" key={"npvp"}>
-										Net Present Value Profit
+									<TableCell align="center" key={"npvp"} className="results-table-header">
+										Net Present Value Profit ($)
 									</TableCell>
-									<TableCell align="center" key={"np"}>
-										Change in Profit
+									<TableCell align="center" key={"np"} className="results-table-header">
+										Change in Profit ($)
 									</TableCell>
-									<TableCell align="center" key={"irr"}>
+									<TableCell align="center" key={"irr"} className="results-table-header">
 										IRR
 									</TableCell>
-									<TableCell align="center" key={"sp"}>
-										Simple Payback
+									<TableCell align="center" key={"sp"} className="results-table-header">
+										Simple Payback (Years)
 									</TableCell>
-									<TableCell align="center" key={"dp"}>
-										Discounted Payback
+									<TableCell align="center" key={"dp"} className="results-table-header">
+										Discounted Payback (Years)
 									</TableCell>
-									<TableCell align="center" key={"bcr"}>
+									<TableCell align="center" key={"bcr"} className="results-table-header">
 										BCR
 									</TableCell>
 								</TableRow>
@@ -166,7 +166,7 @@ export default function StepThree(props) {
 							<TableBody>
 								{getRows(measure).map((row) => (
 									<TableRow key={row.alt + "-row"}>
-										<TableCell component="th" key={row.alt} scope="row">
+										<TableCell component="th" key={row.alt} scope="row" className="results-table-cell">
 											{row.alt}
 										</TableCell>
 										<TableCell component="th" key={"npvp-" + row.alt} align="right" scope="row">
@@ -179,10 +179,10 @@ export default function StepThree(props) {
 											{row.irr}
 										</TableCell>
 										<TableCell align="right" key={"sp-" + row.alt}>
-											{row.sp}
+											{Math.round(row.sp)}
 										</TableCell>
 										<TableCell align="right" key={"dp-" + row.alt}>
-											{row.dp}
+											{Math.round(row.dp)}
 										</TableCell>
 										<TableCell align="right" key={"bcr-" + row.alt}>
 											{row.bcr}
@@ -196,7 +196,7 @@ export default function StepThree(props) {
 					<Stack>
 						<Tabs value={tabValue} onChange={handleChange} aria-label="basic tabs example">
 							<Tab label="Net Present Value Profit" />
-							<Tab label="Net Profit" />
+							<Tab label="Change in Profit" />
 							<Tab label="IRR" />
 							<Tab label="Simple Payback" />
 							<Tab label="Discounted Payback" />
@@ -217,7 +217,7 @@ export default function StepThree(props) {
 								height={250}
 								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
 								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-								series={[{ dataKey: "np", label: "Net Profit", color: "#ef860a" }]}
+								series={[{ dataKey: "np", label: "Change in Profit", color: "#ef860a" }]}
 							/>
 						</CustomTabPanel>
 						<CustomTabPanel value={tabValue} index={2}>
