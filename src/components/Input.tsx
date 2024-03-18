@@ -1,4 +1,4 @@
-import { InputAdornment, TextField } from "@mui/material";
+import { InputAdornment, InputLabel, TextField } from "@mui/material";
 import { ChangeEventHandler } from "react";
 
 export enum TextInputType {
@@ -23,20 +23,22 @@ export type TextInputProps = {
 
 export default function TextInput(props: TextInputProps) {
 	return (
-		<TextField
-			required
-			className={(props?.className ?? "") + `${props?.disabled ? TextInputType.DISABLED : props?.type}`}
-			InputProps={{
-				endAdornment: <InputAdornment position="end">{props?.adornment}</InputAdornment>,
-			}}
-			label={props?.label}
-			placeholder={props?.placeholder}
-			size="small"
-			helperText={props?.helpertext}
-			disabled={props?.disabled}
-			defaultValue={props?.defaultValue}
-			value={props?.value}
-			onChange={props?.onChange}
-		/>
+		<>
+			<InputLabel required>{props?.label}</InputLabel>
+			<TextField
+				required
+				className={(props?.className ?? "") + `${props?.disabled ? TextInputType.DISABLED : props?.type}`}
+				InputProps={{
+					endAdornment: <InputAdornment position="end">{props?.adornment}</InputAdornment>,
+				}}
+				placeholder={props?.placeholder}
+				size="small"
+				helperText={props?.helpertext}
+				disabled={props?.disabled}
+				defaultValue={props?.defaultValue}
+				value={props?.value}
+				onChange={props?.onChange}
+			/>
+		</>
 	);
 }
