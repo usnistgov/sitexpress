@@ -5,7 +5,11 @@
 
 .rg-cell,
 .rg-header-cell {
-	background-color: whitesmoke !important;
+	background-color: rgb(249 250 251) !important;
+}
+
+.rg-cell {
+	justify-content: flex-end !important;
 }
 
 .rg-header-cell,
@@ -13,5 +17,35 @@
 [data-cell-rowidx~="0"],
 [data-cell-rowidx~="1"] {
 	font-weight: bold !important;
-	/* justify-content: center !important; */
+	justify-content: center !important;
+}
+
+[data-cell-colidx~="0"],
+[data-cell-rowidx~="0"],
+[data-cell-rowidx~="1"],
+[data-cell-colidx~="2"][data-cell-rowidx~="2"],
+[data-cell-colidx~="4"][data-cell-rowidx~="2"],
+[data-cell-colidx~="6"][data-cell-rowidx~="2"],
+[data-cell-colidx~="8"][data-cell-rowidx~="2"],
+[data-cell-colidx~="10"][data-cell-rowidx~="2"],
+[data-cell-colidx~="12"][data-cell-rowidx~="2"] {
+	background-color: rgb(225, 226, 227) !important;
+}
+
+.rg-cell {
+	border-right: 1px black dashed !important;
+	border-bottom: 1px black solid !important;
+}
+
+[data-cell-rowidx~="0"] {
+	border-bottom: none !important;
+}
+
+[data-cell-colidx~="1"],
+[data-cell-colidx~="3"],
+[data-cell-colidx~="5"],
+[data-cell-colidx~="7"],
+[data-cell-colidx~="9"],
+[data-cell-colidx~="11"] {
+	border-right: none !important;
 }

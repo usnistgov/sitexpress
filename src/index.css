@@ -69,3 +69,12 @@ html {
 .results-table-cell {
 	font-weight: 800 !important;
 }
+.reset-btn {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	min-width: 48px !important;
+}
+
+.reset-btn > span {
+	margin-right: 0;
+}
