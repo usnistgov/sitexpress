@@ -24,6 +24,7 @@ export default {
 				error: "#D54309",
 				"error-dark": "#B50909",
 				"error-darker": "#6F3331",
+				"sit-orange": "#ef860a",
 			},
 		},
 	},

@@ -1,5 +1,5 @@
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { Button, FormControlLabel, Radio, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import { Button, FormControlLabel, InputLabel, Radio, Stack, TextField, Tooltip, Typography } from "@mui/material";
 
 import TextInput from "./Input";
 import InputNumber from "./NumberInput";
@@ -24,7 +24,7 @@ export default function StepOne(props) {
 
 	return (
 		<Stack direction="column" className="w-full ">
-			<Stack className="flex justify-center p-2 text-center" style={{ backgroundColor: "#ef860a" }}>
+			<Stack className="flex justify-center p-2 text-center bg-sit-orange">
 				<Typography variant="h6">
 					Step One <br />
 					Project Information
@@ -40,14 +40,14 @@ export default function StepOne(props) {
 						label="Project Name"
 						onChange={(e) => handleChange("projectName", e)}
 					/>
-					<BasicTooltip title="text" />
+					<BasicTooltip title="Name of your project to be included in the results report" />
 				</div>
 				<br />
 				<div className="m-auto">
+					<InputLabel required>Project Description</InputLabel>
 					<TextField
 						required
 						className="w-80"
-						label="Project Description"
 						placeholder="Enter Description Here"
 						maxRows={8}
 						minRows={4}
@@ -55,32 +55,34 @@ export default function StepOne(props) {
 						size="small"
 						onChange={(e) => handleChange("projectDesc", e)}
 					/>
-					<BasicTooltip title="text" />
+					<BasicTooltip title="A brief description of your project for documentation purposes" />
 				</div>
 				<br />
 
-				<div className="">
-					<span className="flex justify-center">
+				<div className="m-auto">
+					<span className="flex justify-center items-center">
 						<InputNumber
 							placeholder="Max Alternatives of 5 + Base Case"
 							min={1}
 							max={5}
 							defaultValue={1}
+							label="Number of Alternatives"
 							// @ts-ignore
 							onChange={(e, val) => handleChange("alts", val)}
 						/>
-						<BasicTooltip title="No of Alternatives. Max Alternatives of 5 + Base Case" />
+						<BasicTooltip title="Max Alternatives of 5 + Base Case" />
 					</span>
 				</div>
 				<br />
 
-				<div className="">
-					<span className="flex justify-center">
+				<div className="m-auto">
+					<span className="flex justify-center items-center">
 						<InputNumber
 							placeholder="Study Period"
 							min={1}
 							max={25}
 							defaultValue={1}
+							label="Study Period"
 							adornment="years"
 							// @ts-ignore
 							onChange={(e, val) => handleChange("studyPeriod", val)}

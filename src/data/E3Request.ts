@@ -99,7 +99,7 @@ function energyCostToBuilderCost(cost: Cost, project: Project): BcnBuilder[] {
 	let costArr = [...cost.cost];
 	const initialInvestmentVal = [costArr.shift()];
 
-	for (let i = 0; i < project?.alts; i++) {
+	for (let i = 0; i < project?.studyPeriod; i++) {
 		initialInvestmentVal.push("0");
 	}
 

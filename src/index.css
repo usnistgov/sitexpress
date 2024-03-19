@@ -26,7 +26,7 @@
 
 #root {
 	width: 100%;
-	/* height: 100%; */
+	font-family: "Roboto";
 }
 
 body {
@@ -37,12 +37,44 @@ body {
 html {
 	width: 100%;
 	height: 100%;
-	background-color: #f0f0f0;
+	background-color: rgb(249 250 251 / 1);
 }
+
+.header {
+	box-shadow: none !important;
+	background-color: rgb(249 250 251) !important;
+}
+
+.headerBtn {
+	margin-bottom: 6px !important;
+}
+
+.headerBtn:hover {
+	background-color: inherit !important;
+}
+
+.e3-heading {
+	margin-right: 200px !important;
+}
+
 .refresh-btn {
 	padding: 0 !important;
 }
 .refresh-btn:hover {
 	text-decoration: none !important;
 	background-color: #f0f0f0 !important;
+}
+
+.results-table-header,
+.results-table-cell {
+	font-weight: 800 !important;
+}
+.reset-btn {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	min-width: 48px !important;
+}
+
+.reset-btn > span {
+	margin-right: 0;
 }
