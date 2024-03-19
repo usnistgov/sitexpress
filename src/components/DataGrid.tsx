@@ -113,12 +113,12 @@ const getColumns = (n: number): Column[] => {
 
 const headerRow = (alts: number) => {
 	let header = [
-		{ type: "header", text: "Year", nonEditable: true },
-		{ type: "text", text: "Base Case", colSpan: 2 },
-		{ type: "header", text: "" },
+		{ type: "header", text: "Year" },
+		{ type: "header", text: "Base", colSpan: 2 },
+		{ type: "header", text: "Case" },
 	];
 	for (let i = 1; i <= alts; i++) {
-		header.push({ type: "text", text: `Alt ${i}`, colSpan: 2 }, { type: "header", text: "" });
+		header.push({ type: "header", text: `Alt `, colSpan: 2 }, { type: "header", text: `${i}` });
 	}
 	return {
 		rowId: "header",

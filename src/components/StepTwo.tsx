@@ -78,7 +78,7 @@ export default function StepTwo(props) {
 	return (
 		<div>
 			<Stack direction="column">
-				<Stack className="flex justify-center text-center p-2" style={{ backgroundColor: "#ef860a" }}>
+				<Stack className="flex justify-center text-center p-2 bg-sit-orange">
 					<Typography variant="h6">Step Two</Typography>
 					<Typography variant="h6">Annual Cost/Revenue Data By Alternative</Typography>
 					<Typography variant="body1">Provide the annual value costs and revenues for each alternative.</Typography>

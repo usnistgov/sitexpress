@@ -1,6 +1,8 @@
 .reactgrid {
 	margin-left: auto !important;
 	margin-right: auto !important;
+	border-top: 1px solid black;
+	border-left: 1px dashed black;
 }
 
 .rg-cell,
@@ -48,4 +50,22 @@
 [data-cell-colidx~="9"],
 [data-cell-colidx~="11"] {
 	border-right: none !important;
+}
+
+[data-cell-colidx~="2"][data-cell-rowidx~="0"],
+[data-cell-colidx~="4"][data-cell-rowidx~="0"],
+[data-cell-colidx~="6"][data-cell-rowidx~="0"],
+[data-cell-colidx~="8"][data-cell-rowidx~="0"],
+[data-cell-colidx~="10"][data-cell-rowidx~="0"],
+[data-cell-colidx~="12"][data-cell-rowidx~="0"] {
+	justify-content: start !important;
+}
+
+[data-cell-colidx~="1"][data-cell-rowidx~="0"],
+[data-cell-colidx~="3"][data-cell-rowidx~="0"],
+[data-cell-colidx~="5"][data-cell-rowidx~="0"],
+[data-cell-colidx~="7"][data-cell-rowidx~="0"],
+[data-cell-colidx~="9"][data-cell-rowidx~="0"],
+[data-cell-colidx~="11"] {
+	justify-content: end !important;
 }

@@ -53,7 +53,7 @@ const getRows = (measure) => {
 				i === 0 ? "Base Case" : `Alt ${i}`,
 				+(measure[i]?.totalBenefits - measure[i]?.totalCosts)?.toFixed(2),
 				measure[i]?.netBenefits ? measure[i]?.netBenefits.toFixed(2) : "NA",
-				measure[i]?.irr ? measure[i]?.irr?.toFixed(3) : "NA",
+				measure[i]?.irr ? measure[i]?.irr?.toFixed(3) : "0",
 				measure[i]?.spp !== "Infinity" ? measure[i]?.spp : "NA",
 				measure[i]?.dpp !== "Infinity" ? measure[i]?.dpp : "NA",
 				measure[i]?.bcr ? measure[i]?.bcr?.toFixed(2) : "NA",
@@ -97,7 +97,7 @@ export default function StepThree(props) {
 
 	return (
 		<Stack direction="column">
-			<Stack className=" flex justify-center p-2 items-center" style={{ backgroundColor: "#ef860a" }}>
+			<Stack className=" flex justify-center p-2 items-center bg-sit-orange">
 				<Stack direction="column" className="flex justify-center items-center">
 					<Typography variant="h6" className="text-center">
 						Step Three
@@ -141,19 +141,19 @@ export default function StepThree(props) {
 					<TableContainer component={Paper}>
 						<Table aria-label="simple table" sx={{ "td, th": { border: "1px solid black" } }}>
 							<TableHead>
-								<TableRow >
+								<TableRow>
 									<TableCell></TableCell>
 									<TableCell align="center" key={"npvp"} className="results-table-header">
-										Net Present Value Profit ($)
+										Present Value ($)
 									</TableCell>
 									<TableCell align="center" key={"np"} className="results-table-header">
-										Change in Profit ($)
+										Net Present Value ($)
 									</TableCell>
 									<TableCell align="center" key={"irr"} className="results-table-header">
 										IRR
 									</TableCell>
 									<TableCell align="center" key={"sp"} className="results-table-header">
-										Simple Payback (Years)
+										Payback Period (Years)
 									</TableCell>
 									<TableCell align="center" key={"dp"} className="results-table-header">
 										Discounted Payback (Years)
@@ -195,8 +195,8 @@ export default function StepThree(props) {
 					<br />
 					<Stack>
 						<Tabs value={tabValue} onChange={handleChange} aria-label="basic tabs example">
-							<Tab label="Net Present Value Profit" />
-							<Tab label="Change in Profit" />
+							<Tab label="Present Value" />
+							<Tab label="Net Present Value" />
 							<Tab label="IRR" />
 							<Tab label="Simple Payback" />
 							<Tab label="Discounted Payback" />

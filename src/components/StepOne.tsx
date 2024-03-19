@@ -24,7 +24,7 @@ export default function StepOne(props) {
 
 	return (
 		<Stack direction="column" className="w-full ">
-			<Stack className="flex justify-center p-2 text-center" style={{ backgroundColor: "#ef860a" }}>
+			<Stack className="flex justify-center p-2 text-center bg-sit-orange">
 				<Typography variant="h6">
 					Step One <br />
 					Project Information

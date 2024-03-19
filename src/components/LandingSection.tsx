@@ -17,9 +17,8 @@ export default function LandingSection() {
 					</Link>
 				</Typography>
 			</Stack>
-			<br />
-			<Stack direction="row" className="p-2 flex flex-row justify-evenly ">
-				<div className="w-2/5">
+			<Stack direction="row" className="p-2 flex flex-row justify-evenly mb-2">
+				<div className="w-2/5 border-2 border-sit-orange p-2">
 					<Typography variant="h5" className="text-center" gutterBottom>
 						For Project Investment Analysis
 					</Typography>
@@ -28,7 +27,7 @@ export default function LandingSection() {
 						Manufacturing Series 200-5 to identify economical projects/investments.
 					</Typography>
 				</div>
-				<div className="w-2/5">
+				<div className="w-2/5 border-2 border-sit-orange p-2">
 					<Typography variant="h5" className="text-center">
 						Calculated metrics include:
 					</Typography>
