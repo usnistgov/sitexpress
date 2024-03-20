@@ -101,7 +101,7 @@ export default function StepTwo(props) {
 							>
 								<Box sx={style}>
 									<Typography id="modal-modal-title" variant="h6" component="h2">
-										Are you sure you want to reset the table?
+										Are you sure you want to clear the table?
 									</Typography>
 									<Typography id="modal-modal-description" sx={{ mt: 2 }}>
 										You will lose all your entered data.
@@ -109,10 +109,10 @@ export default function StepTwo(props) {
 									<br />
 									<span className="flex justify-around">
 										<Button variant="contained" className="" onClick={handleReset} color="error">
-											Yes
+											Clear
 										</Button>
 										<Button variant="contained" className="" onClick={handleClose}>
-											No
+											Keep
 										</Button>
 									</span>
 								</Box>

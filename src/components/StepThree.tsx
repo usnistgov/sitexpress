@@ -2,46 +2,20 @@ import {
 	Button,
 	Paper,
 	Stack,
-	Tab,
 	Table,
 	TableBody,
 	TableCell,
 	TableContainer,
 	TableHead,
 	TableRow,
-	Tabs,
 	Typography,
 } from "@mui/material";
-import { BarChart } from "@mui/x-charts/BarChart";
-import { useState } from "react";
+
+import ChartTabs from "./ChartTabs";
 import BasicTooltip from "./Tooltip";
 
-const labs = (n: number) => {
-	const lab = ["Base Case"];
-	for (let i = 1; i <= n; i++) {
-		lab.push(`Alt ${i}`);
-	}
-	return lab;
-};
-
-// @ts-ignore
-const createDataset = (alts: number, measure) => {
-	const data = [];
-	for (let i = 0; i <= alts; i++) {
-		data.push({
-			npvp: measure[i]?.totalBenefits - measure[i]?.totalCosts,
-			np: measure[i]?.netBenefits || 0,
-			irr: measure[i]?.irr || 0,
-			sp: measure[i]?.spp || 0,
-			dp: measure[i]?.dpp === "Infinity" ? 0 : measure[i]?.dpp,
-			bcr: measure[i]?.bcr || 0,
-		});
-	}
-	return data;
-};
-
-function createData(alt: string, npvp: number, np: number, irr: number, sp: number, dp: number, bcr: number) {
-	return { alt, npvp, np, irr, sp, dp, bcr };
+function createData(alt: string, pv: number, npv: number, irr: number, spp: number, dpp: number, bcr: number) {
+	return { alt, pv, npv, irr, spp, dpp, bcr };
 }
 
 // @ts-ignore
@@ -53,9 +27,10 @@ const getRows = (measure) => {
 				i === 0 ? "Base Case" : `Alt ${i}`,
 				+(measure[i]?.totalBenefits - measure[i]?.totalCosts)?.toFixed(2),
 				measure[i]?.netBenefits ? measure[i]?.netBenefits.toFixed(2) : "NA",
-				measure[i]?.irr ? measure[i]?.irr?.toFixed(3) : "0",
-				measure[i]?.spp !== "Infinity" ? measure[i]?.spp : "NA",
-				measure[i]?.dpp !== "Infinity" ? measure[i]?.dpp : "NA",
+				measure[i]?.irr ? +(measure[i]?.irr * 100).toFixed(3) : 0,
+				// @ts-ignore
+				parseFloat(measure[i]?.spp) === Infinity ? "Not Reached" : Math.round(measure[i]?.spp),
+				parseFloat(measure[i]?.dpp) === Infinity ? "Not Reached" : Math.round(measure[i]?.dpp),
 				measure[i]?.bcr ? measure[i]?.bcr?.toFixed(2) : "NA",
 			),
 		);
@@ -63,35 +38,9 @@ const getRows = (measure) => {
 	return rows;
 };
 
-interface TabPanelProps {
-	children?: React.ReactNode;
-	index: number;
-	value: number;
-}
-
-function CustomTabPanel(props: TabPanelProps) {
-	const { children, value, index, ...other } = props;
-
-	return (
-		<div
-			role="tabpanel"
-			hidden={value !== index}
-			id={`simple-tabpanel-${index}`}
-			aria-labelledby={`simple-tab-${index}`}
-			{...other}
-		>
-			{value === index && <Typography>{children}</Typography>}
-		</div>
-	);
-}
 // @ts-ignore
 export default function StepThree(props) {
 	const { project, results } = props;
-	const [tabValue, setTabValue] = useState(0);
-
-	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-		setTabValue(newValue);
-	};
 
 	const measure = results?.measure;
 
@@ -150,7 +99,7 @@ export default function StepThree(props) {
 										Net Present Value ($)
 									</TableCell>
 									<TableCell align="center" key={"irr"} className="results-table-header">
-										IRR
+										IRR (%)
 									</TableCell>
 									<TableCell align="center" key={"sp"} className="results-table-header">
 										Payback Period (Years)
@@ -170,19 +119,19 @@ export default function StepThree(props) {
 											{row.alt}
 										</TableCell>
 										<TableCell component="th" key={"npvp-" + row.alt} align="right" scope="row">
-											{row.npvp}
+											{row.pv}
 										</TableCell>
 										<TableCell align="right" key={"np-" + row.alt}>
-											{row.np}
+											{row.npv}
 										</TableCell>
 										<TableCell align="right" key={"irr-" + row.alt}>
 											{row.irr}
 										</TableCell>
 										<TableCell align="right" key={"sp-" + row.alt}>
-											{Math.round(row.sp)}
+											{row.spp}
 										</TableCell>
 										<TableCell align="right" key={"dp-" + row.alt}>
-											{Math.round(row.dp)}
+											{row.dpp}
 										</TableCell>
 										<TableCell align="right" key={"bcr-" + row.alt}>
 											{row.bcr}
@@ -193,70 +142,7 @@ export default function StepThree(props) {
 						</Table>
 					</TableContainer>
 					<br />
-					<Stack>
-						<Tabs value={tabValue} onChange={handleChange} aria-label="basic tabs example">
-							<Tab label="Present Value" />
-							<Tab label="Net Present Value" />
-							<Tab label="IRR" />
-							<Tab label="Simple Payback" />
-							<Tab label="Discounted Payback" />
-							<Tab label="BCR" />
-						</Tabs>
-						<CustomTabPanel value={tabValue} index={0}>
-							<BarChart
-								dataset={createDataset(project?.alts, measure)}
-								height={250}
-								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
-								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-								series={[{ dataKey: "npvp", label: "Net Present Value Profit", color: "#ef860a" }]}
-							/>
-						</CustomTabPanel>
-						<CustomTabPanel value={tabValue} index={1}>
-							<BarChart
-								dataset={createDataset(project?.alts, measure)}
-								height={250}
-								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
-								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-								series={[{ dataKey: "np", label: "Change in Profit", color: "#ef860a" }]}
-							/>
-						</CustomTabPanel>
-						<CustomTabPanel value={tabValue} index={2}>
-							<BarChart
-								dataset={createDataset(project?.alts, measure)}
-								height={250}
-								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
-								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-								series={[{ dataKey: "irr", label: " IRR", color: "#ef860a" }]}
-							/>
-						</CustomTabPanel>
-						<CustomTabPanel value={tabValue} index={3}>
-							<BarChart
-								dataset={createDataset(project?.alts, measure)}
-								height={250}
-								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
-								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-								series={[{ dataKey: "sp", label: "Simple Payback", color: "#ef860a" }]}
-							/>
-						</CustomTabPanel>
-						<CustomTabPanel value={tabValue} index={4}>
-							<BarChart
-								dataset={createDataset(project?.alts, measure)}
-								height={250}
-								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
-								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-								series={[{ dataKey: "dp", label: "Discounted Payback", color: "#ef860a" }]}
-							/>
-						</CustomTabPanel>
-						<CustomTabPanel value={tabValue} index={5}>
-							<BarChart
-								dataset={createDataset(project?.alts, measure)}
-								height={250}
-								xAxis={[{ data: labs(project?.alts || 2), scaleType: "band" }]}
-								margin={{ top: 50, bottom: 30, left: 40, right: 10 }}
-								series={[{ dataKey: "bcr", label: "BCR", color: "#ef860a" }]}
-							/>
-						</CustomTabPanel>
-					</Stack>
+					<ChartTabs project={project} results={results} />
 				</Stack>
 			) : (
 				<Stack direction="column" className="flex justify-center items-center h-96">

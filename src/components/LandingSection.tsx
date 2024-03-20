@@ -9,8 +9,6 @@ export default function LandingSection() {
 				<div className="logo w-2/3 ml-auto mr-auto">
 					<Logo />
 				</div>
-
-				<br />
 				<Typography className="e3-heading italic text-right mr-5" variant="h5" gutterBottom>
 					<Link href="https://e3.nist.gov/" underline="none" color="inherit" target="_blank" rel="noopener">
 						Powered by E3
