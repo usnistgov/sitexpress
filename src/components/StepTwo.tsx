@@ -1,7 +1,8 @@
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { Box, Button, Modal, Stack, Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { E3Request, toE3Object } from "../data/E3Request";
+import Alerts from "./Alert";
 import DataGrid from "./DataGrid";
 import BasicTooltip from "./Tooltip";
 
@@ -22,9 +23,54 @@ export default function StepTwo(props) {
 	const { project, getResults } = props;
 	const [gridData, setGridData] = useState([]);
 	const [open, setOpen] = useState(false);
+	const [showAlert, setShowAlert] = useState(false);
+	const [errorTypes, setErrorTypes] = useState([]);
+	const alertRef = useRef();
 
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+
+	// @ts-ignore
+	const validateInput = (project) => {
+		let errorTypes = new Set();
+		let flag = true;
+		if (project.projectName.length === 0) {
+			errorTypes.add("name");
+			flag = false;
+		}
+		if (project.alts < 1) {
+			errorTypes.add("alts");
+			flag = false;
+		}
+		if (project.studyPeriod < 1) {
+			errorTypes.add("studyPeriod");
+			flag = false;
+		}
+		if (project.dollarValue === "constant") {
+			if (project.realDR.length < 0 || typeof project.realDR === "string") {
+				errorTypes.add("realDR");
+				flag = false;
+			}
+		} else {
+			if (typeof project.realDR === "string") {
+				errorTypes.add("nominalDR");
+				flag = false;
+			}
+			if (typeof project.inflationRate === "string") {
+				errorTypes.add("inflationRate");
+				flag = false;
+			}
+		}
+
+		let costArray = project.costs;
+		for (let cost of costArray) {
+			if (cost.cost.includes("") || cost.revenue.includes("")) {
+				flag = false;
+				errorTypes.add("costs");
+			}
+		}
+		return [errorTypes, flag];
+	};
 
 	// @ts-ignore
 	const transformTableData = (data, alts = 3) => {
@@ -75,6 +121,19 @@ export default function StepTwo(props) {
 		setGridData([]);
 		handleClose();
 	};
+
+	const displayAlert = (bool: boolean) => {
+		setShowAlert(bool);
+	};
+
+	useEffect(() => {
+		if (errorTypes.length > 0) displayAlert(true);
+		if (showAlert && alertRef.current) {
+			// @ts-ignore
+			alertRef?.current?.scrollIntoView();
+		}
+	}, [errorTypes]);
+
 	return (
 		<div>
 			<Stack direction="column">
@@ -83,9 +142,9 @@ export default function StepTwo(props) {
 					<Typography variant="h6">Annual Cost/Revenue Data By Alternative</Typography>
 					<Typography variant="body1">Provide the annual value costs and revenues for each alternative.</Typography>
 				</Stack>
-
 				{/*Data table */}
-
+				{/* @ts-ignore */}
+				{showAlert ? <Alerts ref={alertRef} errorTypes={errorTypes} showAlert={displayAlert} /> : ""}
 				<Stack className="flex justify-center text-center p-10 ">
 					<Stack direction="column" className="ml-auto">
 						<span>
@@ -134,9 +193,18 @@ export default function StepTwo(props) {
 								variant="contained"
 								className=""
 								onClick={async () => {
-									const obj = toE3Object(project);
-									const res = await E3Request(obj);
-									getResults(res);
+									try {
+										const [errorTypes, validity] = validateInput(project);
+										// @ts-ignore
+										setErrorTypes(Array.from(errorTypes));
+										if (validity) {
+											const obj = toE3Object(project);
+											const res = await E3Request(obj);
+											getResults(res);
+										}
+									} catch (err) {
+										console.log("error", err);
+									}
 								}}
 							>
 								Run Results
