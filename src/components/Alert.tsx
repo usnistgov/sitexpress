@@ -1,4 +1,4 @@
-import { Alert, AlertTitle } from "@mui/material";
+import { Alert, AlertTitle, List, ListItem } from "@mui/material";
 
 const Alerts = (props: { errorTypes: string; showAlert: (show: boolean) => void }) => {
 	const errorTypes = Array.from(props.errorTypes);
@@ -25,11 +25,15 @@ const Alerts = (props: { errorTypes: string; showAlert: (show: boolean) => void 
 		>
 			<AlertTitle>Error</AlertTitle>
 			Please check the following again:
-			<ul>
+			<List>
 				{errorList()?.map((error) => {
-					return <li key={error}>{error}</li>;
+					return (
+						<ListItem key={error} disablePadding>
+							- {error}
+						</ListItem>
+					);
 				})}
-			</ul>
+			</List>
 		</Alert>
 	);
 };

@@ -125,26 +125,26 @@ export default function StepTwo(props) {
 	const displayAlert = (bool: boolean) => {
 		setShowAlert(bool);
 	};
+	// @ts-ignore
+	const executeScroll = () => alertRef?.current.scrollIntoView();
 
 	useEffect(() => {
 		if (errorTypes.length > 0) displayAlert(true);
-		if (showAlert && alertRef.current) {
-			// @ts-ignore
-			alertRef?.current?.scrollIntoView();
-		}
+		executeScroll();
 	}, [errorTypes]);
 
 	return (
 		<div>
 			<Stack direction="column">
-				<Stack className="flex justify-center text-center p-2 bg-sit-orange">
+				{/* @ts-ignore */}
+				<Stack ref={alertRef} className="flex justify-center text-center p-2 bg-sit-orange">
 					<Typography variant="h6">Step Two</Typography>
 					<Typography variant="h6">Annual Cost/Revenue Data By Alternative</Typography>
 					<Typography variant="body1">Provide the annual value costs and revenues for each alternative.</Typography>
 				</Stack>
 				{/*Data table */}
 				{/* @ts-ignore */}
-				{showAlert ? <Alerts ref={alertRef} errorTypes={errorTypes} showAlert={displayAlert} /> : ""}
+				{showAlert ? <Alerts errorTypes={errorTypes} showAlert={displayAlert} /> : ""}
 				<Stack className="flex justify-center text-center p-10 ">
 					<Stack direction="column" className="ml-auto">
 						<span>
