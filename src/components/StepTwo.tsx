@@ -198,6 +198,7 @@ export default function StepTwo(props) {
 										// @ts-ignore
 										setErrorTypes(Array.from(errorTypes));
 										if (validity) {
+											setShowAlert(false);
 											const obj = toE3Object(project);
 											const res = await E3Request(obj);
 											getResults(res);
