@@ -1,4 +1,4 @@
-import { CellChange, Column, ReactGrid, Row, TextCell } from "@silevis/reactgrid";
+import { CellChange, Column, NumberCell, ReactGrid } from "@silevis/reactgrid";
 import "@silevis/reactgrid/styles.css";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 
@@ -36,11 +36,11 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 			let yearData = new Map();
 			y === 0 ? yearData.set("year", `Initial Investment`) : yearData.set("year", y.toString());
 			yearData.set("base-cost", "");
-			y === 0 ? yearData.set("base-rev", "0") : yearData.set("base-rev", "");
+			y === 0 ? yearData.set("base-rev", 0) : yearData.set("base-rev", "");
 
 			for (let i = 1; i <= alts; i++) {
 				yearData.set(`alt${i}-cost`, "");
-				y === 0 ? yearData.set(`alt${i}-rev`, "0") : yearData.set(`alt${i}-rev`, "");
+				y === 0 ? yearData.set(`alt${i}-rev`, 0) : yearData.set(`alt${i}-rev`, "");
 			}
 
 			data.push(Object.fromEntries(yearData));
@@ -137,10 +137,10 @@ const getRows = (data, alts: number) => [
 			if (value === "Initial Investment" || value === "Cost ($)" || value === "Revenue ($)" || key === "year") {
 				obj = { type: "text", text: value, nonEditable: true };
 			} else {
-				obj = { type: "text", text: value };
+				obj = { type: "number", text: value, value: value };
 			}
 			if ((/alt[1-5]-rev/.test(key) || key === "base-rev") && dataPoint.year === "Initial Investment") {
-				obj = { type: "text", text: value, nonEditable: true };
+				obj = { type: "number", text: value, value: +value, nonEditable: true };
 			}
 			cells.push(obj);
 		}
@@ -148,11 +148,11 @@ const getRows = (data, alts: number) => [
 	}),
 ];
 // @ts-ignore
-const applyChangesToData = (changes: CellChange<TextCell>[], prevData) => {
+const applyChangesToData = (changes: CellChange<NumberCell>[], prevData) => {
 	changes.forEach((change) => {
 		const dataIndex = change?.rowId;
 		const fieldName = change?.columnId;
-		prevData[dataIndex][fieldName] = change?.newCell?.text;
+		prevData[dataIndex][fieldName] = change?.newCell?.value;
 	});
 	return [...prevData];
 };
@@ -186,7 +186,7 @@ const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDat
 		handleDataChange(tableData);
 	}, [noOfAlts, years, tableData]);
 
-	const handleChanges = (changes: CellChange<TextCell>[]) => {
+	const handleChanges = (changes: CellChange<NumberCell>[]) => {
 		setTableData((prevData) => applyChangesToData(changes, prevData));
 		handleDataChange(tableData);
 	};
