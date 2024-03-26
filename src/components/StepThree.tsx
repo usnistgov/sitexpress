@@ -11,6 +11,7 @@ import {
 	Typography,
 } from "@mui/material";
 
+import { CSVLink } from "react-csv";
 import ChartTabs from "./ChartTabs";
 import BasicTooltip from "./Tooltip";
 
@@ -38,11 +39,22 @@ const getRows = (measure) => {
 	return rows;
 };
 
+const headers = [
+	{ label: "", key: "alt" },
+	{ label: "Present Value ($)", key: "pv" },
+	{ label: "Net Present Value ($)", key: "npv" },
+	{ label: "IRR (%)", key: "irr" },
+	{ label: "Payback Period (Years)", key: "spp" },
+	{ label: "Discounted Payback (Years)", key: "dpp" },
+	{ label: "BCR", key: "bcr" },
+];
+
 // @ts-ignore
 export default function StepThree(props) {
 	const { project, results } = props;
 
 	const measure = results?.measure;
+	const tableRows = getRows(measure);
 
 	return (
 		<Stack direction="column">
@@ -62,15 +74,9 @@ export default function StepThree(props) {
 							Save to:
 						</Typography>
 						&nbsp;
-						<Button
-							variant="contained"
-							className=""
-							onClick={() => {
-								console.log("saved to csv");
-							}}
-						>
-							CSV
-						</Button>
+						<CSVLink data={tableRows} headers={headers} filename={"sitexpress.csv"} target="_blank">
+							<Button variant="contained">CSV</Button>
+						</CSVLink>
 						&nbsp;
 						<span>
 							<Button
@@ -113,7 +119,7 @@ export default function StepThree(props) {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{getRows(measure).map((row) => (
+								{tableRows.map((row) => (
 									<TableRow key={row.alt + "-row"}>
 										<TableCell component="th" key={row.alt} scope="row" className="results-table-cell">
 											{row.alt}

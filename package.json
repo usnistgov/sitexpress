@@ -23,6 +23,7 @@
 		"e3-sdk": "file:e3-sdk-1.0.10.tgz",
 		"react": "^18.2.0",
 		"react-chartjs-2": "^5.2.0",
+		"react-csv": "^2.2.2",
 		"react-data-grid": "7.0.0-beta.20",
 		"react-dom": "^18.2.0",
 		"react-easy-bar-chart": "^0.0.2",
