@@ -13,6 +13,7 @@ import {
 
 import { CSVLink } from "react-csv";
 import ChartTabs from "./ChartTabs";
+import Pdf from "./Pdf";
 import BasicTooltip from "./Tooltip";
 
 function createData(alt: string, pv: number, npv: number, irr: number, spp: number, dpp: number, bcr: number) {
@@ -159,6 +160,7 @@ export default function StepThree(props) {
 					<br />
 				</Stack>
 			)}
+			<Pdf project={project} />
 		</Stack>
 	);
 }
