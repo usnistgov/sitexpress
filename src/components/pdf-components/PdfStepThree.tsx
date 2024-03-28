@@ -5,9 +5,7 @@ const styles = StyleSheet.create({
 	section: {
 		display: "flex",
 		flexDirection: "column",
-		// margin: 10,
 		padding: 50,
-		// flexGrow: 1,
 		border: "1px solid black",
 	},
 	title: {
@@ -21,6 +19,7 @@ const PdfStepThree = ({ project, results, headers }) => {
 	return (
 		<View style={styles.section}>
 			<Text style={styles.title}>Step Three: Results</Text>
+			<br />
 			<PdfInputTable project={project} results={results} headers={headers} />
 		</View>
 	);

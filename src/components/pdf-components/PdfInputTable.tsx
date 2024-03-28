@@ -1,51 +1,31 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
-import React from "react";
 import PdfInputTableRow from "./PdfInputRow";
 
-const borderColor = "#00519C";
+const borderRight = "1px solid #fff";
 
 const styles = StyleSheet.create({
-	tableContainer: {
-		flexDirection: "row",
-		flexWrap: "wrap",
-		marginTop: 24,
-		borderWidth: 5,
-		borderColor: "#3778C2",
-		display: "block",
-	},
 	container: {
-		flexDirection: "row",
-		borderBottomColor: "#00519C",
-		// backgroundColor: "#00519C",
-		color: "#000",
-		borderBottomWidth: 1,
-		alignItems: "center",
-		// height: 24,
+		display: "flex",
+		justifyContent: "space-between",
+		border: "1px solid black",
+		color: "#fff",
 		textAlign: "center",
-		fontStyle: "bold",
-		flexGrow: 1,
+		backgroundColor: "#005fa3ff",
 	},
-	description: {
-		width: "50",
-		borderRightColor: borderColor,
-		borderRightWidth: 1,
-		border: "1px solid red",
+	cell: {
+		width: "14.28%",
+		borderRight,
 	},
-	qty: {
-		// width: "25%",
-		borderRightColor: borderColor,
-		borderRightWidth: 1,
-		border: "1px solid red",
+	irr: {
+		width: "12%",
+		borderRight,
 	},
-	rate: {
-		// width: "15%",
-		borderRightColor: borderColor,
-		borderRightWidth: 1,
-		border: "1px solid red",
+	dpp: {
+		width: "18.84%",
+		borderRight,
 	},
-	amount: {
-		// width: "15%",
-		border: "1px solid red",
+	bcr: {
+		width: "12%",
 	},
 });
 
@@ -122,18 +102,18 @@ const PdfInputTable = ({ project, results, headers }) => {
 		},
 	];
 	return (
-		<View style={styles.tableContainer}>
-			{/* Invoice Table Header */}
+		<View>
+			{/* results Table Header */}
 			<View style={styles.container}>
-				<Text style={styles.description}>{headerss[0].label}</Text>
-				<Text style={styles.qty}>{headerss[1].label}</Text>
-				<Text style={styles.rate}>{headerss[2].label}</Text>
-				<Text style={styles.amount}>{headerss[4].label}</Text>
-				<Text style={styles.amount}>{headerss[5].label}</Text>
-				<Text style={styles.amount}>{headerss[6].label}</Text>
+				<Text style={styles.cell}>{headerss[0].label}</Text>
+				<Text style={styles.cell}>{headerss[1].label}</Text>
+				<Text style={styles.cell}>{headerss[2].label}</Text>
+				<Text style={styles.irr}>{headerss[3].label}</Text>
+				<Text style={styles.cell}>{headerss[4].label}</Text>
+				<Text style={styles.dpp}>{headerss[5].label}</Text>
+				<Text style={styles.bcr}>{headerss[6].label}</Text>
 			</View>
-			<br />
-			{/* Invoice Table Rows */}
+			{/* Results Table Rows */}
 			<PdfInputTableRow results={resultss} />
 		</View>
 	);

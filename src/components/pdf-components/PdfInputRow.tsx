@@ -1,47 +1,33 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
-import React from "react";
 
-const borderColor = "#3778C2";
+const borderRight = "1px solid #005fa3ff";
+
 const styles = StyleSheet.create({
 	row: {
-		flexDirection: "row",
-		borderBottomColor: "#3778C2",
-		borderBottomWidth: 1,
-		alignItems: "center",
-		height: 24,
-		fontStyle: "bold",
+		display: "flex",
+		justifyContent: "space-between",
+		textAlign: "center",
+		border: "1px solid #005fa3ff",
+		marginTop: 0,
 	},
-	description: {
-		width: "60%",
-		textAlign: "left",
-		borderRightColor: borderColor,
-		borderRightWidth: 1,
-		paddingLeft: 8,
+	cell: {
+		width: "14.28%",
+		borderRight,
 	},
-	qty: {
-		width: "10%",
-		borderRightColor: borderColor,
-		borderRightWidth: 1,
-		textAlign: "right",
-		paddingRight: 8,
+	irr: {
+		width: "12%",
+		borderRight,
 	},
-	rate: {
-		width: "15%",
-		borderRightColor: borderColor,
-		borderRightWidth: 1,
-		textAlign: "right",
-		paddingRight: 8,
+	bcr: {
+		width: "12%",
 	},
-	amount: {
-		width: "15%",
-		textAlign: "right",
-		paddingRight: 8,
+	dpp: {
+		width: "18.84%",
+		borderRight,
 	},
 });
 
 const PdfInputTableRow = (resultss) => {
-	console.log(resultss);
-
 	const results = [
 		{
 			alt: "Base Case",
@@ -84,22 +70,17 @@ const PdfInputTableRow = (resultss) => {
 	const rows = [];
 	results?.forEach((item) =>
 		rows.push(
-			<>
-				<View style={styles.row} key={item.alt}>
-					<Text style={styles.description}>{item.alt}</Text>
-					<Text style={styles.qty}>{item.pv}</Text>
-					<Text style={styles.rate}>{item.npv}</Text>
-					<Text style={styles.description}>{item.irr}</Text>
-					<Text style={styles.qty}>{item.spp}</Text>
-					<Text style={styles.rate}>{item.dpp}</Text>
-					<Text style={styles.amount}>{item.bcr}</Text>
-				</View>
-				<br />
-			</>,
+			<View style={styles.row} key={item.alt}>
+				<Text style={styles.cell}>{item.alt}</Text>
+				<Text style={styles.cell}>{item.pv}</Text>
+				<Text style={styles.cell}>{item.npv}</Text>
+				<Text style={styles.irr}>{item.irr}</Text>
+				<Text style={styles.cell}>{item.spp}</Text>
+				<Text style={styles.dpp}>{item.dpp}</Text>
+				<Text style={styles.bcr}>{item.bcr}</Text>
+			</View>,
 		),
 	);
-	// console.log(rows);
-	// return <></>;
 	return <>{rows}</>;
 };
 
