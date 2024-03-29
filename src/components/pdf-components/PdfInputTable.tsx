@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
-import PdfInputTableRow from "./PdfInputRow";
+import PdfInputTableRows from "./PdfInputTableRows";
 
 const borderRight = "1px solid #fff";
 
@@ -13,108 +13,66 @@ const styles = StyleSheet.create({
 		backgroundColor: "#005fa3ff",
 	},
 	cell: {
-		width: "14.28%",
+		width: "14.285%",
 		borderRight,
 	},
-	irr: {
-		width: "12%",
+	cost: {
+		width: "7.145%",
 		borderRight,
-	},
-	dpp: {
-		width: "18.84%",
-		borderRight,
-	},
-	bcr: {
-		width: "12%",
 	},
 });
 
-const PdfInputTable = ({ project, results, headers }) => {
-	console.log(project, results, headers);
-
+const PdfInputTable = ({ project }) => {
+	const alts = 5;
 	const headerss = [
 		{
-			label: "Alternatives",
-			key: "alt",
+			label: "Years",
+			key: "year",
+			cost: "",
+			rev: "",
 		},
 		{
-			label: "Present Value ($)",
-			key: "pv",
+			label: "Base Case",
+			key: `base`,
+			cost: "Cost ($)",
+			rev: "Revenue ($)",
 		},
 		{
-			label: "Net Present Value ($)",
-			key: "npv",
-		},
-		{
-			label: "IRR (%)",
-			key: "irr",
-		},
-		{
-			label: "Payback Period (Years)",
-			key: "spp",
-		},
-		{
-			label: "Discounted Payback (Years)",
-			key: "dpp",
-		},
-		{
-			label: "BCR",
-			key: "bcr",
+			label: `Alternative 1`,
+			key: `alt-1`,
+			cost: "Cost ($)",
+			rev: "Revenue ($)",
 		},
 	];
+	for (let i = 2; i <= alts; i++) {
+		headerss.push({
+			label: `Alternative ${i}`,
+			key: `alt-${i}`,
+			cost: "Cost ($)",
+			rev: "Revenue ($)",
+		});
+	}
 
-	const resultss = [
-		{
-			alt: "Base Case",
-			pv: -12677.18,
-			npv: "NA",
-			irr: 0,
-			spp: 0,
-			dpp: 0,
-			bcr: "NA",
-		},
-		{
-			alt: "Alt 1",
-			pv: -19890.62,
-			npv: "-7213.44",
-			irr: 0.222,
-			spp: 10,
-			dpp: "Not Reached",
-			bcr: "0.84",
-		},
-		{
-			alt: "Alt 2",
-			pv: -4028.86,
-			npv: "8648.32",
-			irr: 29.608,
-			spp: 4,
-			dpp: 4,
-			bcr: "2.73",
-		},
-		{
-			alt: "Alt 3",
-			pv: 5137.75,
-			npv: "17814.93",
-			irr: 34.574,
-			spp: 3,
-			dpp: 3,
-			bcr: "2.78",
-		},
-	];
 	return (
 		<View>
-			{/* results Table Header */}
+			{/* input Table Header */}
 			<View style={styles.container}>
-				<Text style={styles.cell}>{headerss[0].label}</Text>
-				<Text style={styles.cell}>{headerss[1].label}</Text>
-				<Text style={styles.cell}>{headerss[2].label}</Text>
-				<Text style={styles.irr}>{headerss[3].label}</Text>
-				<Text style={styles.cell}>{headerss[4].label}</Text>
-				<Text style={styles.dpp}>{headerss[5].label}</Text>
-				<Text style={styles.bcr}>{headerss[6].label}</Text>
+				{headerss.map((header) => {
+					return <Text style={styles.cell}>{header.label}</Text>;
+				})}
 			</View>
-			{/* Results Table Rows */}
-			<PdfInputTableRow results={resultss} />
+			<View style={styles.container}>
+				{headerss.map((header) => {
+					return (
+						<>
+							<Text style={styles.cost}>{header.cost}</Text>
+							<Text style={styles.cost}>{header.rev}</Text>
+						</>
+					);
+				})}
+			</View>
+			{/* input Table Rows */}
+			<PdfInputTableRows project={project} />
 		</View>
 	);
 };

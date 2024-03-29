@@ -27,12 +27,19 @@ const styles = StyleSheet.create({
 	},
 });
 
-const PdfInputTableRow = (resultss) => {
+const PdfInputTableRows = ({ project }) => {
+	const year = {};
+	for (let i = 0; i <= project.studyPeriod; i++) {
+		if (i === 0) {
+			year["0"] = "Initial Investment";
+		} else year[i] = i;
+	}
+
 	const results = [
 		{
-			alt: "Base Case",
-			pv: -12677.18,
-			npv: "NA",
+			0: "Initial Investment",
+			1: -12677.18,
+			2: "NA",
 			irr: 0,
 			spp: 0,
 			dpp: 0,
@@ -67,21 +74,21 @@ const PdfInputTableRow = (resultss) => {
 		},
 	];
 
+	const costs = project.costs;
+
 	const rows = [];
-	results?.forEach((item) =>
+	costs?.forEach((item, idx) =>
 		rows.push(
-			<View style={styles.row} key={item.alt}>
-				<Text style={styles.cell}>{item.alt}</Text>
-				<Text style={styles.cell}>{item.pv}</Text>
-				<Text style={styles.cell}>{item.npv}</Text>
-				<Text style={styles.irr}>{item.irr}</Text>
+			<View style={styles.row}>
+				<Text style={styles.cell}>{year[idx]}</Text>
+				{/* <Text style={styles.irr}>{item.irr}</Text>
 				<Text style={styles.cell}>{item.spp}</Text>
 				<Text style={styles.dpp}>{item.dpp}</Text>
-				<Text style={styles.bcr}>{item.bcr}</Text>
+				<Text style={styles.bcr}>{item.bcr}</Text> */}
 			</View>,
 		),
 	);
 	return <>{rows}</>;
 };
 
-export default PdfInputTableRow;
+export default PdfInputTableRows;
