@@ -1,30 +1,24 @@
-import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
+import { Document, Image, Page, StyleSheet, Text } from "@react-pdf/renderer";
 
 import PdfDisclaimer from "./pdf-components/PdfDisclaimer";
 
 import PdfStepOne from "./pdf-components/PdfStepOne";
 import PdfStepThree from "./pdf-components/PdfStepThree";
 import PdfStepTwo from "./pdf-components/PdfStepTwo";
-import InvoiceData from "./pdf-components/pdfInputData";
 
 const styles = StyleSheet.create({
 	page: {
 		flexDirection: "row",
-		// padding: 50,
-		// backgroundColor: "#E4E4E4",
 	},
 	section: {
 		display: "flex",
 		flexDirection: "column",
-		// margin: 10,
 		padding: 50,
-		// flexGrow: 1,
 		border: "1px solid black",
 	},
 	title: {
 		fontSize: 24,
 		textAlign: "center",
-		fontFamily: "Oswald",
 	},
 	pageNumber: {
 		position: "absolute",
@@ -53,8 +47,6 @@ const styles = StyleSheet.create({
 
 const Pdf = (props) => {
 	const { project, results, headers } = props;
-	const invoice = InvoiceData;
-	console.log(props);
 	return (
 		<Document>
 			<Page size="LETTER">

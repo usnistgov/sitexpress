@@ -4,15 +4,12 @@ const styles = StyleSheet.create({
 	section: {
 		display: "flex",
 		flexDirection: "column",
-		// margin: 10,
 		padding: 50,
-		// flexGrow: 1,
 		border: "1px solid black",
 	},
 	title: {
 		fontSize: 24,
 		textAlign: "center",
-		fontFamily: "Oswald",
 	},
 });
 
@@ -39,12 +36,9 @@ const PdfStepOne = ({ project }) => {
 			</Text>
 			<br />
 			{project.dollarValue === "constant" ? (
-				<>
-					<Text>
-						<b>Real Discount Rate:</b> {project.realDR}%
-					</Text>
-					<br />
-				</>
+				<Text>
+					<b>Real Discount Rate:</b> {project.realDR}%
+				</Text>
 			) : (
 				<>
 					<Text>
@@ -54,7 +48,6 @@ const PdfStepOne = ({ project }) => {
 					<Text>
 						<b>Nominal Discount Rate:</b> {project.nominalDR}%
 					</Text>
-					<br />
 				</>
 			)}
 		</View>
