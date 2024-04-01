@@ -1,78 +1,67 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
 import PdfInputTableRows from "./PdfInputTableRows";
 
-const borderRight = "1px solid #fff";
-
 const styles = StyleSheet.create({
 	container: {
 		display: "flex",
+		flexDirection: "row",
 		justifyContent: "space-between",
-		border: "1px solid black",
-		color: "#fff",
+		border: "1px solid #005fa3ff",
+		borderBottom: 0,
+		borderRight: 0,
 		textAlign: "center",
+	},
+	defaultCol: {
+		display: "flex",
+		flexDirection: "column",
+	},
+	altCol: {
+		display: "flex",
+	},
+	header: {
+		borderRight: "1px solid #fff",
+		borderBottom: "1px solid #fff",
 		backgroundColor: "#005fa3ff",
-	},
-	cell: {
-		width: "14.285%",
-		borderRight,
-	},
-	cost: {
-		width: "7.145%",
-		borderRight,
+		color: "#fff",
+		padding: "2px 5px",
 	},
 });
 
 const PdfInputTable = ({ project }) => {
-	const alts = 5;
-	const headerss = [
+	const studyPeriod = 10;
+
+	const defaultCol = [
 		{
 			label: "Years",
 			key: "year",
-			cost: "",
-			rev: "",
 		},
 		{
-			label: "Base Case",
-			key: `base`,
-			cost: "Cost ($)",
-			rev: "Revenue ($)",
+			label: "Cost/Revenue",
+			key: "cost-rev",
 		},
 		{
-			label: `Alternative 1`,
-			key: `alt-1`,
-			cost: "Cost ($)",
-			rev: "Revenue ($)",
+			label: "Initial Investment",
+			key: "year-0",
 		},
 	];
-	for (let i = 2; i <= alts; i++) {
-		headerss.push({
-			label: `Alternative ${i}`,
-			key: `alt-${i}`,
-			cost: "Cost ($)",
-			rev: "Revenue ($)",
+
+	for (let i = 1; i <= studyPeriod; i++) {
+		defaultCol.push({
+			label: `${i}`,
+			key: `year-${i}`,
 		});
 	}
 
 	return (
-		<View>
-			{/* input Table Header */}
-			<View style={styles.container}>
-				{headerss.map((header) => {
-					return <Text style={styles.cell}>{header.label}</Text>;
-				})}
+		<View style={styles.container}>
+			<View style={styles.defaultCol}>
+				{defaultCol.map((header) => (
+					<Text style={styles.header}>{header.label}</Text>
+				))}
 			</View>
-			<View style={styles.container}>
-				{headerss.map((header) => {
-					return (
-						<>
-							<Text style={styles.cost}>{header.cost}</Text>
-							<Text style={styles.cost}>{header.rev}</Text>
-						</>
-					);
-				})}
+			<View style={styles.altCol}>
+				<PdfInputTableRows project={project} />
 			</View>
-			{/* input Table Rows */}
-			<PdfInputTableRows project={project} />
 		</View>
 	);
 };

@@ -1,93 +1,117 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
 
-const borderRight = "1px solid #005fa3ff";
+const borderRight = "1px solid #fff";
+const backgroundColor = "#005fa3ff";
+const borderBottom = "1px solid #fff";
+const padding = "2px 5px";
 
 const styles = StyleSheet.create({
-	row: {
+	container: {
 		display: "flex",
-		justifyContent: "space-between",
+		flexDirection: "column",
 		textAlign: "center",
-		border: "1px solid #005fa3ff",
-		marginTop: 0,
+	},
+	header: {
+		borderRight,
+		borderBottom,
+		backgroundColor,
+		padding,
+		color: "#fff",
+		width: "200px",
+	},
+	subHeaderRow: {
+		backgroundColor,
+		display: "flex",
+		textAlign: "center",
+		color: "#fff",
+		width: "200px",
+	},
+	subHeader: {
+		backgroundColor,
+		borderRight,
+		padding,
+		color: "#fff",
+		width: "100px",
+	},
+	col: {
+		display: "flex",
+		flexDirection: "column",
+		width: "100px",
+	},
+
+	cellRow: {
+		display: "flex",
+		flexDirection: "row",
 	},
 	cell: {
-		width: "14.28%",
-		borderRight,
-	},
-	irr: {
-		width: "12%",
-		borderRight,
-	},
-	bcr: {
-		width: "12%",
-	},
-	dpp: {
-		width: "18.84%",
-		borderRight,
+		padding,
+		borderRight: "1px solid #005fa3ff",
+		borderBottom: "1px solid #005fa3ff",
 	},
 });
 
 const PdfInputTableRows = ({ project }) => {
-	const year = {};
-	for (let i = 0; i <= project.studyPeriod; i++) {
-		if (i === 0) {
-			year["0"] = "Initial Investment";
-		} else year[i] = i;
-	}
+	const headers = {
+		base: `Base Case`,
+		alt1: `Alternative 1`,
+		alt2: `Alternative 2`,
+		alt3: `Alternative 3`,
+		alt4: `Alternative 4`,
+		alt5: `Alternative 5`,
+	};
 
-	const results = [
+	const costs = [
 		{
-			0: "Initial Investment",
-			1: -12677.18,
-			2: "NA",
-			irr: 0,
-			spp: 0,
-			dpp: 0,
-			bcr: "NA",
+			name: "base",
+			cost: ["5000", "1000", "1000", "1000", "1000", "1000", "1000", "1000", "1000", "1000", "1000"],
+			revenue: ["0", "100", "100", "100", "100", "100", "100", "100", "100", "100", "100"],
 		},
 		{
-			alt: "Alt 1",
-			pv: -19890.62,
-			npv: "-7213.44",
-			irr: 0.222,
-			spp: 10,
-			dpp: "Not Reached",
-			bcr: "0.84",
+			name: "alt1",
+			cost: ["50000", "500", "500", "500", "500", "100", "50", "50", "50", "50", "50"],
+			revenue: ["0", "1000", "1000", "2000", "5000", "5000", "5000", "5000", "5000", "5000", "5000"],
 		},
 		{
-			alt: "Alt 2",
-			pv: -4028.86,
-			npv: "8648.32",
-			irr: 29.608,
-			spp: 4,
-			dpp: 4,
-			bcr: "2.73",
+			name: "alt2",
+			cost: ["10000", "300", "300", "300", "300", "300", "300", "300", "300", "300", "300"],
+			revenue: ["0", "1000", "1000", "1000", "1000", "1000", "1000", "1000", "1000", "1000", "1000"],
 		},
 		{
-			alt: "Alt 3",
-			pv: 5137.75,
-			npv: "17814.93",
-			irr: 34.574,
-			spp: 3,
-			dpp: 3,
-			bcr: "2.78",
+			name: "alt3",
+			cost: ["15000", "100", "100", "100", "100", "100", "100", "100", "100", "100", "100"],
+			revenue: ["0", "3000", "3000", "3000", "3000", "3000", "3000", "3000", "1000", "1000", "1000"],
 		},
 	];
-
-	const costs = project.costs;
+	// project.costs;
 
 	const rows = [];
-	costs?.forEach((item, idx) =>
-		rows.push(
-			<View style={styles.row}>
-				<Text style={styles.cell}>{year[idx]}</Text>
-				{/* <Text style={styles.irr}>{item.irr}</Text>
-				<Text style={styles.cell}>{item.spp}</Text>
-				<Text style={styles.dpp}>{item.dpp}</Text>
-				<Text style={styles.bcr}>{item.bcr}</Text> */}
-			</View>,
-		),
-	);
+	costs?.forEach((cost) => {
+		const name = cost.name;
+		{
+			rows.push(
+				<View style={styles.container}>
+					<Text style={styles.header}>{headers[name]}</Text>
+					<View style={styles.subHeaderRow}>
+						<Text style={styles.subHeader}>Cost ($)</Text>
+						<Text style={styles.subHeader}>Revenue ($)</Text>
+					</View>
+					<View style={styles.cellRow}>
+						<View style={styles.col}>
+							{cost.cost.map((item) => (
+								<Text style={styles.cell}>{item}</Text>
+							))}
+						</View>
+						<View style={styles.col}>
+							{cost.revenue.map((item) => (
+								<Text style={styles.cell}>{item}</Text>
+							))}
+						</View>
+					</View>
+				</View>,
+			);
+		}
+	});
+
 	return <>{rows}</>;
 };
 

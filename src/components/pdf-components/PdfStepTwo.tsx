@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		padding: 50,
 		border: "1px solid black",
+		alignItems: "center",
 	},
 	title: {
 		fontSize: 24,
