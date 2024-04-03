@@ -26,8 +26,7 @@ export function toE3Object(project: Project) {
 		.addOutputType("measure", "optional", "required")
 		.studyPeriod(project.studyPeriod)
 		.timestepValue(TimestepValue.YEAR)
-		.timestepComp(TimestepComp.END_OF_YEAR)
-		.outputReal();
+		.timestepComp(TimestepComp.END_OF_YEAR);
 
 	project?.dollarValue === "current"
 		? analysisBuilder
@@ -35,11 +34,13 @@ export function toE3Object(project: Project) {
 				.discountRateNominal(+project?.nominalDR / 100)
 				.inflationRate(+project?.inflationRate / 100)
 				.reinvestRate(+project?.inflationRate / 100)
+				.nominal()
 		: analysisBuilder
 				.discountRateReal(+project?.realDR / 100)
 				.discountRateNominal(0)
 				.inflationRate(0)
-				.reinvestRate(+project?.realDR / 100);
+				.reinvestRate(+project?.realDR / 100)
+				.real();
 
 	// Create costs
 	const costs = project?.costs;
@@ -139,7 +140,6 @@ function energyCostToBuilderBenefit(cost: Cost, project: Project): BcnBuilder[] 
 
 	const builder = new BcnBuilder()
 		.name(cost.name)
-		.real()
 		.type(BcnType.BENEFIT)
 		.subType(BcnSubType.DIRECT)
 		.quantityValue(1)
