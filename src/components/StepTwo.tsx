@@ -126,7 +126,7 @@ export default function StepTwo(props) {
 		setShowAlert(bool);
 	};
 	// @ts-ignore
-	const executeScroll = () => alertRef?.current.scrollIntoView();
+	const executeScroll = () => alertRef?.current.scrollIntoView({ behavior: "smooth", inline: "nearest" });
 
 	useEffect(() => {
 		if (errorTypes.length > 0) displayAlert(true);
@@ -134,87 +134,85 @@ export default function StepTwo(props) {
 	}, [errorTypes]);
 
 	return (
-		<div>
-			<Stack direction="column">
-				{/* @ts-ignore */}
-				<Stack ref={alertRef} className="flex justify-center text-center p-2 bg-sit-orange">
-					<Typography variant="h6">Step Two</Typography>
-					<Typography variant="h6">Annual Cost/Revenue Data By Alternative</Typography>
-					<Typography variant="body1">Provide the annual value costs and revenues for each alternative.</Typography>
-				</Stack>
-				{/*Data table */}
-				{/* @ts-ignore */}
-				{showAlert ? <Alerts errorTypes={errorTypes} showAlert={displayAlert} /> : ""}
-				<Stack className="flex justify-center text-center p-10 ">
-					<Stack direction="column" className="ml-auto">
-						<span>
-							<Button variant="contained" className="reset-btn" onClick={handleOpen}>
-								<RefreshIcon className="" fontSize="small" />
-							</Button>
+		<Stack direction="column">
+			{/* @ts-ignore */}
+			<Stack ref={alertRef} className="flex justify-center text-center p-2 bg-sit-orange">
+				<Typography variant="h6">Step Two</Typography>
+				<Typography variant="h6">Annual Cost/Revenue Data By Alternative</Typography>
+				<Typography variant="body1">Provide the annual value costs and revenues for each alternative.</Typography>
+			</Stack>
+			{/*Data table */}
+			{/* @ts-ignore */}
+			{showAlert ? <Alerts errorTypes={errorTypes} showAlert={displayAlert} /> : ""}
+			<Stack className="flex justify-center text-center p-10 ">
+				<Stack direction="column" className="ml-auto">
+					<span>
+						<Button variant="contained" className="reset-btn" onClick={handleOpen}>
+							<RefreshIcon className="" fontSize="small" />
+						</Button>
 
-							<Modal
-								open={open}
-								onClose={handleClose}
-								aria-labelledby="modal-modal-title"
-								aria-describedby="modal-modal-description"
-							>
-								<Box sx={style}>
-									<Typography id="modal-modal-title" variant="h6" component="h2">
-										Are you sure you want to clear the table?
-									</Typography>
-									<Typography id="modal-modal-description" sx={{ mt: 2 }}>
-										You will lose all your entered data.
-									</Typography>
-									<br />
-									<span className="flex justify-around">
-										<Button variant="contained" className="" onClick={handleReset} color="error">
-											Clear
-										</Button>
-										<Button variant="contained" className="" onClick={handleClose}>
-											Keep
-										</Button>
-									</span>
-								</Box>
-							</Modal>
-							<BasicTooltip title="Resets the table" />
-						</span>
-						<br />
-					</Stack>
-					<DataGrid
-						noOfAlts={project?.alts}
-						years={project?.studyPeriod}
-						handleDataChange={handleDataChange}
-						ref={gridRef}
-					/>
+						<Modal
+							open={open}
+							onClose={handleClose}
+							aria-labelledby="modal-modal-title"
+							aria-describedby="modal-modal-description"
+						>
+							<Box sx={style}>
+								<Typography id="modal-modal-title" variant="h6" component="h2">
+									Are you sure you want to clear the table?
+								</Typography>
+								<Typography id="modal-modal-description" sx={{ mt: 2 }}>
+									You will lose all your entered data.
+								</Typography>
+								<br />
+								<span className="flex justify-around">
+									<Button variant="contained" className="" onClick={handleReset} color="error">
+										Clear
+									</Button>
+									<Button variant="contained" className="" onClick={handleClose}>
+										Keep
+									</Button>
+								</span>
+							</Box>
+						</Modal>
+						<BasicTooltip title="Resets the table" />
+					</span>
 					<br />
-					<Stack direction="column" className="ml-auto">
-						<span>
-							<Button
-								variant="contained"
-								className=""
-								onClick={async () => {
-									try {
-										const [errorTypes, validity] = validateInput(project);
-										// @ts-ignore
-										setErrorTypes(Array.from(errorTypes));
-										if (validity) {
-											setShowAlert(false);
-											const obj = toE3Object(project);
-											const res = await E3Request(obj);
-											getResults(res);
-										}
-									} catch (err) {
-										console.log("error", err);
+				</Stack>
+				<DataGrid
+					noOfAlts={project?.alts}
+					years={project?.studyPeriod}
+					handleDataChange={handleDataChange}
+					ref={gridRef}
+				/>
+				<br />
+				<Stack direction="column" className="ml-auto">
+					<span>
+						<Button
+							variant="contained"
+							className=""
+							onClick={async () => {
+								try {
+									const [errorTypes, validity] = validateInput(project);
+									// @ts-ignore
+									setErrorTypes(Array.from(errorTypes));
+									if (validity) {
+										setShowAlert(false);
+										const obj = toE3Object(project);
+										const res = await E3Request(obj);
+										getResults(res);
 									}
-								}}
-							>
-								Run Results
-							</Button>
-							<BasicTooltip title="text" />
-						</span>
-					</Stack>
+								} catch (err) {
+									console.log("error", err);
+								}
+							}}
+						>
+							Run Results
+						</Button>
+						<BasicTooltip title="text" />
+					</span>
 				</Stack>
 			</Stack>
-		</div>
+		</Stack>
 	);
 }

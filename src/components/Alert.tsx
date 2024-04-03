@@ -11,7 +11,7 @@ const Alerts = (props: { errorTypes: string; showAlert: (show: boolean) => void 
 		if (errorTypes.includes("realDR")) errors.push("Real Discount Rate");
 		if (errorTypes.includes("nominalDR")) errors.push("Nominal Discount Rate");
 		if (errorTypes.includes("inlfationRate")) errors.push("Inflation Rate");
-		if (errorTypes.includes("costs")) errors.push("Input table");
+		if (errorTypes.includes("costs")) errors.push("Input table (cells)");
 		return errors;
 	};
 
@@ -24,7 +24,7 @@ const Alerts = (props: { errorTypes: string; showAlert: (show: boolean) => void 
 			}}
 		>
 			<AlertTitle>Error</AlertTitle>
-			Please check the following again:
+			Please make sure the following fields are not blank:
 			<List>
 				{errorList()?.map((error) => {
 					return (
