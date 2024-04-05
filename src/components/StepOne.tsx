@@ -1,6 +1,30 @@
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { Button, FormControlLabel, InputLabel, Radio, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import {
+	Box,
+	Button,
+	FormControlLabel,
+	InputLabel,
+	Modal,
+	Radio,
+	Stack,
+	TextField,
+	Tooltip,
+	Typography,
+} from "@mui/material";
 
+const style = {
+	position: "absolute" as "absolute",
+	top: "50%",
+	left: "50%",
+	transform: "translate(-50%, -50%)",
+	width: 400,
+	bgcolor: "#f7f9faff",
+	border: "2px solid #ef860a",
+	boxShadow: 24,
+	p: 4,
+};
+
+import { useState } from "react";
 import TextInput from "./Input";
 import InputNumber from "./NumberInput";
 import BasicTooltip from "./Tooltip";
@@ -8,6 +32,11 @@ import BasicTooltip from "./Tooltip";
 export default function StepOne(props) {
 	const project = props.project;
 	const handleChange = props.handleChange;
+
+	const [open, setOpen] = useState(false);
+
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
 	function RadioButton(props: { value: string }) {
 		return (
@@ -94,11 +123,45 @@ export default function StepOne(props) {
 				<div className="m-auto">
 					<div className="flex flex-row justify-center items-center ">
 						<Typography variant="h6">Dollar values will be entered in</Typography>
-						<Button className="refresh-btn" onClick={(e) => handleChange("refresh", e)}>
+
+						<Button variant="contained" className="refresh-btn" onClick={handleOpen}>
 							<Tooltip title="Reset to Default Values">
 								<RefreshIcon className="p-1 cursor-pointer text-white rounded bg-sky-500" fontSize="medium" />
 							</Tooltip>
 						</Button>
+
+						<Modal
+							open={open}
+							onClose={handleClose}
+							aria-labelledby="modal-modal-title"
+							aria-describedby="modal-modal-description"
+						>
+							<Box sx={style}>
+								<Typography id="modal-modal-title" variant="h6" component="h2">
+									Are you sure you want to reset the discount values to their default?
+								</Typography>
+								<Typography id="modal-modal-description" sx={{ mt: 2 }}>
+									You will lose all your entered data.
+								</Typography>
+								<br />
+								<span className="flex justify-around">
+									<Button
+										variant="contained"
+										className=""
+										onClick={(e) => {
+											handleChange("refresh", e);
+											handleClose();
+										}}
+										color="error"
+									>
+										Reset
+									</Button>
+									<Button variant="contained" className="" onClick={handleClose}>
+										Keep
+									</Button>
+								</span>
+							</Box>
+						</Modal>
 					</div>
 					<Stack direction="column" className="m-auto mb-2">
 						<div className="mb-2">
