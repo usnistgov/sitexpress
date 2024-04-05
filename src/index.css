@@ -59,10 +59,13 @@ html {
 
 .refresh-btn {
 	padding: 0 !important;
+	width: fit-content !important;
+	background-color: rgb(249 250 251/1) !important;
+	box-shadow: none !important;
 }
 .refresh-btn:hover {
 	text-decoration: none !important;
-	background-color: #f0f0f0 !important;
+	background-color: rgb(249 250 251) !important;
 }
 
 .results-table-header,
