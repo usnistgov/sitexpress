@@ -146,7 +146,7 @@ export default function StepTwo(props) {
 			{showAlert ? <Alerts errorTypes={errorTypes} showAlert={displayAlert} /> : ""}
 			<Stack className="flex justify-center text-center p-10 ">
 				<Stack direction="column" className="ml-auto">
-					<span>
+					<Stack direction="row">
 						<Button variant="contained" className="reset-btn" onClick={handleOpen}>
 							<RefreshIcon className="" fontSize="small" />
 						</Button>
@@ -165,18 +165,18 @@ export default function StepTwo(props) {
 									You will lose all your entered data.
 								</Typography>
 								<br />
-								<span className="flex justify-around">
+								<Stack direction="row" className="flex justify-around">
 									<Button variant="contained" className="" onClick={handleReset} color="error">
 										Clear
 									</Button>
 									<Button variant="contained" className="" onClick={handleClose}>
 										Keep
 									</Button>
-								</span>
+								</Stack>
 							</Box>
 						</Modal>
 						<BasicTooltip title="Resets the table" />
-					</span>
+					</Stack>
 					<br />
 				</Stack>
 				<DataGrid
@@ -187,7 +187,7 @@ export default function StepTwo(props) {
 				/>
 				<br />
 				<Stack direction="column" className="ml-auto">
-					<span>
+					<Stack direction="row">
 						<Button
 							variant="contained"
 							className=""
@@ -210,7 +210,7 @@ export default function StepTwo(props) {
 							Run Results
 						</Button>
 						<BasicTooltip title="text" />
-					</span>
+					</Stack>
 				</Stack>
 			</Stack>
 		</Stack>
