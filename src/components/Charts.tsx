@@ -13,10 +13,10 @@ export const options = {
 	},
 };
 
-const createLabels = (alts: number) => {
-	const labels = ["Base Case", "Alt 1"];
+const createLabels = (alts: number, names) => {
+	const labels = [names?.["alt0"] || "Base Case", names?.["alt1"] || "Alt 1"];
 	for (let i = 2; i <= alts; i++) {
-		labels.push(`Alt ${i}`);
+		labels.push(names?.[`alt${i}`] || `Alt ${i}`);
 	}
 	return labels;
 };
@@ -24,9 +24,10 @@ const createLabels = (alts: number) => {
 // @ts-ignore
 export default function Chart(props) {
 	const { project, label, dataset } = props;
+	const names = project?.altNames;
 
 	const data = {
-		labels: createLabels(project.alts),
+		labels: createLabels(project.alts, names),
 		datasets: [
 			{
 				label,
