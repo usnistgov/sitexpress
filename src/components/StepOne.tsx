@@ -32,6 +32,7 @@ import BasicTooltip from "./Tooltip";
 export default function StepOne(props) {
 	const project = props.project;
 	const handleChange = props.handleChange;
+	const handleNameChange = props.handleNameChange;
 
 	const [open, setOpen] = useState(false);
 
@@ -101,6 +102,16 @@ export default function StepOne(props) {
 						/>
 						<BasicTooltip title="Max Alternatives of 5 + Base Case" />
 					</span>
+					<br />
+					{Array.from({ length: project?.alts + 1 }).map((_, i) => (
+						<div className="mb-3" key={i}>
+							<TextInput
+								placeholder={i === 0 ? `Enter Base Case Name Here` : `Enter Alt ${i} Name Here`}
+								label={i === 0 ? `Base Case Name` : `Alternative ${i} Name`}
+								onChange={(e) => handleNameChange(i, e)}
+							/>
+						</div>
+					))}
 				</div>
 				<br />
 
