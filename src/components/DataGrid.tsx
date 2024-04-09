@@ -1,4 +1,4 @@
-import { CellChange, Column, ReactGrid, Row, TextCell } from "@silevis/reactgrid";
+import { CellChange, Column, NumberCell, ReactGrid } from "@silevis/reactgrid";
 import "@silevis/reactgrid/styles.css";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 
@@ -36,11 +36,11 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 			let yearData = new Map();
 			y === 0 ? yearData.set("year", `Initial Investment`) : yearData.set("year", y.toString());
 			yearData.set("base-cost", "");
-			y === 0 ? yearData.set("base-rev", "0") : yearData.set("base-rev", "");
+			y === 0 ? yearData.set("base-rev", 0) : yearData.set("base-rev", "");
 
 			for (let i = 1; i <= alts; i++) {
 				yearData.set(`alt${i}-cost`, "");
-				y === 0 ? yearData.set(`alt${i}-rev`, "0") : yearData.set(`alt${i}-rev`, "");
+				y === 0 ? yearData.set(`alt${i}-rev`, 0) : yearData.set(`alt${i}-rev`, "");
 			}
 
 			data.push(Object.fromEntries(yearData));
@@ -111,14 +111,28 @@ const getColumns = (n: number): Column[] => {
 	return col;
 };
 
-const headerRow = (alts: number) => {
+const splitString = (str: string) => {
+	var middle = Math.ceil(str?.length / 2);
+	var firstPart = str?.slice(0, middle);
+	var secondPart = str?.slice(middle);
+	if (firstPart[firstPart.length - 1] === " ") {
+		firstPart += secondPart[0];
+		secondPart = secondPart.slice(1);
+	}
+	return [firstPart, secondPart];
+};
+
+const headerRow = (alts: number, names) => {
 	let header = [
 		{ type: "header", text: "Year" },
-		{ type: "header", text: "Base", colSpan: 2 },
-		{ type: "header", text: "Case" },
+		{ type: "header", text: splitString(names?.["alt0"])[0], colSpan: 2 },
+		{ type: "header", text: splitString(names?.["alt0"])[1] },
 	];
 	for (let i = 1; i <= alts; i++) {
-		header.push({ type: "header", text: `Alt `, colSpan: 2 }, { type: "header", text: `${i}` });
+		header.push(
+			{ type: "header", text: splitString(names?.[`alt${i}`])[0], colSpan: 2 },
+			{ type: "header", text: splitString(names?.[`alt${i}`])[1] },
+		);
 	}
 	return {
 		rowId: "header",
@@ -127,8 +141,8 @@ const headerRow = (alts: number) => {
 };
 
 // @ts-ignore
-const getRows = (data, alts: number) => [
-	headerRow(alts),
+const getRows = (data, alts: number, names) => [
+	headerRow(alts, names),
 	// @ts-ignore
 	...data.map((dataPoint, idx: number) => {
 		const cells = [];
@@ -137,10 +151,10 @@ const getRows = (data, alts: number) => [
 			if (value === "Initial Investment" || value === "Cost ($)" || value === "Revenue ($)" || key === "year") {
 				obj = { type: "text", text: value, nonEditable: true };
 			} else {
-				obj = { type: "text", text: value };
+				obj = { type: "number", text: value, value: value };
 			}
 			if ((/alt[1-5]-rev/.test(key) || key === "base-rev") && dataPoint.year === "Initial Investment") {
-				obj = { type: "text", text: value, nonEditable: true };
+				obj = { type: "number", text: value, value: +value, nonEditable: true };
 			}
 			cells.push(obj);
 		}
@@ -148,24 +162,24 @@ const getRows = (data, alts: number) => [
 	}),
 ];
 // @ts-ignore
-const applyChangesToData = (changes: CellChange<TextCell>[], prevData) => {
+const applyChangesToData = (changes: CellChange<NumberCell>[], prevData) => {
 	changes.forEach((change) => {
 		const dataIndex = change?.rowId;
 		const fieldName = change?.columnId;
-		prevData[dataIndex][fieldName] = change?.newCell?.text;
+		prevData[dataIndex][fieldName] = change?.newCell?.value;
 	});
 	return [...prevData];
 };
 // @ts-ignore
-const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDataChange }, ref) => {
-	const { noOfAlts, years, handleDataChange } = props;
+const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDataChange; names }, ref) => {
+	const { noOfAlts, years, handleDataChange, names } = props;
 
 	const [alts, setAlts] = useState(noOfAlts);
 	const [newYears, setNewYears] = useState(years);
 
 	const [tableData, setTableData] = useState(() => generateData(noOfAlts, years, [], noOfAlts, years));
 
-	const initialRows = getRows(tableData, noOfAlts);
+	const initialRows = getRows(tableData, noOfAlts, names);
 	const [rows, setRows] = useState(initialRows);
 
 	const initialColumns = getColumns(noOfAlts);
@@ -173,20 +187,20 @@ const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDat
 
 	// updates the table when years/alts are changed
 	useEffect(() => {
-		if (tableData.length === 0 || +noOfAlts !== alts || +years !== newYears) {
+		if (tableData.length === 0 || +noOfAlts !== alts || +years !== newYears || names !== names) {
 			setAlts(+noOfAlts);
 			setNewYears(+years);
 			const updatedData = generateData(noOfAlts, +years, tableData, +alts, newYears);
 			setTableData(updatedData);
 		}
-		const updatedRows = getRows(tableData, noOfAlts);
+		const updatedRows = getRows(tableData, noOfAlts, names);
 		const updatedColumns = getColumns(noOfAlts);
 		setRows(updatedRows);
 		setColumns(updatedColumns);
 		handleDataChange(tableData);
-	}, [noOfAlts, years, tableData]);
+	}, [noOfAlts, years, tableData, names]);
 
-	const handleChanges = (changes: CellChange<TextCell>[]) => {
+	const handleChanges = (changes: CellChange<NumberCell>[]) => {
 		setTableData((prevData) => applyChangesToData(changes, prevData));
 		handleDataChange(tableData);
 	};
@@ -194,7 +208,7 @@ const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDat
 	useImperativeHandle(ref, () => ({
 		handleReset: () => {
 			const data = generateData(noOfAlts, years, [], noOfAlts, years);
-			getRows(data, 1);
+			getRows(data, 1, names);
 			getColumns(1);
 			setTableData(data);
 		},

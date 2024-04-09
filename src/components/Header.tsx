@@ -120,7 +120,7 @@ const Header = () => {
 						<span>
 							<Link
 								underline="none"
-								href="#"
+								href="https://www.nist.gov/el/applied-economics-office/manufacturing/capital-investment-analysis"
 								target="_blank"
 								rel="noopener"
 								key="User Guide"

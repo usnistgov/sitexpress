@@ -59,6 +59,7 @@
 [data-cell-colidx~="10"][data-cell-rowidx~="0"],
 [data-cell-colidx~="12"][data-cell-rowidx~="0"] {
 	justify-content: start !important;
+	padding: 0 !important;
 }
 
 [data-cell-colidx~="1"][data-cell-rowidx~="0"],
@@ -68,4 +69,5 @@
 [data-cell-colidx~="9"][data-cell-rowidx~="0"],
 [data-cell-colidx~="11"] {
 	justify-content: end !important;
+	padding: 0 !important;
 }

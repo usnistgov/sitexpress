@@ -1,6 +1,31 @@
+import InfoIcon from "@mui/icons-material/Info";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { Button, FormControlLabel, InputLabel, Radio, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import {
+	Box,
+	Button,
+	FormControlLabel,
+	InputLabel,
+	Modal,
+	Radio,
+	Stack,
+	TextField,
+	Tooltip,
+	Typography,
+} from "@mui/material";
 
+const style = {
+	position: "absolute" as "absolute",
+	top: "50%",
+	left: "50%",
+	transform: "translate(-50%, -50%)",
+	width: 400,
+	bgcolor: "#f7f9faff",
+	border: "2px solid #ef860a",
+	boxShadow: 24,
+	p: 4,
+};
+
+import { useState } from "react";
 import TextInput from "./Input";
 import InputNumber from "./NumberInput";
 import BasicTooltip from "./Tooltip";
@@ -8,6 +33,12 @@ import BasicTooltip from "./Tooltip";
 export default function StepOne(props) {
 	const project = props.project;
 	const handleChange = props.handleChange;
+	const handleNameChange = props.handleNameChange;
+
+	const [open, setOpen] = useState(false);
+
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
 	function RadioButton(props: { value: string }) {
 		return (
@@ -70,8 +101,20 @@ export default function StepOne(props) {
 							// @ts-ignore
 							onChange={(e, val) => handleChange("alts", val)}
 						/>
-						<BasicTooltip title="Max Alternatives of 5 + Base Case" />
+						<BasicTooltip title="Max Alternatives of 5 + Base Case. You can give custom names to each alternative. (Max 20 characters)" />
 					</span>
+					<br />
+					{/* <BasicTooltip title="You can give custom names to each alternative. (Max 30 characters)" /> */}
+					{Array.from({ length: project?.alts + 1 }).map((_, i) => (
+						<div key={i} className="mb-3">
+							<TextInput
+								placeholder={i === 0 ? `Enter Base Case Name Here` : `Enter Alt ${i} Name Here`}
+								label={i === 0 ? `Base Case Name` : `Alternative ${i} Name`}
+								onChange={(e) => handleNameChange(i, e)}
+								inputProps={{ maxLength: 20 }}
+							/>
+						</div>
+					))}
 				</div>
 				<br />
 
@@ -94,11 +137,45 @@ export default function StepOne(props) {
 				<div className="m-auto">
 					<div className="flex flex-row justify-center items-center ">
 						<Typography variant="h6">Dollar values will be entered in</Typography>
-						<Button className="refresh-btn" onClick={(e) => handleChange("refresh", e)}>
+
+						<Button variant="contained" className="refresh-btn" onClick={handleOpen}>
 							<Tooltip title="Reset to Default Values">
 								<RefreshIcon className="p-1 cursor-pointer text-white rounded bg-sky-500" fontSize="medium" />
 							</Tooltip>
 						</Button>
+
+						<Modal
+							open={open}
+							onClose={handleClose}
+							aria-labelledby="modal-modal-title"
+							aria-describedby="modal-modal-description"
+						>
+							<Box sx={style}>
+								<Typography id="modal-modal-title" variant="h6" component="h2">
+									Are you sure you want to reset the discount values to their default?
+								</Typography>
+								<Typography id="modal-modal-description" sx={{ mt: 2 }}>
+									You will lose all your entered data.
+								</Typography>
+								<br />
+								<span className="flex justify-around">
+									<Button
+										variant="contained"
+										className=""
+										onClick={(e) => {
+											handleChange("refresh", e);
+											handleClose();
+										}}
+										color="error"
+									>
+										Reset
+									</Button>
+									<Button variant="contained" className="" onClick={handleClose}>
+										Keep
+									</Button>
+								</span>
+							</Box>
+						</Modal>
 					</div>
 					<Stack direction="column" className="m-auto mb-2">
 						<div className="mb-2">
