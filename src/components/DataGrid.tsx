@@ -111,10 +111,14 @@ const getColumns = (n: number): Column[] => {
 	return col;
 };
 
-const splitString = (str) => {
+const splitString = (str: string) => {
 	var middle = Math.ceil(str?.length / 2);
 	var firstPart = str?.slice(0, middle);
 	var secondPart = str?.slice(middle);
+	if (firstPart[firstPart.length - 1] === " ") {
+		firstPart += secondPart[0];
+		secondPart = secondPart.slice(1);
+	}
 	return [firstPart, secondPart];
 };
 

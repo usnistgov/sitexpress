@@ -111,6 +111,7 @@ export default function StepOne(props) {
 								placeholder={i === 0 ? `Enter Base Case Name Here` : `Enter Alt ${i} Name Here`}
 								label={i === 0 ? `Base Case Name` : `Alternative ${i} Name`}
 								onChange={(e) => handleNameChange(i, e)}
+								inputProps={{ maxLength: 20 }}
 							/>
 						</div>
 					))}
