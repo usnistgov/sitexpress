@@ -14,9 +14,9 @@ export const options = {
 };
 
 const createLabels = (alts: number, names) => {
-	const labels = [names?.["alt0"] || "Base Case", names?.["alt1"] || "Alt 1"];
+	const labels = [names?.["alt0"], names?.["alt1"]];
 	for (let i = 2; i <= alts; i++) {
-		labels.push(names?.[`alt${i}`] || `Alt ${i}`);
+		labels.push(names?.[`alt${i}`]);
 	}
 	return labels;
 };

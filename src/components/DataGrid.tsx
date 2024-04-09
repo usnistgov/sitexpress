@@ -121,13 +121,13 @@ const splitString = (str) => {
 const headerRow = (alts: number, names) => {
 	let header = [
 		{ type: "header", text: "Year" },
-		{ type: "header", text: splitString(names?.["alt0"])[0] || "Base ", colSpan: 2 },
-		{ type: "header", text: splitString(names?.["alt0"])[1] || " Case" },
+		{ type: "header", text: splitString(names?.["alt0"])[0], colSpan: 2 },
+		{ type: "header", text: splitString(names?.["alt0"])[1] },
 	];
 	for (let i = 1; i <= alts; i++) {
 		header.push(
-			{ type: "header", text: splitString(names?.[`alt${i}`])[0] || `Alt `, colSpan: 2 },
-			{ type: "header", text: splitString(names?.[`alt${i}`])[1] || ` ${i}` },
+			{ type: "header", text: splitString(names?.[`alt${i}`])[0], colSpan: 2 },
+			{ type: "header", text: splitString(names?.[`alt${i}`])[1] },
 		);
 	}
 	return {
