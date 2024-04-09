@@ -2,6 +2,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { Box, Button, Modal, Stack, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { E3Request, toE3Object } from "../data/E3Request";
+import { Project } from "../data/Formats";
 import Alerts from "./Alert";
 import DataGrid from "./DataGrid";
 import BasicTooltip from "./Tooltip";
@@ -18,8 +19,7 @@ const style = {
 	p: 4,
 };
 
-// @ts-ignore
-export default function StepTwo(props) {
+export default function StepTwo(props: { project: Project; getResults: any }) {
 	const { project, getResults } = props;
 	const [gridData, setGridData] = useState([]);
 	const [open, setOpen] = useState(false);
@@ -30,8 +30,7 @@ export default function StepTwo(props) {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
-	// @ts-ignore
-	const validateInput = (project) => {
+	const validateInput = (project: Project) => {
 		let errorTypes = new Set();
 		let flag = true;
 		if (project.projectName.length === 0) {
@@ -47,7 +46,7 @@ export default function StepTwo(props) {
 			flag = false;
 		}
 		if (project.dollarValue === "constant") {
-			if (project.realDR.length < 0 || typeof project.realDR === "string") {
+			if (project.realDR < 0 || typeof project.realDR === "string") {
 				errorTypes.add("realDR");
 				flag = false;
 			}
@@ -71,7 +70,6 @@ export default function StepTwo(props) {
 		}
 		return [errorTypes, flag];
 	};
-
 	// @ts-ignore
 	const transformTableData = (data, alts = 3) => {
 		let inputObject = [...data];

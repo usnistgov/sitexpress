@@ -11,6 +11,7 @@ import {
 	Typography,
 } from "@mui/material";
 
+import { Measure, Project, Required } from "../data/Formats";
 import ChartTabs from "./ChartTabs";
 import BasicTooltip from "./Tooltip";
 
@@ -18,18 +19,19 @@ function createData(alt: string, pv: number, npv: number, irr: number, spp: numb
 	return { alt, pv, npv, irr, spp, dpp, bcr };
 }
 
-// @ts-ignore
-const getRows = (measure) => {
+const getRows = (measure: Measure[]) => {
 	let rows = [];
 	for (let i = 0; i < measure?.length; i++) {
 		rows.push(
 			createData(
 				i === 0 ? "Base Case" : `Alt ${i}`,
 				+(measure[i]?.totalBenefits - measure[i]?.totalCosts)?.toFixed(2),
+				// @ts-ignore
 				measure[i]?.netBenefits ? measure[i]?.netBenefits.toFixed(2) : "NA",
 				measure[i]?.irr ? +(measure[i]?.irr * 100).toFixed(3) : 0,
 				// @ts-ignore
 				parseFloat(measure[i]?.spp) === Infinity ? "Not Reached" : Math.round(measure[i]?.spp),
+				// @ts-ignore
 				parseFloat(measure[i]?.dpp) === Infinity ? "Not Reached" : Math.round(measure[i]?.dpp),
 				measure[i]?.bcr ? measure[i]?.bcr?.toFixed(2) : "NA",
 			),
@@ -38,8 +40,10 @@ const getRows = (measure) => {
 	return rows;
 };
 
-// @ts-ignore
-export default function StepThree(props) {
+export default function StepThree(props: {
+	project: Project;
+	results: { optional: any[]; required: Required[]; measure: Measure[] };
+}) {
 	const { project, results } = props;
 
 	const measure = results?.measure;

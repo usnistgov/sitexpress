@@ -1,4 +1,3 @@
-// import "./App.css";
 import { useState } from "react";
 import Disclaimer from "./components/Disclaimer";
 import Header from "./components/Header";
@@ -24,8 +23,7 @@ function App() {
 	});
 	const [result, setResult] = useState({});
 	console.log(project);
-	// @ts-ignore
-	const handleChange = (key: string, e) => {
+	const handleChange = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
 		if (key === "studyPeriod" || key === "alts") {
 			setProject({ ...project, [key]: +e });
 		} else {
