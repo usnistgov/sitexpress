@@ -1,3 +1,4 @@
+import InfoIcon from "@mui/icons-material/Info";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import {
 	Box,
@@ -32,6 +33,7 @@ import BasicTooltip from "./Tooltip";
 export default function StepOne(props) {
 	const project = props.project;
 	const handleChange = props.handleChange;
+	const handleNameChange = props.handleNameChange;
 
 	const [open, setOpen] = useState(false);
 
@@ -99,8 +101,20 @@ export default function StepOne(props) {
 							// @ts-ignore
 							onChange={(e, val) => handleChange("alts", val)}
 						/>
-						<BasicTooltip title="Max Alternatives of 5 + Base Case" />
+						<BasicTooltip title="Max Alternatives of 5 + Base Case. You can give custom names to each alternative. (Max 20 characters)" />
 					</span>
+					<br />
+					{/* <BasicTooltip title="You can give custom names to each alternative. (Max 30 characters)" /> */}
+					{Array.from({ length: project?.alts + 1 }).map((_, i) => (
+						<div key={i} className="mb-3">
+							<TextInput
+								placeholder={i === 0 ? `Enter Base Case Name Here` : `Enter Alt ${i} Name Here`}
+								label={i === 0 ? `Base Case Name` : `Alternative ${i} Name`}
+								onChange={(e) => handleNameChange(i, e)}
+								inputProps={{ maxLength: 20 }}
+							/>
+						</div>
+					))}
 				</div>
 				<br />
 

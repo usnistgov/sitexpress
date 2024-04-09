@@ -182,6 +182,7 @@ export default function StepTwo(props) {
 				<DataGrid
 					noOfAlts={project?.alts}
 					years={project?.studyPeriod}
+					names={project?.altNames}
 					handleDataChange={handleDataChange}
 					ref={gridRef}
 				/>
