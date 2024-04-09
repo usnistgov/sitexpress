@@ -19,6 +19,7 @@ export type TextInputProps = {
 	adornment?: string;
 	onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
 	value?: string;
+	inputProps?: any;
 };
 
 export default function TextInput(props: TextInputProps) {
@@ -38,6 +39,7 @@ export default function TextInput(props: TextInputProps) {
 				defaultValue={props?.defaultValue}
 				value={props?.value}
 				onChange={props?.onChange}
+				inputProps={props?.inputProps}
 			/>
 		</>
 	);

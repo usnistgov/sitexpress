@@ -180,6 +180,7 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 				<DataGrid
 					noOfAlts={project?.alts}
 					years={project?.studyPeriod}
+					names={project?.altNames}
 					handleDataChange={handleDataChange}
 					ref={gridRef}
 				/>

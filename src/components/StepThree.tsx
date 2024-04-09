@@ -19,12 +19,13 @@ function createData(alt: string, pv: number, npv: number, irr: number, spp: numb
 	return { alt, pv, npv, irr, spp, dpp, bcr };
 }
 
-const getRows = (measure: Measure[]) => {
+// @ts-ignore
+const getRows = (measure: Measure[], names) => {
 	let rows = [];
 	for (let i = 0; i < measure?.length; i++) {
 		rows.push(
 			createData(
-				i === 0 ? "Base Case" : `Alt ${i}`,
+				i === 0 ? names?.[`alt${0}`] : names?.[`alt${i}`],
 				+(measure[i]?.totalBenefits - measure[i]?.totalCosts)?.toFixed(2),
 				// @ts-ignore
 				measure[i]?.netBenefits ? measure[i]?.netBenefits.toFixed(2) : "NA",
@@ -47,6 +48,7 @@ export default function StepThree(props: {
 	const { project, results } = props;
 
 	const measure = results?.measure;
+	const names = project?.altNames;
 
 	return (
 		<Stack direction="column">
@@ -117,7 +119,7 @@ export default function StepThree(props: {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{getRows(measure).map((row) => (
+								{getRows(measure, names).map((row) => (
 									<TableRow key={row.alt + "-row"}>
 										<TableCell component="th" key={row.alt} scope="row" className="results-table-cell">
 											{row.alt}

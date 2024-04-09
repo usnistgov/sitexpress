@@ -20,6 +20,7 @@ function App() {
 		inflationRate: 2.3,
 		nominalDR: 5.3,
 		costs: [],
+		altNames: { alt0: "Base Case", alt1: "Alternative 1", alt2: "Alt 2", alt3: "Alt 3", alt4: "Alt 4", alt5: "Alt 5" },
 	});
 	const [result, setResult] = useState({});
 	console.log(project);
@@ -34,11 +35,21 @@ function App() {
 		}
 	};
 
+	const handleNameChange = (id: number, e) => {
+		setProject((prevProject) => ({
+			...prevProject,
+			altNames: {
+				...prevProject.altNames,
+				[`alt${id}`]: e.target.value,
+			},
+		}));
+	};
+
 	return (
 		<div className="App">
 			<Header />
 			<LandingSection />
-			<StepOne project={project} handleChange={handleChange} />
+			<StepOne project={project} handleChange={handleChange} handleNameChange={handleNameChange} />
 			<StepTwo project={project} getResults={setResult} />
 			<StepThree project={project} results={result} />
 			<Disclaimer />
