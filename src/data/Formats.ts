@@ -8,6 +8,7 @@ export type Project = {
 	nominalDR: number;
 	inflationRate: number;
 	costs: Cost[];
+	altNames: string[];
 };
 
 export type Type<T> = {

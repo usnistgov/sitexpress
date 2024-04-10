@@ -3,8 +3,8 @@ import { Button } from "@mui/material";
 import { CSVLink } from "react-csv";
 import { Cost, Project, Result } from "../data/Formats";
 
-function CSVDownload(props: { project: Project; tableData: Result[]; headers: { label: string; key: string } }) {
-	const { project, tableData, headers } = props;
+function CSVDownload(props: { project: Project; tableData: Result[] }) {
+	const { project, tableData } = props;
 
 	let stepOneData = [
 		["Project Name", project?.projectName],
@@ -14,17 +14,20 @@ function CSVDownload(props: { project: Project; tableData: Result[]; headers: { 
 		["Dollar Value", project?.dollarValue],
 	];
 
-	console.log(headers);
-
 	if (project?.dollarValue === "constant") stepOneData.push(["Real Discount Rate", project?.realDR]);
 	else stepOneData.push(["Inflation Rate", project?.realDR], ["Nominal Discount Rate", project?.nominalDR]);
 
 	const inputHeaders = (alts: number) => {
-		const defaultCol = ["Year", "Base Cost", "", "Alternative 1", ""];
+		const defaultCol = ["Year"];
 
-		for (let i = 2; i <= alts; i++) {
-			defaultCol.push(`Alternative ${i}`);
-			defaultCol.push("");
+		for (let i = 0; i <= alts; i++) {
+			if (i === 0) {
+				defaultCol.push(project.altNames[`alt${i}`] || "Base Case");
+				defaultCol.push("");
+			} else {
+				defaultCol.push(project.altNames[`alt${i}`] || `Alternative ${i}`);
+				defaultCol.push("");
+			}
 		}
 
 		return defaultCol;
