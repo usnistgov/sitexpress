@@ -44,14 +44,6 @@ function CSVDownload(props: { project: Project; tableData: Result[]; headers: { 
 		return result;
 	};
 
-	const resultHeaders = (header: { label: string; key: string }[]) => {
-		let headers: string[] = [];
-		header.forEach((head) => {
-			headers.push(head.label);
-		});
-		return headers;
-	};
-
 	const resultsData = (res: Result[]) => {
 		let results: (string | number | String)[] = [];
 		res.forEach((data) => results.push(Array.from(Object.values(data))));
@@ -72,7 +64,15 @@ function CSVDownload(props: { project: Project; tableData: Result[]; headers: { 
 		[],
 		["Results"],
 		[],
-		resultHeaders(headers),
+		[
+			"",
+			"Present Value ($)",
+			"Net Present Value ($)",
+			"IRR (%)",
+			"Payback Period (Years)",
+			"Discounted Payback (Years)",
+			"BCR",
+		],
 		...resultsData(tableData),
 	];
 

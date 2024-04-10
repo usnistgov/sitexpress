@@ -1,4 +1,5 @@
 import {
+	Button,
 	Paper,
 	Stack,
 	Table,
@@ -39,16 +40,6 @@ const getRows = (measure, names) => {
 	return rows;
 };
 
-const headers = [
-	{ label: "", key: "alt" },
-	{ label: "Present Value ($)", key: "pv" },
-	{ label: "Net Present Value ($)", key: "npv" },
-	{ label: "IRR (%)", key: "irr" },
-	{ label: "Payback Period (Years)", key: "spp" },
-	{ label: "Discounted Payback (Years)", key: "dpp" },
-	{ label: "BCR", key: "bcr" },
-];
-
 // @ts-ignore
 export default function StepThree(props) {
 	const { project, results } = props;
@@ -75,7 +66,7 @@ export default function StepThree(props) {
 							Save to:
 						</Typography>
 						&nbsp;
-						<CSVDownload project={project} tableData={tableRows} headers={headers} />
+						<CSVDownload project={project} tableData={tableRows} />
 						&nbsp;
 						<span>
 							<Button
