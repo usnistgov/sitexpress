@@ -19,3 +19,13 @@ export type Cost = {
 	cost: string[];
 	revenue: string[];
 };
+
+export type Result = {
+	alt: string;
+	pv: number;
+	npm: string;
+	irr: number | string;
+	spp: number | string;
+	dpp: number | String;
+	bcr: number | string;
+};

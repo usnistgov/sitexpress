@@ -1,5 +1,4 @@
 import {
-	Button,
 	Paper,
 	Stack,
 	Table,
@@ -11,7 +10,7 @@ import {
 	Typography,
 } from "@mui/material";
 
-import { CSVLink } from "react-csv";
+import CSVDownload from "./CSVDownload";
 import ChartTabs from "./ChartTabs";
 import Pdf from "./Pdf";
 import BasicTooltip from "./Tooltip";
@@ -76,9 +75,7 @@ export default function StepThree(props) {
 							Save to:
 						</Typography>
 						&nbsp;
-						<CSVLink data={tableRows} headers={headers} filename={"sitexpress.csv"} target="_blank">
-							<Button variant="contained">CSV</Button>
-						</CSVLink>
+						<CSVDownload project={project} tableData={tableRows} headers={headers} />
 						&nbsp;
 						<span>
 							<Button
