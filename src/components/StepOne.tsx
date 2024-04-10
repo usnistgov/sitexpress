@@ -112,6 +112,7 @@ export default function StepOne(props) {
 								label={i === 0 ? `Base Case Name` : `Alternative ${i} Name`}
 								onChange={(e) => handleNameChange(i, e)}
 								inputProps={{ maxLength: 20 }}
+								defaultValue={i === 0 ? `Base Case` : `Alternative ${i}`}
 							/>
 						</div>
 					))}
