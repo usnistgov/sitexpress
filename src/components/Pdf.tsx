@@ -2,14 +2,12 @@ import { Document, Image, Page, StyleSheet, Text } from "@react-pdf/renderer";
 
 import PdfDisclaimer from "./pdf-components/PdfDisclaimer";
 
+import { Project, Result } from "../data/Formats";
 import PdfStepOne from "./pdf-components/PdfStepOne";
 import PdfStepThree from "./pdf-components/PdfStepThree";
 import PdfStepTwo from "./pdf-components/PdfStepTwo";
 
 const styles = StyleSheet.create({
-	page: {
-		flexDirection: "row",
-	},
 	section: {
 		display: "flex",
 		flexDirection: "column",
@@ -36,25 +34,37 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	headerNistLogo: {
+		display: "flex",
 		width: "127px",
 		height: "34px",
 	},
 	headerPV2Logo: {
+		display: "flex",
 		width: "128px",
 		height: "38px",
 	},
+	date: {
+		display: "flex",
+		justifyContent: "flex-end",
+	},
+	document: {
+		padding: "50px",
+	},
 });
 
-const Pdf = (props) => {
-	const { project, results, headers } = props;
+const Pdf = (props: { project: Project; results: Result[] }) => {
+	const { project, results } = props;
 	return (
-		<Document>
+		<Document style={styles.document}>
 			<Page size="LETTER">
 				<Image style={styles.headerNistLogo} src={"/images/645px-nist_logo-svg_1.png"} />
-				<Image style={styles.headerPV2Logo} src={"../logo.png"} />
+				<Image style={styles.headerPV2Logo} src={"sitexpress/src/logo.png"} />
+				<Text style={styles.date}>Report Generated: {new Date().toLocaleDateString()}</Text>
 				<PdfStepOne project={project} />
 				<PdfStepTwo project={project} />
-				<PdfStepThree project={project} results={results} headers={headers} />
+				<Page size="LETTER">
+					<PdfStepThree project={project} results={results} />
+				</Page>
 				<PdfDisclaimer />
 				<Text
 					style={styles.pageNumber}

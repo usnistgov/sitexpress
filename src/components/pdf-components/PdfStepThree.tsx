@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { Project, Result } from "../../data/Formats";
 import PdfResultsTable from "./PdfResultsTable";
 
 const styles = StyleSheet.create({
@@ -14,12 +15,12 @@ const styles = StyleSheet.create({
 	},
 });
 
-const PdfStepThree = ({ project, results, headers }) => {
+const PdfStepThree = ({ project, results }: { project: Project; results: Result[] }) => {
 	return (
 		<View style={styles.section}>
 			<Text style={styles.title}>Step Three: Results</Text>
 			<br />
-			<PdfResultsTable project={project} results={results} headers={headers} />
+			<PdfResultsTable results={results} />
 		</View>
 	);
 };

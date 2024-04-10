@@ -24,7 +24,7 @@ export type Cost = {
 export type Result = {
 	alt: string;
 	pv: number;
-	npm: string;
+	npv: string;
 	irr: number | string;
 	spp: number | string;
 	dpp: number | String;

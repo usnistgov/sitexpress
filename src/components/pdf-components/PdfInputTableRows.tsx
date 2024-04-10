@@ -1,4 +1,6 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { JSX } from "react/jsx-runtime";
+import { Project } from "../../data/Formats";
 
 const borderRight = "1px solid #fff";
 const backgroundColor = "#005fa3ff";
@@ -50,14 +52,21 @@ const styles = StyleSheet.create({
 	},
 });
 
-const PdfInputTableRows = ({ project }) => {
-	const headers = {
-		base: `Base Case`,
-		alt1: `Alternative 1`,
-		alt2: `Alternative 2`,
-		alt3: `Alternative 3`,
-		alt4: `Alternative 4`,
-		alt5: `Alternative 5`,
+const PdfInputTableRows = ({ project }: { project: Project }) => {
+	const headers: {
+		base: string;
+		alt1: string;
+		alt2: string;
+		alt3: string;
+		alt4: string;
+		alt5: string;
+	} = {
+		base: project?.altNames?.alt0 || `Base Case`,
+		alt1: project?.altNames?.alt1 || `Alternative 1`,
+		alt2: project?.altNames?.alt2 || `Alternative 2`,
+		alt3: project?.altNames?.alt3 || `Alternative 3`,
+		alt4: project?.altNames?.alt4 || `Alternative 4`,
+		alt5: project?.altNames?.alt5 || `Alternative 5`,
 	};
 
 	const costs = [
@@ -84,9 +93,9 @@ const PdfInputTableRows = ({ project }) => {
 	];
 	// project.costs;
 
-	const rows = [];
+	const rows: JSX.Element[] = [];
 	costs?.forEach((cost) => {
-		const name = cost.name;
+		const name: string = cost.name;
 		{
 			rows.push(
 				<View style={styles.container}>

@@ -22,6 +22,7 @@
 		"chart.js": "^4.4.2",
 		"docker": "^1.0.0",
 		"e3-sdk": "file:e3-sdk-1.0.10.tgz",
+		"html-to-image": "^1.11.11",
 		"react": "^18.2.0",
 		"react-chartjs-2": "^5.2.0",
 		"react-csv": "^2.2.2",
@@ -32,6 +33,7 @@
 	},
 	"devDependencies": {
 		"@types/react": "^18.0.24",
+		"@types/react-csv": "^1.1.10",
 		"@types/react-dom": "^18.0.8",
 		"@vitejs/plugin-react": "^2.2.0",
 		"autoprefixer": "^10.4.17",

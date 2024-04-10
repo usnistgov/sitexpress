@@ -149,7 +149,7 @@ export default function StepThree(props) {
 					<br />
 				</Stack>
 			)}
-			<Pdf project={project} />
+			<Pdf project={project} results={tableRows} />
 		</Stack>
 	);
 }
