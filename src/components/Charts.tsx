@@ -32,7 +32,7 @@ export default function Chart(props) {
 			{
 				label,
 				data: dataset,
-				backgroundColor: "#ef860a",
+				backgroundColor: "#1975d1ff",
 			},
 		],
 	};
