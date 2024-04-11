@@ -86,7 +86,7 @@ export default function StepOne(props) {
 						size="small"
 						onChange={(e) => handleChange("projectDesc", e)}
 					/>
-					<BasicTooltip title="A brief description of your project for documentation purposes" />
+					<BasicTooltip title="A brief description of your project." />
 				</div>
 				<br />
 

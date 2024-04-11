@@ -21,8 +21,17 @@ export default function LandingSection() {
 						For Project Investment Analysis
 					</Typography>
 					<Typography variant="body1" className="text-left">
-						Smart Investment Tool Express (SITExpress) completes investment analysis based on NIST Advanced
-						Manufacturing Series 200-5 to identify economical projects/investments.
+						Smart Investment Tool Express (SITExpress) completes investment analysis based on{" "}
+						<Link
+							href="https://nvlpubs.nist.gov/nistpubs/ams/NIST.AMS.200-5.pdf"
+							underline="always"
+							color="inherit"
+							target="_blank"
+							rel="noopener"
+						>
+							NIST Advanced Manufacturing Series 200-5
+						</Link>{" "}
+						to identify economical projects/investments.
 					</Typography>
 				</div>
 				<div className="w-2/5 border-2 border-sit-orange p-2">
@@ -31,13 +40,37 @@ export default function LandingSection() {
 					</Typography>
 					<List dense>
 						<ListItem disablePadding>
-							<ListItemText primary="Net Present Value (NPV)" />
+							<Link
+								href="https://doi.org/10.6028/NIST.AMS.200-5#page=14"
+								underline="always"
+								color="inherit"
+								target="_blank"
+								rel="noopener"
+							>
+								<ListItemText primary="Net Present Value (NPV)" />
+							</Link>
 						</ListItem>
 						<ListItem disablePadding>
-							<ListItemText primary="Internal Rate of Return (IRR)" />
+							<Link
+								href="https://doi.org/10.6028/NIST.AMS.200-5#page=15"
+								underline="always"
+								color="inherit"
+								target="_blank"
+								rel="noopener"
+							>
+								<ListItemText primary="Internal Rate of Return (IRR)" />
+							</Link>
 						</ListItem>
 						<ListItem disablePadding>
-							<ListItemText primary="Payback Period (PBP)" />
+							<Link
+								href="https://doi.org/10.6028/NIST.AMS.200-5#page=19"
+								underline="always"
+								color="inherit"
+								target="_blank"
+								rel="noopener"
+							>
+								<ListItemText primary="Payback Period (PBP)" />
+							</Link>
 						</ListItem>
 					</List>
 				</div>
