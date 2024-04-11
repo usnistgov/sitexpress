@@ -11,6 +11,8 @@ import {
 	Typography,
 } from "@mui/material";
 
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import CSVDownload from "./CSVDownload";
 import ChartTabs from "./ChartTabs";
 import Pdf from "./Pdf";
@@ -62,21 +64,25 @@ export default function StepThree(props) {
 			{measure ? (
 				<Stack className="p-10">
 					<span className="flex ml-auto">
-						<Typography variant="h6" className="">
-							Save to:
-						</Typography>
-						&nbsp;
 						<CSVDownload project={project} tableData={tableRows} />
 						&nbsp;
 						<span>
-							<Button
-								variant="contained"
-								className=""
-								onClick={() => {
-									console.log("saved to pdf");
-								}}
-							>
-								PDF
+							<Button className="pdf-download-btn">
+								<PDFDownloadLink document={<Pdf project={project} results={tableRows} />} fileName="sitexpress.pdf">
+									{({ blob, url, loading, error }) =>
+										loading ? (
+											"Loading document..."
+										) : (
+											<Button
+												startIcon={<FileDownloadIcon className="cursor-pointer text-white rounded" fontSize="medium" />}
+												variant="contained"
+												className=""
+											>
+												PDF
+											</Button>
+										)
+									}
+								</PDFDownloadLink>
 							</Button>
 							<BasicTooltip title="text" />
 						</span>

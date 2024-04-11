@@ -56,15 +56,13 @@ const Pdf = (props: { project: Project; results: Result[] }) => {
 	const { project, results } = props;
 	return (
 		<Document style={styles.document}>
-			<Page size="LETTER">
+			<Page size="A4">
 				<Image style={styles.headerNistLogo} src={"/images/645px-nist_logo-svg_1.png"} />
-				<Image style={styles.headerPV2Logo} src={"sitexpress/src/logo.png"} />
+				<Image style={styles.headerPV2Logo} src={"/images/logo.png"} />
 				<Text style={styles.date}>Report Generated: {new Date().toLocaleDateString()}</Text>
 				<PdfStepOne project={project} />
 				<PdfStepTwo project={project} />
-				<Page size="LETTER">
-					<PdfStepThree project={project} results={results} />
-				</Page>
+				<PdfStepThree project={project} results={results} />
 				<PdfDisclaimer />
 				<Text
 					style={styles.pageNumber}
