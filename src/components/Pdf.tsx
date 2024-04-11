@@ -1,4 +1,4 @@
-import { Document, Image, Page, StyleSheet, Text } from "@react-pdf/renderer";
+import { Document, Font, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 
 import PdfDisclaimer from "./pdf-components/PdfDisclaimer";
 
@@ -6,6 +6,11 @@ import { Project, Result } from "../data/Formats";
 import PdfStepOne from "./pdf-components/PdfStepOne";
 import PdfStepThree from "./pdf-components/PdfStepThree";
 import PdfStepTwo from "./pdf-components/PdfStepTwo";
+
+Font.register({
+	family: "Audiowide",
+	fonts: [{ src: "https://cdn.jsdelivr.net/fontsource/fonts/audiowide@latest/latin-400-normal.woff2" }],
+});
 
 const styles = StyleSheet.create({
 	section: {
@@ -29,46 +34,66 @@ const styles = StyleSheet.create({
 	},
 	mainHeader: {
 		display: "flex",
-		flexDirection: "row-reverse",
+		flexDirection: "column",
 		justifyContent: "space-between",
 		alignItems: "center",
+		padding: 25,
 	},
 	headerNistLogo: {
 		display: "flex",
-		width: "127px",
-		height: "34px",
+		justifyContent: "flex-end",
+		width: "80px",
+		height: "20px",
+		alignSelf: "flex-end",
 	},
-	headerPV2Logo: {
+	logo: {
 		display: "flex",
-		width: "128px",
-		height: "38px",
+		justifyContent: "center",
+		width: "400px",
+		height: "60px",
+		marginBottom: 10,
 	},
 	date: {
 		display: "flex",
 		justifyContent: "flex-end",
-	},
-	document: {
-		padding: "50px",
+		fontSize: 14,
 	},
 });
 
 const Pdf = (props: { project: Project; results: Result[] }) => {
 	const { project, results } = props;
 	return (
-		<Document style={styles.document}>
+		<Document>
 			<Page size="A4">
-				<Image style={styles.headerNistLogo} src={"/images/645px-nist_logo-svg_1.png"} />
-				<Image style={styles.headerPV2Logo} src={"/images/logo.png"} />
-				<Text style={styles.date}>Report Generated: {new Date().toLocaleDateString()}</Text>
+				<View style={styles.mainHeader} fixed>
+					<Image
+						style={{ ...styles.headerNistLogo, marginBottom: 25 }}
+						src={"/images/645px-nist_logo-svg_1.png"}
+						fixed
+					/>
+					<br />
+					<Image style={styles.logo} src={"/images/ss.png"} />
+					<Text style={styles.date}>Report Generated: {new Date().toLocaleDateString()}</Text>
+				</View>
 				<PdfStepOne project={project} />
-				<PdfStepTwo project={project} />
-				<PdfStepThree project={project} results={results} />
-				<PdfDisclaimer />
 				<Text
 					style={styles.pageNumber}
 					render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
 					fixed
 				/>
+			</Page>
+			<Page orientation="landscape">
+				<View style={styles.mainHeader} fixed>
+					<Image style={styles.headerNistLogo} src={"/images/645px-nist_logo-svg_1.png"} fixed />
+				</View>
+				<PdfStepTwo project={project} />
+			</Page>
+			<Page>
+				<View style={styles.mainHeader} fixed>
+					<Image style={styles.headerNistLogo} src={"/images/645px-nist_logo-svg_1.png"} fixed />
+				</View>
+				<PdfStepThree project={project} results={results} />
+				<PdfDisclaimer />
 			</Page>
 		</Document>
 	);

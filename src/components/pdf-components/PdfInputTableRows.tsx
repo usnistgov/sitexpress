@@ -5,7 +5,7 @@ import { Project } from "../../data/Formats";
 const borderRight = "1px solid #fff";
 const backgroundColor = "#005fa3ff";
 const borderBottom = "1px solid #fff";
-const padding = "2px 5px";
+const padding = "2px 2px";
 
 const styles = StyleSheet.create({
 	container: {
@@ -14,31 +14,34 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 	header: {
+		display: "flex",
+		flexDirection: "column",
 		borderRight,
 		borderBottom,
 		backgroundColor,
 		padding,
 		color: "#fff",
-		width: "200px",
+		width: 120,
 	},
 	subHeaderRow: {
 		backgroundColor,
 		display: "flex",
+		flexDirection: "row",
 		textAlign: "center",
 		color: "#fff",
-		width: "200px",
+		width: 120,
 	},
 	subHeader: {
 		backgroundColor,
 		borderRight,
 		padding,
 		color: "#fff",
-		width: "100px",
+		width: 60,
 	},
 	col: {
 		display: "flex",
 		flexDirection: "column",
-		width: "100px",
+		width: 60,
 	},
 
 	cellRow: {
@@ -69,29 +72,7 @@ const PdfInputTableRows = ({ project }: { project: Project }) => {
 		alt5: project?.altNames?.alt5 || `Alternative 5`,
 	};
 
-	const costs = [
-		{
-			name: "base",
-			cost: ["5000", "1000", "1000", "1000", "1000", "1000", "1000", "1000", "1000", "1000", "1000"],
-			revenue: ["0", "100", "100", "100", "100", "100", "100", "100", "100", "100", "100"],
-		},
-		{
-			name: "alt1",
-			cost: ["50000", "500", "500", "500", "500", "100", "50", "50", "50", "50", "50"],
-			revenue: ["0", "1000", "1000", "2000", "5000", "5000", "5000", "5000", "5000", "5000", "5000"],
-		},
-		{
-			name: "alt2",
-			cost: ["10000", "300", "300", "300", "300", "300", "300", "300", "300", "300", "300"],
-			revenue: ["0", "1000", "1000", "1000", "1000", "1000", "1000", "1000", "1000", "1000", "1000"],
-		},
-		{
-			name: "alt3",
-			cost: ["15000", "100", "100", "100", "100", "100", "100", "100", "100", "100", "100"],
-			revenue: ["0", "3000", "3000", "3000", "3000", "3000", "3000", "3000", "1000", "1000", "1000"],
-		},
-	];
-	// project.costs;
+	const costs = project.costs;
 
 	const rows: JSX.Element[] = [];
 	costs?.forEach((cost) => {

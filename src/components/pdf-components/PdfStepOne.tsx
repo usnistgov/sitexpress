@@ -1,53 +1,87 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { Project } from "../../data/Formats";
 
 const styles = StyleSheet.create({
 	section: {
 		display: "flex",
 		flexDirection: "column",
-		padding: 50,
-		border: "1px solid black",
+		padding: 25,
 	},
 	title: {
-		fontSize: 24,
+		fontSize: 18,
 		textAlign: "center",
+		marginBottom: 20,
+	},
+	key: {
+		display: "flex",
+		flexDirection: "row",
+		marginBottom: 10,
+	},
+	text: {
+		fontSize: 14,
+		color: "#979797",
+	},
+	value: {
+		fontSize: 14,
 	},
 });
 
-const PdfStepOne = ({ project }) => {
+const PdfStepOne = ({ project }: { project: Project }) => {
 	return (
 		<View style={styles.section}>
 			<Text style={styles.title}>Step One: Project Information</Text>
+			<View style={styles.key}>
+				<Text style={styles.text}>Project Name:&nbsp;</Text>
+				<Text style={styles.value}>{project.projectName}</Text>
+			</View>
 			<br />
-			<Text>
-				<b>Project Name:</b>
-				{project.projectName}
-			</Text>
+			{project?.projectDesc ?? (
+				<>
+					<View style={styles.key}>
+						<Text style={styles.text}>Project Description:&nbsp;</Text>
+						<Text style={styles.value}>{project.projectDesc}</Text>
+					</View>
+					<br />
+				</>
+			)}
+			<View style={styles.key}>
+				<Text style={styles.text}>Number of Alternatives:&nbsp;</Text>
+				<Text style={styles.value}>{project.alts}</Text>
+			</View>
 			<br />
-			<Text>
-				<b>Project Description:</b> {project.projectDesc}
-			</Text>
+			<View style={styles.key}>
+				<Text style={styles.text}>Study Period:&nbsp;</Text>
+				<Text style={styles.value}>{project.studyPeriod} year(s)</Text>
+			</View>
 			<br />
-			<Text>
-				<b>Number of Alternatives:</b> {project.alts}
-			</Text>
-			<br />
-			<Text>
-				<b>Study Period:</b> {project.studyPeriod} year(s)
-			</Text>
-			<br />
+
 			{project.dollarValue === "constant" ? (
-				<Text>
-					<b>Real Discount Rate:</b> {project.realDR}%
-				</Text>
+				<>
+					<View style={styles.key}>
+						<Text style={styles.text}>Dollar Value:&nbsp;</Text>
+						<Text style={styles.value}>Constant</Text>
+					</View>
+					<View style={styles.key}>
+						<Text style={styles.text}>Real Discount Rate:&nbsp;</Text>
+						<Text style={styles.value}>{project.realDR}%</Text>
+					</View>
+				</>
 			) : (
 				<>
-					<Text>
-						<b>Inflation Rate:</b> {project.inflationRate}%
-					</Text>
+					<View style={styles.key}>
+						<Text style={styles.text}>Dollar Value:&nbsp;</Text>
+						<Text style={styles.value}>Current</Text>
+					</View>
+					<View style={styles.key}>
+						<Text style={styles.text}>Inflation Rate:&nbsp;</Text>
+						<Text style={styles.value}>{project.inflationRate}%</Text>
+					</View>
 					<br />
-					<Text>
-						<b>Nominal Discount Rate:</b> {project.nominalDR}%
-					</Text>
+					<View style={styles.key}>
+						<Text style={styles.text}>Nominal Discount Rate:&nbsp;</Text>
+						<Text style={styles.value}>{project.nominalDR}%</Text>
+					</View>
+					<br />
 				</>
 			)}
 		</View>

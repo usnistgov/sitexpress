@@ -6,12 +6,12 @@ const styles = StyleSheet.create({
 	section: {
 		display: "flex",
 		flexDirection: "column",
-		padding: 50,
-		border: "1px solid black",
+		padding: 25,
 	},
 	title: {
-		fontSize: 24,
+		fontSize: 16,
 		textAlign: "center",
+		marginBottom: 20,
 	},
 });
 
@@ -19,7 +19,6 @@ const PdfStepThree = ({ project, results }: { project: Project; results: Result[
 	return (
 		<View style={styles.section}>
 			<Text style={styles.title}>Step Three: Results</Text>
-			<br />
 			<PdfResultsTable results={results} />
 		</View>
 	);

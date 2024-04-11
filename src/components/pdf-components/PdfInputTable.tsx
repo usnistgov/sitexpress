@@ -1,5 +1,8 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { Project } from "../../data/Formats";
 import PdfInputTableRows from "./PdfInputTableRows";
+
+const fontSize = 10;
 
 const styles = StyleSheet.create({
 	container: {
@@ -14,9 +17,12 @@ const styles = StyleSheet.create({
 	defaultCol: {
 		display: "flex",
 		flexDirection: "column",
+		fontSize,
 	},
 	altCol: {
 		display: "flex",
+		flexDirection: "row",
+		fontSize,
 	},
 	header: {
 		borderRight: "1px solid #fff",
@@ -24,12 +30,11 @@ const styles = StyleSheet.create({
 		backgroundColor: "#005fa3ff",
 		color: "#fff",
 		padding: "2px 5px",
+		fontSize,
 	},
 });
 
-const PdfInputTable = ({ project }) => {
-	const studyPeriod = 10;
-
+const PdfInputTable = ({ project }: { project: Project }) => {
 	const defaultCol = [
 		{
 			label: "Years",
@@ -45,7 +50,7 @@ const PdfInputTable = ({ project }) => {
 		},
 	];
 
-	for (let i = 1; i <= studyPeriod; i++) {
+	for (let i = 1; i <= project?.studyPeriod; i++) {
 		defaultCol.push({
 			label: `${i}`,
 			key: `year-${i}`,
