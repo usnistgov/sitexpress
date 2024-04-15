@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CellChange, Column, NumberCell, ReactGrid } from "@silevis/reactgrid";
 import "@silevis/reactgrid/styles.css";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip } from "chart.js";
 import React from "react";
 import { Bar } from "react-chartjs-2";

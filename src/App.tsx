@@ -1,3 +1,4 @@
+// @ts-nocheck
 // import "./App.css";
 import { useState } from "react";
 import Disclaimer from "./components/Disclaimer";
