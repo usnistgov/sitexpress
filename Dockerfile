@@ -6,7 +6,7 @@ WORKDIR /app
 
 # copy files to working directory
 COPY package.json ./
-COPY e3-sdk-1.0.10.tgz ./
+COPY e3-sdk-1.0.11.tgz ./
 
 # install packages from package.json
 RUN npm install
