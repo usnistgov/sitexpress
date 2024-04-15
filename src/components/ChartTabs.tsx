@@ -27,22 +27,6 @@ const createIRRDataset = (alts: number, measure) => {
 	return data;
 };
 
-const createSPDataset = (alts: number, measure) => {
-	const data = [];
-	for (let i = 0; i <= alts; i++) {
-		data.push(Number.isNaN(measure[i]?.spp) ? 0 : measure[i]?.spp);
-	}
-	return data;
-};
-
-const createDPDataset = (alts: number, measure) => {
-	const data = [];
-	for (let i = 0; i <= alts; i++) {
-		data.push(Number.isNaN(measure[i]?.dpp) ? 0 : measure[i]?.dpp);
-	}
-	return data;
-};
-
 const createBCRDataset = (alts: number, measure) => {
 	const data = [];
 	for (let i = 0; i <= alts; i++) {
@@ -93,8 +77,6 @@ export default function ChartTabs(props) {
 				<Tab label={labels.pv} />
 				<Tab label={labels.npv} />
 				<Tab label={labels.irr} />
-				<Tab label={labels.sp} />
-				<Tab label={labels.dp} />
 				<Tab label={labels.bcr} />
 			</Tabs>
 			<br />
@@ -108,12 +90,6 @@ export default function ChartTabs(props) {
 				<Chart project={project} label={labels.irr} dataset={createIRRDataset(alts, measure)} />
 			</CustomTabPanel>
 			<CustomTabPanel value={tabValue} index={3}>
-				<Chart project={project} label={labels.sp} dataset={createSPDataset(alts, measure)} />
-			</CustomTabPanel>
-			<CustomTabPanel value={tabValue} index={4}>
-				<Chart project={project} label={labels.dp} dataset={createDPDataset(alts, measure)} />
-			</CustomTabPanel>
-			<CustomTabPanel value={tabValue} index={5}>
 				<Chart project={project} label={labels.bcr} dataset={createBCRDataset(alts, measure)} />
 			</CustomTabPanel>
 		</Stack>
