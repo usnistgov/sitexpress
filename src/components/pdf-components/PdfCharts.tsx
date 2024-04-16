@@ -1,7 +1,5 @@
-import { Document, Image, PDFViewer, Page, View } from "@react-pdf/renderer";
-import * as htmlToImage from "html-to-image";
-import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
+import { createLabels } from "../../constants";
 
 export const options = {
 	responsive: true,
@@ -12,22 +10,29 @@ export const options = {
 	},
 };
 
+const createDataset = (result) => {
+	const data = { pv: [], npv: [], irr: [], sp: [], dp: [], bcr: [] };
+	result.forEach((res) => {
+		data.pv.push(res.pv);
+	});
+	return data;
+};
+
 function PdfCharts(props) {
 	const { project, label, results } = props;
-	const [src, setSrc] = useState("");
+	const names = project?.altNames;
 
 	const datas = {
-		labels: ["Base Case", "Alternative 1", "Alternative 2", "Alternative 3"],
+		labels: createLabels(project?.alts, names),
 		datasets: [
 			{
-				label: "Present Value",
-				data: [-12677.18, -19890.62, -4028.86, 5137.75],
+				label,
+				data: createDataset(results).pv,
 				backgroundColor: "#1975d1ff",
 			},
 		],
 	};
-
-	return <Bar className="max-h-80" options={options} data={datas} id="pv-chart1" />;
+	return <Bar style={{ display: "hidden" }} className="hidden" options={options} data={datas} id="pv-chart1" />;
 }
 
 export default PdfCharts;

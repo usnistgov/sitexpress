@@ -94,7 +94,7 @@ export default function StepThree(props) {
 									}
 								</PDFDownloadLink>
 							</Button> */}
-							<PDFDownload project={project} results={results} />
+							<PDFDownload project={project} results={tableRows} />
 							<BasicTooltip title="text" />
 						</span>
 					</span>

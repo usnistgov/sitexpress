@@ -1,21 +1,9 @@
-import {
-	Button,
-	Paper,
-	Stack,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Typography,
-} from "@mui/material";
+import { Button } from "@mui/material";
 
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
+import { pdf } from "@react-pdf/renderer";
 
 import Pdf from "../Pdf";
-import BasicTooltip from "../Tooltip";
 
 import { useCallback, useState } from "react";
 
@@ -37,7 +25,6 @@ export default function PDFDownload({ project, results }: PDFDownloadProps) {
 	const [src, setSrc] = useState("");
 	const generatePdf = useCallback(() => {
 		const pdfGraph = document.getElementById("pv-chart1");
-		console.log(pdfGraph);
 
 		if (pdfGraph == null) return;
 
@@ -45,7 +32,6 @@ export default function PDFDownload({ project, results }: PDFDownloadProps) {
 			.toPng(pdfGraph)
 			.then(async (graphSrc) => {
 				setSrc(graphSrc);
-				console.log(graphSrc);
 				return pdf(<Pdf project={project} graphSrc={graphSrc} results={results} />).toBlob();
 			})
 			.then((blob) => {
@@ -60,7 +46,13 @@ export default function PDFDownload({ project, results }: PDFDownloadProps) {
 
 	return (
 		<>
-			<PdfCharts project={project} label="Present Value" result={results} />
+			<PdfCharts
+				className="hidden"
+				style={{ display: "hidden" }}
+				project={project}
+				label="Present Value"
+				results={results}
+			/>
 			<Button
 				variant={"contained"}
 				color={"primary"}

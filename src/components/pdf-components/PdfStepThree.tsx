@@ -14,15 +14,18 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		marginBottom: 20,
 	},
+	graph: {
+		height: 200,
+		width: 400,
+	},
 });
 
 const PdfStepThree = ({ project, results, graphSrc }: { project: Project; results: Result[]; graphSrc: string }) => {
-	console.log(graphSrc);
 	return (
 		<View style={styles.section}>
 			<Text style={styles.title}>Step Three: Results</Text>
-			{/* <PdfResultsTable results={results} /> */}
-			<Image src={graphSrc} />
+			<PdfResultsTable results={results} />
+			<Image style={styles.graph} src={graphSrc} />
 			{/* <PdfCharts project={project} label="Present Value" results={results} /> */}
 		</View>
 	);
