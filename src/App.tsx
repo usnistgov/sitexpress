@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from "react";
 import Disclaimer from "./components/Disclaimer";
 import Header from "./components/Header";
@@ -20,7 +21,14 @@ function App() {
 		inflationRate: 2.3,
 		nominalDR: 5.3,
 		costs: [],
-		altNames: { alt0: "Base Case", alt1: "Alternative 1", alt2: "Alt 2", alt3: "Alt 3", alt4: "Alt 4", alt5: "Alt 5" },
+		altNames: {
+			alt0: "Base Case",
+			alt1: "Alternative 1",
+			alt2: "Alternative 2",
+			alt3: "Alternative 3",
+			alt4: "Alternative 4",
+			alt5: "Alternative 5",
+		},
 	});
 	const [result, setResult] = useState({});
 	console.log(project);

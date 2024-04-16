@@ -87,7 +87,7 @@ export default function StepOne(props: { project: Project; handleChange: any }) 
 						size="small"
 						onChange={(e) => handleChange("projectDesc", e)}
 					/>
-					<BasicTooltip title="A brief description of your project for documentation purposes" />
+					<BasicTooltip title="A brief description of your project." />
 				</div>
 				<br />
 
@@ -115,6 +115,7 @@ export default function StepOne(props: { project: Project; handleChange: any }) 
 								label={i === 0 ? `Base Case Name` : `Alternative ${i} Name`}
 								onChange={(e) => handleNameChange(i, e)}
 								inputProps={{ maxLength: 20 }}
+								defaultValue={i === 0 ? `Base Case` : `Alternative ${i}`}
 							/>
 						</div>
 					))}
@@ -143,7 +144,11 @@ export default function StepOne(props: { project: Project; handleChange: any }) 
 
 						<Button variant="contained" className="refresh-btn" onClick={handleOpen}>
 							<Tooltip title="Reset to Default Values">
-								<RefreshIcon className="p-1 cursor-pointer text-white rounded bg-sky-500" fontSize="medium" />
+								<RefreshIcon
+									className="p-1 cursor-pointer text-white rounded"
+									fontSize="medium"
+									style={{ backgroundColor: "#1975d1ff" }}
+								/>
 							</Tooltip>
 						</Button>
 

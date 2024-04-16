@@ -208,7 +208,7 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 						>
 							Run Results
 						</Button>
-						<BasicTooltip title="text" />
+						<BasicTooltip title="Calculates Net Present Value, Internal Rate of Return, and payback period." />
 					</Stack>
 				</Stack>
 			</Stack>

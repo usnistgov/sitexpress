@@ -60,8 +60,6 @@ const ChartTabs = (props) => {
 				<Tab label={labels.pv} />
 				<Tab label={labels.npv} />
 				<Tab label={labels.irr} />
-				<Tab label={labels.sp} />
-				<Tab label={labels.dp} />
 				<Tab label={labels.bcr} />
 			</Tabs>
 			<br />
