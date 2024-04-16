@@ -9,8 +9,6 @@ const createDataset = (alts: number, measure) => {
 		data?.pv.push(measure[i]?.totalBenefits - measure[i]?.totalCosts);
 		data?.npv.push(measure[i]?.netBenefits || 0);
 		data?.irr.push(measure[i]?.irr * 100 || 0);
-		data?.sp.push(Number.isNaN(measure[i]?.spp) ? 0 : measure[i]?.spp);
-		data?.dp.push(Number.isNaN(measure[i]?.dpp) ? 0 : measure[i]?.dpp);
 		data?.bcr.push(measure[i]?.bcr || 0);
 	}
 	return data;
@@ -71,12 +69,6 @@ const ChartTabs = (props) => {
 			</CustomTabPanel>
 			<CustomTabPanel value={tabValue} index={2}>
 				<Chart project={project} label={labels.irr} dataset={resultsData.irr} />
-			</CustomTabPanel>
-			<CustomTabPanel value={tabValue} index={3}>
-				<Chart project={project} label={labels.sp} dataset={resultsData.sp} />
-			</CustomTabPanel>
-			<CustomTabPanel value={tabValue} index={4}>
-				<Chart project={project} label={labels.dp} dataset={resultsData.dp} />
 			</CustomTabPanel>
 			<CustomTabPanel value={tabValue} index={5}>
 				<Chart project={project} label={labels.bcr} dataset={resultsData.bcr} />
