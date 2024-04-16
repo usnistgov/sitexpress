@@ -27,46 +27,7 @@ function PdfCharts(props) {
 		],
 	};
 
-	const pdfGraphRef = useRef(null);
-
-	useEffect(() => {
-		<Bar className="max-h-80" options={options} data={datas} id="pv-chart1" />;
-	}, []);
-
-	console.log(pdfGraphRef);
-
-	const captureChart = useCallback(() => {
-		// if (pdfGraphRef.current) {
-		htmlToImage.toPng(document?.getElementById("pv-chart1")).then((url) => {
-			// generatePdf(url);
-			setSrc(url);
-		});
-		// }
-	}, []);
-
-	console.log(captureChart());
-
-	const generatePdf = useCallback((chartImageUrl) => {
-		<Image src={chartImageUrl} />;
-
-		// pdf(doc)
-		// 	.toBlob()
-		// 	.then((blob) => {
-		// 		const url = window.URL.createObjectURL(blob);
-		// 		const link = document.createElement("a");
-		// 		link.href = url;
-		// 		link.download = "PV2 Analysis Report.pdf";
-		// 		link.click();
-		// 	});
-	}, []);
-
-	return (
-		<View>
-			<canvas id="myChart" ref={pdfGraphRef}></canvas>
-			{/* {generatePdf(captureChart())} */}
-			<Image src={src} style={{ display: "flex", height: 100, width: 100, border: "1px solid black" }} />
-		</View>
-	);
+	return <Bar className="max-h-80" options={options} data={datas} id="pv-chart1" />;
 }
 
 export default PdfCharts;

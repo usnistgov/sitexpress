@@ -60,10 +60,10 @@ const styles = StyleSheet.create({
 	},
 });
 
-const Pdf = (props: { project: Project; results: Result[] }) => {
-	const { project, results } = props;
+const Pdf = (props: { project: Project; results: Result[]; graphSrc: string }) => {
+	const { project, results, graphSrc } = props;
 	return (
-		<Document className="pdfDoc">
+		<Document>
 			<Page size="A4">
 				<View style={styles.mainHeader} fixed>
 					<Image
@@ -92,7 +92,7 @@ const Pdf = (props: { project: Project; results: Result[] }) => {
 				<View style={styles.mainHeader} fixed>
 					<Image style={styles.headerNistLogo} src={"/images/645px-nist_logo-svg_1.png"} fixed />
 				</View>
-				<PdfStepThree project={project} results={results} />
+				<PdfStepThree project={project} results={results} graphSrc={graphSrc} />
 				<PdfDisclaimer />
 			</Page>
 		</Document>

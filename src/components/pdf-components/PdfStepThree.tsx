@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { Image, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { Project, Result } from "../../data/Formats";
 import PdfCharts from "./PdfCharts";
 import PdfResultsTable from "./PdfResultsTable";
@@ -16,12 +16,14 @@ const styles = StyleSheet.create({
 	},
 });
 
-const PdfStepThree = ({ project, results }: { project: Project; results: Result[] }) => {
+const PdfStepThree = ({ project, results, graphSrc }: { project: Project; results: Result[]; graphSrc: string }) => {
+	console.log(graphSrc);
 	return (
-		<View style={styles.section} className="pdf-step3">
+		<View style={styles.section}>
 			<Text style={styles.title}>Step Three: Results</Text>
-			<PdfResultsTable results={results} />
-			<PdfCharts project={project} label="Present Value" results={results} />
+			{/* <PdfResultsTable results={results} /> */}
+			<Image src={graphSrc} />
+			{/* <PdfCharts project={project} label="Present Value" results={results} /> */}
 		</View>
 	);
 };
