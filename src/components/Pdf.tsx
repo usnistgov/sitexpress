@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 const Pdf = (props: { project: Project; results: Result[] }) => {
 	const { project, results } = props;
 	return (
-		<Document>
+		<Document className="pdfDoc">
 			<Page size="A4">
 				<View style={styles.mainHeader} fixed>
 					<Image

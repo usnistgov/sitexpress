@@ -82,18 +82,26 @@ const PdfInputTableRows = ({ project }: { project: Project }) => {
 				<View style={styles.container}>
 					<Text style={styles.header}>{headers[name]}</Text>
 					<View style={styles.subHeaderRow}>
-						<Text style={styles.subHeader}>Cost ($)</Text>
-						<Text style={styles.subHeader}>Revenue ($)</Text>
+						<Text key="cost" style={styles.subHeader}>
+							Cost ($)
+						</Text>
+						<Text key="rev" style={styles.subHeader}>
+							Revenue ($)
+						</Text>
 					</View>
 					<View style={styles.cellRow}>
 						<View style={styles.col}>
-							{cost.cost.map((item) => (
-								<Text style={styles.cell}>{item}</Text>
+							{cost.cost.map((item, index) => (
+								<Text key={`cost+${item} + ${index}`} style={styles.cell}>
+									{item}
+								</Text>
 							))}
 						</View>
 						<View style={styles.col}>
-							{cost.revenue.map((item) => (
-								<Text style={styles.cell}>{item}</Text>
+							{cost.revenue.map((item, index) => (
+								<Text key={`rev+${item} + ${index}`} style={styles.cell}>
+									{item}
+								</Text>
 							))}
 						</View>
 					</View>
