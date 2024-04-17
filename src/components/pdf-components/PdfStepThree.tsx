@@ -1,6 +1,5 @@
 import { Image, StyleSheet, Text, View } from "@react-pdf/renderer";
-import { Project, Result } from "../../data/Formats";
-import PdfCharts from "./PdfCharts";
+import { Result } from "../../data/Formats";
 import PdfResultsTable from "./PdfResultsTable";
 
 const styles = StyleSheet.create({

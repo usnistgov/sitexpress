@@ -1,5 +1,4 @@
 import {
-	Button,
 	Paper,
 	Stack,
 	Table,
@@ -11,17 +10,10 @@ import {
 	Typography,
 } from "@mui/material";
 
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
 import CSVDownload from "./CSVDownload";
 import ChartTabs from "./ChartTabs";
-import Pdf from "./Pdf";
 import BasicTooltip from "./Tooltip";
 import PDFDownload from "./pdf-components/PdfDownload";
-
-import { useCallback, useState } from "react";
-
-import * as htmlToImage from "html-to-image";
 
 function createData(alt: string, pv: number, npv: number, irr: number, spp: number, dpp: number, bcr: number) {
 	return { alt, pv, npv, irr, spp, dpp, bcr };
@@ -50,7 +42,6 @@ const getRows = (measure, names) => {
 // @ts-ignore
 export default function StepThree(props) {
 	const { project, results } = props;
-	const [src, setSrc] = useState("");
 
 	const measure = results?.measure;
 	const names = project?.altNames;
@@ -73,27 +64,6 @@ export default function StepThree(props) {
 						<CSVDownload project={project} tableData={tableRows} />
 						&nbsp;
 						<span>
-							{/* <Button className="pdf-download-btn">
-								<PDFDownloadLink
-									document={<Pdf project={project} results={tableRows} graphSrc={src} />}
-									fileName="sitexpress.pdf"
-								>
-									{({ blob, url, loading, error }) =>
-										loading ? (
-											"Loading document..."
-										) : (
-											<Button
-												startIcon={<FileDownloadIcon className="cursor-pointer text-white rounded" fontSize="medium" />}
-												variant="contained"
-												className=""
-												onClick={generatePdf()}
-											>
-												PDF
-											</Button>
-										)
-									}
-								</PDFDownloadLink>
-							</Button> */}
 							<PDFDownload project={project} results={tableRows} />
 							<BasicTooltip title="text" />
 						</span>

@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
 		border,
 		marginTop: 0,
 	},
+	cell: { borderRight: border, padding: 2, textAlign: "right" },
 });
 
 const PdfResultsTableRow = ({ results }: { results: Result[] }) => {
@@ -22,12 +23,12 @@ const PdfResultsTableRow = ({ results }: { results: Result[] }) => {
 		rows.push(
 			<View style={styles.row} key={item.alt}>
 				<Text style={{ ...cellStyles.alt, borderRight: border }}>{item.alt}</Text>
-				<Text style={{ ...cellStyles.pv, borderRight: border }}>{item.pv}</Text>
-				<Text style={{ ...cellStyles.npv, borderRight: border }}>{item.npv}</Text>
-				<Text style={{ ...cellStyles.irr, borderRight: border }}>{item.irr}</Text>
-				<Text style={{ ...cellStyles.spp, borderRight: border }}>{item.spp}</Text>
-				<Text style={{ ...cellStyles.dpp, borderRight: border }}>{item.dpp}</Text>
-				<Text style={{ ...cellStyles.bcr, borderRight: border }}>{item.bcr}</Text>
+				<Text style={{ ...cellStyles.pv, ...styles.cell }}>{item.pv}</Text>
+				<Text style={{ ...cellStyles.npv, ...styles.cell }}>{item.npv}</Text>
+				<Text style={{ ...cellStyles.irr, ...styles.cell }}>{item.irr}</Text>
+				<Text style={{ ...cellStyles.spp, ...styles.cell }}>{item.spp}</Text>
+				<Text style={{ ...cellStyles.dpp, ...styles.cell }}>{item.dpp}</Text>
+				<Text style={{ ...cellStyles.bcr, ...styles.cell }}>{item.bcr}</Text>
 			</View>,
 		),
 	);

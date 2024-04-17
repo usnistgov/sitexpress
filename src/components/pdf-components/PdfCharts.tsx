@@ -9,7 +9,7 @@ export const options = {
 	},
 };
 
-function PdfCharts(props: { label: string; altLabels: string[]; dataset: any; type: string; className: string }) {
+const PdfCharts = (props: { label: string; altLabels: string[]; dataset: any; type: string }) => {
 	const { label, altLabels, dataset, type } = props;
 
 	const datas = {
@@ -23,6 +23,6 @@ function PdfCharts(props: { label: string; altLabels: string[]; dataset: any; ty
 		],
 	};
 	return <Bar style={{ height: "250px", width: "500px" }} options={options} data={datas} className="pv-chart1" />;
-}
+};
 
 export default PdfCharts;

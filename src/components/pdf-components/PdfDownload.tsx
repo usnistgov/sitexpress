@@ -18,7 +18,7 @@ interface PDFDownloadProps {
  *
  * @param result The results to generate a PDF for.
  */
-export default function PDFDownload({ project, results }: PDFDownloadProps) {
+const PDFDownload = ({ project, results }: PDFDownloadProps) => {
 	const generatePdf = useCallback(() => {
 		const pdfGraphs = document.getElementsByClassName("pv-chart1");
 
@@ -55,16 +55,11 @@ export default function PDFDownload({ project, results }: PDFDownloadProps) {
 
 	return (
 		<>
-			{Object.entries(dataset).map(([key]) => (
-				<PdfCharts
-					key={key}
-					className="hidden"
-					label={resultLabels[key]}
-					altLabels={altLabels}
-					dataset={dataset}
-					type={key}
-				/>
-			))}
+			<div style={{ position: "absolute", left: 0, top: "-100vh", backgroundColor: "#FFFFFF" }}>
+				{Object.entries(dataset).map(([key]) => (
+					<PdfCharts key={key} label={resultLabels[key]} altLabels={altLabels} dataset={dataset} type={key} />
+				))}
+			</div>
 			<Button
 				variant={"contained"}
 				color={"primary"}
@@ -75,4 +70,6 @@ export default function PDFDownload({ project, results }: PDFDownloadProps) {
 			</Button>
 		</>
 	);
-}
+};
+
+export default PDFDownload;

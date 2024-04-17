@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 		padding,
 		color: "#fff",
 		width: 120,
+		textAlign: "center",
 	},
 	subHeaderRow: {
 		backgroundColor,
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
 		padding,
 		color: "#fff",
 		width: 60,
+		textAlign: "center",
 	},
 	col: {
 		display: "flex",
@@ -52,6 +54,7 @@ const styles = StyleSheet.create({
 		padding,
 		borderRight: "1px solid #005fa3ff",
 		borderBottom: "1px solid #005fa3ff",
+		textAlign: "right",
 	},
 });
 

@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
 		border: "1px solid #005fa3ff",
 		borderBottom: 0,
 		borderRight: 0,
-		textAlign: "center",
 	},
 	defaultCol: {
 		display: "flex",
