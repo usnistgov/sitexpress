@@ -8,11 +8,24 @@ const styles = StyleSheet.create({
 		display: "flex",
 		flexDirection: "column",
 		padding: 25,
+		flexGrow: 1,
 	},
 	title: {
 		fontSize: 16,
 		textAlign: "center",
 		marginBottom: 20,
+	},
+	graphGrid: {
+		display: "flex",
+		flexDirection: "row",
+		flexWrap: "wrap",
+		justifyContent: "space-around",
+	},
+	graphItem: {
+		width: "50%",
+		marginTop: 10,
+		marginBottom: 10,
+		alignItems: "center",
 	},
 	graph: {
 		height: 150,
@@ -25,10 +38,13 @@ const PdfStepThree = ({ results, graphSources }: { results: Result[]; graphSourc
 		<View style={styles.section}>
 			<Text style={styles.title}>Step Three: Results</Text>
 			<PdfResultsTable results={results} />
-			<br />
-			{graphSources.map((src) => (
-				<Image style={styles.graph} src={src} />
-			))}
+			<View style={styles.graphGrid}>
+				{graphSources.map((src, index) => (
+					<View key={index} style={styles.graphItem}>
+						<Image style={styles.graph} src={src} />
+					</View>
+				))}
+			</View>
 		</View>
 	);
 };
