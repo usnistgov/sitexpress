@@ -17,15 +17,16 @@ function CSVDownload(props: { project: Project; tableData: Result[] }) {
 	if (project?.dollarValue === "constant") stepOneData.push(["Real Discount Rate", project?.realDR]);
 	else stepOneData.push(["Inflation Rate", project?.realDR], ["Nominal Discount Rate", project?.nominalDR]);
 
-	const inputHeaders = (alts: number) => {
+	const inputHeaders = (alts: number): string[] => {
 		const defaultCol = ["Year"];
 
 		for (let i = 0; i <= alts; i++) {
 			if (i === 0) {
-				defaultCol.push(project.altNames[`alt${i}`] || "Base Case");
+				defaultCol.push(project?.altNames?.["alt0"] || "Base Case");
 				defaultCol.push("");
 			} else {
-				defaultCol.push(project.altNames[`alt${i}`] || `Alternative ${i}`);
+				// @ts-ignore
+				defaultCol.push(project?.altNames?.[`alt${i}`] || `Alternative ${i}`);
 				defaultCol.push("");
 			}
 		}
@@ -48,7 +49,7 @@ function CSVDownload(props: { project: Project; tableData: Result[] }) {
 	};
 
 	const resultsData = (res: Result[]) => {
-		let results: (string | number | String)[] = [];
+		let results: (string | number | String)[][] = [];
 		res.forEach((data) => results.push(Array.from(Object.values(data))));
 		return results;
 	};

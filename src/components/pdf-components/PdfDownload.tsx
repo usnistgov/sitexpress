@@ -1,3 +1,4 @@
+// @ts-nocheck
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { Button } from "@mui/material";
 import { pdf } from "@react-pdf/renderer";
@@ -55,7 +56,7 @@ const PDFDownload = ({ project, results }: PDFDownloadProps) => {
 
 	return (
 		<>
-			<div style={{ position: "absolute", left: 0, top: "-100vh", backgroundColor: "#FFFFFF" }}>
+			<div style={{ position: "absolute", left: 0, top: "-200vh", backgroundColor: "#FFFFFF" }}>
 				{Object.entries(dataset).map(([key]) => (
 					<PdfCharts key={key} label={resultLabels[key]} altLabels={altLabels} dataset={dataset} type={key} />
 				))}
