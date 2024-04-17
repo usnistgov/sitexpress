@@ -1,5 +1,4 @@
 import {
-	Button,
 	Paper,
 	Stack,
 	Table,
@@ -11,8 +10,10 @@ import {
 	Typography,
 } from "@mui/material";
 
+import CSVDownload from "./CSVDownload";
 import ChartTabs from "./ChartTabs";
 import BasicTooltip from "./Tooltip";
+import PDFDownload from "./pdf-components/PdfDownload";
 
 function createData(alt: string, pv: number, npv: number, irr: number, spp: number, dpp: number, bcr: number) {
 	return { alt, pv, npv, irr, spp, dpp, bcr };
@@ -44,6 +45,7 @@ export default function StepThree(props) {
 
 	const measure = results?.measure;
 	const names = project?.altNames;
+	const tableRows = getRows(measure, names);
 
 	return (
 		<Stack direction="column">
@@ -59,30 +61,10 @@ export default function StepThree(props) {
 			{measure ? (
 				<Stack className="p-10">
 					<span className="flex ml-auto">
-						<Typography variant="h6" className="">
-							Save to:
-						</Typography>
-						&nbsp;
-						<Button
-							variant="contained"
-							className=""
-							onClick={() => {
-								console.log("saved to csv");
-							}}
-						>
-							CSV
-						</Button>
+						<CSVDownload project={project} tableData={tableRows} />
 						&nbsp;
 						<span>
-							<Button
-								variant="contained"
-								className=""
-								onClick={() => {
-									console.log("saved to pdf");
-								}}
-							>
-								PDF
-							</Button>
+							<PDFDownload project={project} results={tableRows} />
 							<BasicTooltip title="text" />
 						</span>
 					</span>
@@ -114,7 +96,7 @@ export default function StepThree(props) {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{getRows(measure, names).map((row) => (
+								{tableRows.map((row) => (
 									<TableRow key={row.alt + "-row"}>
 										<TableCell component="th" key={row.alt} scope="row" className="results-table-cell">
 											{row.alt}
