@@ -69,7 +69,9 @@ const Pdf = (props: { project: Project; results: Result[]; graphSources: string[
 					<Image style={{ ...styles.headerNistLogo, marginBottom: 25 }} src={"/images/645px-nist_logo-svg_1.png"} />
 					<br />
 					<Image style={styles.logo} src={"/images/ss.png"} />
-					<Text style={styles.date}>Report Generated: {new Date().toLocaleDateString()}</Text>
+					<Text style={styles.date}>
+						Report Generated: {`${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`}
+					</Text>
 				</View>
 				<PdfStepOne project={project} />
 				<PdfDisclaimer />

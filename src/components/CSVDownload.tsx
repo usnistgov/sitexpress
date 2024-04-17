@@ -55,6 +55,9 @@ function CSVDownload(props: { project: Project; tableData: Result[] }) {
 	};
 
 	let csvData = [
+		[new Date().toLocaleDateString()],
+		[new Date().toLocaleTimeString()],
+		[],
 		["Project Information"],
 		[],
 		...stepOneData,
