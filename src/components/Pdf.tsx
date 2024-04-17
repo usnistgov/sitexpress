@@ -60,26 +60,23 @@ const styles = StyleSheet.create({
 	},
 });
 
-const Pdf = (props: { project: Project; results: Result[]; graphSrc: string }) => {
-	const { project, results, graphSrc } = props;
+const Pdf = (props: { project: Project; results: Result[]; graphSources: string[] }) => {
+	const { project, results, graphSources } = props;
 	return (
 		<Document>
-			<Page size="A4">
-				<View style={styles.mainHeader} fixed>
-					<Image
-						style={{ ...styles.headerNistLogo, marginBottom: 25 }}
-						src={"/images/645px-nist_logo-svg_1.png"}
-						fixed
-					/>
+			<Page size="A4" orientation="landscape">
+				<View fixed style={styles.mainHeader}>
+					<Image style={{ ...styles.headerNistLogo, marginBottom: 25 }} src={"/images/645px-nist_logo-svg_1.png"} />
 					<br />
 					<Image style={styles.logo} src={"/images/ss.png"} />
 					<Text style={styles.date}>Report Generated: {new Date().toLocaleDateString()}</Text>
 				</View>
 				<PdfStepOne project={project} />
+				<PdfDisclaimer />
 				<Text
+					fixed
 					style={styles.pageNumber}
 					render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
-					fixed
 				/>
 			</Page>
 			<Page orientation="landscape">
@@ -87,13 +84,22 @@ const Pdf = (props: { project: Project; results: Result[]; graphSrc: string }) =
 					<Image style={styles.headerNistLogo} src={"/images/645px-nist_logo-svg_1.png"} fixed />
 				</View>
 				<PdfStepTwo project={project} />
+				<Text
+					fixed
+					style={styles.pageNumber}
+					render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+				/>
 			</Page>
-			<Page>
+			<Page orientation="landscape">
 				<View style={styles.mainHeader} fixed>
 					<Image style={styles.headerNistLogo} src={"/images/645px-nist_logo-svg_1.png"} fixed />
 				</View>
-				<PdfStepThree project={project} results={results} graphSrc={graphSrc} />
-				<PdfDisclaimer />
+				<PdfStepThree results={results} graphSources={graphSources} />
+				<Text
+					fixed
+					style={styles.pageNumber}
+					render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+				/>
 			</Page>
 		</Document>
 	);

@@ -1,19 +1,16 @@
-import { Button } from "@mui/material";
-
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import { Button } from "@mui/material";
 import { pdf } from "@react-pdf/renderer";
-
-import Pdf from "../Pdf";
-
-import { useCallback, useState } from "react";
-
 import * as htmlToImage from "html-to-image";
-import { Project } from "../../data/Formats";
+import { useCallback } from "react";
+import { createLabels, resultLabels } from "../../constants";
+import { Project, Result } from "../../data/Formats";
+import Pdf from "../Pdf";
 import PdfCharts from "./PdfCharts";
 
 interface PDFDownloadProps {
 	project: Project;
-	results: any;
+	results: Result[];
 }
 
 /**
@@ -22,37 +19,52 @@ interface PDFDownloadProps {
  * @param result The results to generate a PDF for.
  */
 export default function PDFDownload({ project, results }: PDFDownloadProps) {
-	const [src, setSrc] = useState("");
 	const generatePdf = useCallback(() => {
-		const pdfGraph = document.getElementById("pv-chart1");
+		const pdfGraphs = document.getElementsByClassName("pv-chart1");
 
-		if (pdfGraph == null) return;
+		if (pdfGraphs.length === 0) return;
 
-		htmlToImage
-			.toPng(pdfGraph)
-			.then(async (graphSrc) => {
-				setSrc(graphSrc);
-				return pdf(<Pdf project={project} graphSrc={graphSrc} results={results} />).toBlob();
-			})
-			.then((blob) => {
+		const promises = [...pdfGraphs].map((graph) => htmlToImage.toPng(graph).then((graphSrc) => graphSrc));
+
+		Promise.all(promises).then((graphSources) => {
+			const blob = pdf(<Pdf project={project} graphSources={graphSources} results={results} />).toBlob();
+
+			blob.then((blob: Blob | MediaSource) => {
 				const url = window.URL.createObjectURL(blob);
 				const link = document.createElement("a");
 				link.href = url;
 				link.download = "SitExpress Report.pdf";
-
 				link.click();
 			});
-	}, [src]);
+		});
+	}, [project, results]);
+
+	const createDataset = (result: Result[]) => {
+		const data = { pv: [], npv: [], irr: [], bcr: [] };
+		result.forEach((res: Result) => {
+			data.pv.push(res.pv);
+			data.npv.push(res.npv);
+			data.irr.push(res.irr);
+			data.bcr.push(res.bcr);
+		});
+		return data;
+	};
+
+	const altLabels = createLabels(project?.alts, project?.altNames);
+	const dataset = createDataset(results);
 
 	return (
 		<>
-			<PdfCharts
-				className="hidden"
-				style={{ display: "hidden" }}
-				project={project}
-				label="Present Value"
-				results={results}
-			/>
+			{Object.entries(dataset).map(([key]) => (
+				<PdfCharts
+					key={key}
+					className="hidden"
+					label={resultLabels[key]}
+					altLabels={altLabels}
+					dataset={dataset}
+					type={key}
+				/>
+			))}
 			<Button
 				variant={"contained"}
 				color={"primary"}

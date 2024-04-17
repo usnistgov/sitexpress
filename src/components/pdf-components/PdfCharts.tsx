@@ -1,5 +1,4 @@
 import { Bar } from "react-chartjs-2";
-import { createLabels } from "../../constants";
 
 export const options = {
 	responsive: true,
@@ -10,29 +9,20 @@ export const options = {
 	},
 };
 
-const createDataset = (result) => {
-	const data = { pv: [], npv: [], irr: [], sp: [], dp: [], bcr: [] };
-	result.forEach((res) => {
-		data.pv.push(res.pv);
-	});
-	return data;
-};
-
-function PdfCharts(props) {
-	const { project, label, results } = props;
-	const names = project?.altNames;
+function PdfCharts(props: { label: string; altLabels: string[]; dataset: any; type: string; className: string }) {
+	const { label, altLabels, dataset, type } = props;
 
 	const datas = {
-		labels: createLabels(project?.alts, names),
+		labels: altLabels,
 		datasets: [
 			{
 				label,
-				data: createDataset(results).pv,
+				data: dataset[type],
 				backgroundColor: "#1975d1ff",
 			},
 		],
 	};
-	return <Bar style={{ display: "hidden" }} className="hidden" options={options} data={datas} id="pv-chart1" />;
+	return <Bar style={{ height: "250px", width: "500px" }} options={options} data={datas} className="pv-chart1" />;
 }
 
 export default PdfCharts;

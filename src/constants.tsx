@@ -29,6 +29,15 @@ export const resultHeaders = [
 	},
 ];
 
+export const resultLabels = {
+	pv: "Present Value",
+	npv: "Net Present Value",
+	spp: "Simple Payback",
+	dpp: "Discounted Payback",
+	irr: "IRR",
+	bcr: "BCR",
+};
+
 export const createLabels = (alts: number, names) => {
 	const labels = [names?.["alt0"] || "Base Case", names?.["alt1"] || "Alternative 1"];
 	for (let i = 2; i <= alts; i++) {
