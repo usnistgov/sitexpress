@@ -1,3 +1,11 @@
+type altNames = {
+	alt0: string;
+	alt1: string;
+	alt2: string;
+	alt3?: string;
+	alt4?: string;
+	alt5?: string;
+};
 export type Project = {
 	projectName: string;
 	projectDesc?: string;
@@ -8,7 +16,7 @@ export type Project = {
 	nominalDR: number;
 	inflationRate: number;
 	costs: Cost[];
-	altNames: string[];
+	altNames: altNames;
 };
 
 export type Type<T> = {
@@ -71,4 +79,13 @@ export type Required = {
 	totalBenefitsNonDiscountedExternal: number[];
 	totalBenefitsDiscountedExternal: number[];
 	altId: number;
+};
+export type Result = {
+	alt: string;
+	pv: number;
+	npv: string;
+	irr: number | string;
+	spp: number | string;
+	dpp: number | String;
+	bcr: number | string;
 };

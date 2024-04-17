@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { createLabels } from "../constants";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -11,14 +12,6 @@ export const options = {
 			position: "top" as const,
 		},
 	},
-};
-
-const createLabels = (alts: number, names) => {
-	const labels = [names?.["alt0"] || "Base Case", names?.["alt1"] || "Alternative 1"];
-	for (let i = 2; i <= alts; i++) {
-		labels.push(names?.[`alt${i}`] || `Alternative ${i}`);
-	}
-	return labels;
 };
 
 // @ts-ignore

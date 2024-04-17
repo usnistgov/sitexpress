@@ -81,3 +81,7 @@ html {
 .reset-btn > span {
 	margin-right: 0;
 }
+
+.pdf-download-btn {
+	padding: 0 !important;
+}
