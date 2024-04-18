@@ -1,3 +1,5 @@
+import { altNames } from "./data/Formats";
+
 export const resultHeaders = [
 	{
 		label: "Alternatives",
@@ -30,17 +32,18 @@ export const resultHeaders = [
 ];
 
 export const resultLabels = {
-	pv: "Present Value",
-	npv: "Net Present Value",
-	spp: "Simple Payback",
-	dpp: "Discounted Payback",
-	irr: "IRR",
+	pv: "Present Value ($)",
+	npv: "Net Present Value ($)",
+	irr: "IRR (%)",
+	spp: "Simple Payback (years)",
+	dpp: "Discounted Payback (years)",
 	bcr: "BCR",
 };
 
-export const createLabels = (alts: number, names) => {
+export const createLabels = (alts: number, names: altNames) => {
 	const labels = [names?.["alt0"] || "Base Case", names?.["alt1"] || "Alternative 1"];
 	for (let i = 2; i <= alts; i++) {
+		// @ts-ignore
 		labels.push(names?.[`alt${i}`] || `Alternative ${i}`);
 	}
 	return labels;

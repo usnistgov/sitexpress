@@ -149,7 +149,6 @@ const getRows = (data, alts: number, names: altNames) => [
 	...data.map((dataPoint, idx: number) => {
 		const cells = [];
 		for (const [key, value] of Object.entries(dataPoint)) {
-			console.log(value);
 			let obj = {};
 			if (value === "Initial Investment" || value === "Cost ($)" || value === "Revenue ($)" || key === "year") {
 				obj = { type: "text", text: value, nonEditable: true };

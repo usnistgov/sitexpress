@@ -90,7 +90,7 @@ export type e3Result = {
 export type Result = {
 	alt: string;
 	pv: number;
-	npv: string;
+	npv: string | string;
 	irr: number | string;
 	spp: number | string;
 	dpp: number | String;

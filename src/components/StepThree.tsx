@@ -1,18 +1,9 @@
-import {
-	Paper,
-	Stack,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Typography,
-} from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
-import { Measure, Project, Required } from "../data/Formats";
+import { Measure, Project, Result, altNames, e3Result } from "../data/Formats";
 import CSVDownload from "./CSVDownload";
 import ChartTabs from "./ChartTabs";
+import ResultsTable from "./ResultsTable";
 import BasicTooltip from "./Tooltip";
 import PDFDownload from "./pdf-components/PdfDownload";
 
@@ -20,17 +11,17 @@ function createData(alt: string, pv: number, npv: number, irr: number, spp: numb
 	return { alt, pv, npv, irr, spp, dpp, bcr };
 }
 
-// @ts-ignore
-const getRows = (measure: Measure[], names) => {
+const getRows = (measure: Measure[], names: altNames) => {
 	let rows = [];
 	for (let i = 0; i < measure?.length; i++) {
 		rows.push(
 			createData(
+				// @ts-ignore
 				i === 0 ? names?.[`alt${0}`] : names?.[`alt${i}`],
 				+(measure[i]?.totalBenefits - measure[i]?.totalCosts)?.toFixed(2),
 				// @ts-ignore
 				measure[i]?.netBenefits ? measure[i]?.netBenefits.toFixed(2) : "NA",
-				measure[i]?.irr ? +(measure[i]?.irr * 100).toFixed(3) : 0,
+				measure[i]?.irr ? +(measure[i]?.irr * 100).toFixed(1) : 0,
 				// @ts-ignore
 				parseFloat(measure[i]?.spp) === Infinity ? "Not Reached" : Math.round(measure[i]?.spp),
 				// @ts-ignore
@@ -42,15 +33,14 @@ const getRows = (measure: Measure[], names) => {
 	return rows;
 };
 
-export default function StepThree(props: {
-	project: Project;
-	results: { optional: any[]; required: Required[]; measure: Measure[] };
-}) {
+export default function StepThree(props: { project: Project; results: e3Result[] }) {
 	const { project, results } = props;
 
+	// @ts-ignore
 	const measure = results?.measure;
-	const names = project?.altNames;
-	const tableRows = getRows(measure, names);
+	const names: altNames = project?.altNames;
+	// @ts-ignore
+	const tableRows: Result[] = getRows(measure, names);
 
 	return (
 		<Stack direction="column">
@@ -74,61 +64,7 @@ export default function StepThree(props: {
 						</span>
 					</span>
 					<br />
-
-					<TableContainer component={Paper}>
-						<Table aria-label="simple table" sx={{ "td, th": { border: "1px solid black" } }}>
-							<TableHead>
-								<TableRow>
-									<TableCell></TableCell>
-									<TableCell align="center" key={"npvp"} className="results-table-header">
-										Present Value ($)
-									</TableCell>
-									<TableCell align="center" key={"np"} className="results-table-header">
-										Net Present Value ($)
-									</TableCell>
-									<TableCell align="center" key={"irr"} className="results-table-header">
-										IRR (%)
-									</TableCell>
-									<TableCell align="center" key={"sp"} className="results-table-header">
-										Payback Period (Years)
-									</TableCell>
-									<TableCell align="center" key={"dp"} className="results-table-header">
-										Discounted Payback (Years)
-									</TableCell>
-									<TableCell align="center" key={"bcr"} className="results-table-header">
-										BCR
-									</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{tableRows.map((row) => (
-									<TableRow key={row.alt + "-row"}>
-										<TableCell component="th" key={row.alt} scope="row" className="results-table-cell">
-											{row.alt}
-										</TableCell>
-										<TableCell component="th" key={"npvp-" + row.alt} align="right" scope="row">
-											{row.pv}
-										</TableCell>
-										<TableCell align="right" key={"np-" + row.alt}>
-											{row.npv}
-										</TableCell>
-										<TableCell align="right" key={"irr-" + row.alt}>
-											{row.irr}
-										</TableCell>
-										<TableCell align="right" key={"sp-" + row.alt}>
-											{row.spp}
-										</TableCell>
-										<TableCell align="right" key={"dp-" + row.alt}>
-											{row.dpp}
-										</TableCell>
-										<TableCell align="right" key={"bcr-" + row.alt}>
-											{row.bcr}
-										</TableCell>
-									</TableRow>
-								))}
-							</TableBody>
-						</Table>
-					</TableContainer>
+					<ResultsTable tableRows={tableRows} />
 					<br />
 					<ChartTabs project={project} results={results} />
 				</Stack>
@@ -136,7 +72,7 @@ export default function StepThree(props: {
 				<Stack direction="column" className="flex justify-center items-center h-96">
 					<br />
 					<Typography variant="h4" className="text-center">
-						Run results to display table.
+						Run results to display the table and the graphs.
 					</Typography>
 					<br />
 				</Stack>
