@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 
 export default function Disclaimer() {
 	return (
-		<Typography className=" text-center p-10 text-white" style={{ backgroundColor: "#333" }} variant="body2">
+		<Typography className=" text-center p-10 text-white" style={{ backgroundColor: "rgb(46, 46, 46)" }} variant="body2">
 			This software was developed at the National Institute of Standards and Technology by employees of the Federal
 			Government in the course of their official duties. Pursuant to title 17 Section 105 of the United States Code this
 			software is not subject to copyright protection and is in the public domain. It is an experimental system. NIST

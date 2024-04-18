@@ -2,6 +2,7 @@
 import { CellChange, Column, NumberCell, ReactGrid } from "@silevis/reactgrid";
 import "@silevis/reactgrid/styles.css";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { altNames } from "../data/Formats";
 
 interface Data {
 	year: string;
@@ -123,7 +124,7 @@ const splitString = (str: string) => {
 	return [firstPart, secondPart];
 };
 
-const headerRow = (alts: number, names) => {
+const headerRow = (alts: number, names: altNames) => {
 	let header = [
 		{ type: "header", text: "Year" },
 		{ type: "header", text: splitString(names?.["alt0"])[0] || "Base", colSpan: 2 },
@@ -142,12 +143,13 @@ const headerRow = (alts: number, names) => {
 };
 
 // @ts-ignore
-const getRows = (data, alts: number, names) => [
+const getRows = (data, alts: number, names: altNames) => [
 	headerRow(alts, names),
 	// @ts-ignore
 	...data.map((dataPoint, idx: number) => {
 		const cells = [];
 		for (const [key, value] of Object.entries(dataPoint)) {
+			console.log(value);
 			let obj = {};
 			if (value === "Initial Investment" || value === "Cost ($)" || value === "Revenue ($)" || key === "year") {
 				obj = { type: "text", text: value, nonEditable: true };
@@ -172,7 +174,7 @@ const applyChangesToData = (changes: CellChange<NumberCell>[], prevData) => {
 	return [...prevData];
 };
 // @ts-ignore
-const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDataChange; names }, ref) => {
+const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDataChange; names: altNames }, ref) => {
 	const { noOfAlts, years, handleDataChange, names } = props;
 
 	const [alts, setAlts] = useState(noOfAlts);

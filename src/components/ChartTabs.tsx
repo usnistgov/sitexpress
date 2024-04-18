@@ -1,15 +1,21 @@
-// @ts-nocheck
 import { Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
+import { resultLabels } from "../constants";
+import { Measure, Project, e3Result } from "../data/Formats";
 import Chart from "./Charts";
 
-const createDataset = (alts: number, measure) => {
-	const data = { pv: [], npv: [], irr: [], sp: [], dp: [], bcr: [] };
+const createDataset = (alts: number, measure: Measure[]) => {
+	const data: {
+		pv: number[];
+		npv: (number | string)[];
+		irr: (number | string)[];
+		bcr: (number | string)[];
+	} = { pv: [], npv: [], irr: [], bcr: [] };
 	for (let i = 0; i <= alts; i++) {
-		data?.pv.push(measure[i]?.totalBenefits - measure[i]?.totalCosts);
-		data?.npv.push(measure[i]?.netBenefits || 0);
-		data?.irr.push(measure[i]?.irr * 100 || 0);
-		data?.bcr.push(measure[i]?.bcr || 0);
+		data?.pv.push(measure[i].totalBenefits - measure[i].totalCosts);
+		data?.npv.push(measure[i].netBenefits || 0);
+		data?.irr.push(measure[i].irr * 100 || 0);
+		data?.bcr.push(measure[i].bcr || 0);
 	}
 	return data;
 };
@@ -30,7 +36,7 @@ function CustomTabPanel(props: TabPanelProps) {
 	);
 }
 
-const ChartTabs = (props) => {
+const ChartTabs = (props: { project: Project; results: e3Result[] }) => {
 	const { project, results } = props;
 	const [tabValue, setTabValue] = useState(0);
 
@@ -38,16 +44,8 @@ const ChartTabs = (props) => {
 		setTabValue(newValue);
 	};
 
-	const labels = {
-		pv: "Present Value",
-		npv: "Net Present Value",
-		irr: "IRR",
-		sp: "Simple Payback",
-		dp: "Discounted Payback",
-		bcr: "BCR",
-	};
-
 	const alts = project?.alts;
+	// @ts-ignore
 	const measure = results?.measure;
 
 	const resultsData = createDataset(alts, measure);
@@ -55,23 +53,23 @@ const ChartTabs = (props) => {
 	return (
 		<Stack>
 			<Tabs value={tabValue} onChange={handleChange} aria-label="basic tabs example">
-				<Tab label={labels.pv} />
-				<Tab label={labels.npv} />
-				<Tab label={labels.irr} />
-				<Tab label={labels.bcr} />
+				<Tab label={resultLabels.pv} />
+				<Tab label={resultLabels.npv} />
+				<Tab label={resultLabels.irr} />
+				<Tab label={resultLabels.bcr} />
 			</Tabs>
 			<br />
 			<CustomTabPanel value={tabValue} index={0}>
-				<Chart project={project} label={labels.pv} dataset={resultsData.pv} />
+				<Chart project={project} label={resultLabels.pv} dataset={resultsData.pv} />
 			</CustomTabPanel>
 			<CustomTabPanel value={tabValue} index={1}>
-				<Chart project={project} label={labels.npv} dataset={resultsData.npv} />
+				<Chart project={project} label={resultLabels.npv} dataset={resultsData.npv} />
 			</CustomTabPanel>
 			<CustomTabPanel value={tabValue} index={2}>
-				<Chart project={project} label={labels.irr} dataset={resultsData.irr} />
+				<Chart project={project} label={resultLabels.irr} dataset={resultsData.irr} />
 			</CustomTabPanel>
 			<CustomTabPanel value={tabValue} index={5}>
-				<Chart project={project} label={labels.bcr} dataset={resultsData.bcr} />
+				<Chart project={project} label={resultLabels.bcr} dataset={resultsData.bcr} />
 			</CustomTabPanel>
 		</Stack>
 	);

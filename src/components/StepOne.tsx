@@ -1,4 +1,3 @@
-import InfoIcon from "@mui/icons-material/Info";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import {
 	Box,
@@ -31,7 +30,7 @@ import TextInput from "./Input";
 import InputNumber from "./NumberInput";
 import BasicTooltip from "./Tooltip";
 
-export default function StepOne(props: { project: Project; handleChange: any }) {
+export default function StepOne(props: { project: Project; handleChange: any; handleNameChange: any }) {
 	const project = props.project;
 	const handleChange = props.handleChange;
 	const handleNameChange = props.handleNameChange;
@@ -107,7 +106,6 @@ export default function StepOne(props: { project: Project; handleChange: any }) 
 						<BasicTooltip title="Max Alternatives of 5 + Base Case. You can give custom names to each alternative. (Max 20 characters)" />
 					</span>
 					<br />
-					{/* <BasicTooltip title="You can give custom names to each alternative. (Max 30 characters)" /> */}
 					{Array.from({ length: project?.alts + 1 }).map((_, i) => (
 						<div key={i} className="mb-3">
 							<TextInput
@@ -199,7 +197,6 @@ export default function StepOne(props: { project: Project; handleChange: any }) 
 								placeholder="Enter % Here"
 								label="Real Discount Rate"
 								adornment="%"
-								// defaultValue={project?.realDR}
 								// @ts-ignore
 								value={project?.realDR}
 								onChange={(e) => handleChange("realDR", e)}
@@ -220,7 +217,6 @@ export default function StepOne(props: { project: Project; handleChange: any }) 
 								placeholder="Enter % Here"
 								label="Inflation Rate"
 								adornment="%"
-								// defaultValue={project?.inflationRate}
 								//@ts-ignore
 								value={project?.inflationRate}
 								onChange={(e) => handleChange("inflationRate", e)}
@@ -232,7 +228,6 @@ export default function StepOne(props: { project: Project; handleChange: any }) 
 								placeholder="Enter % Here"
 								label="Nominal Discount Rate"
 								adornment="%"
-								// defaultValue={project?.nominalDR}
 								// @ts-ignore
 								value={project?.nominalDR}
 								onChange={(e) => handleChange("nominalDR", e)}

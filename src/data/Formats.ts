@@ -1,4 +1,4 @@
-type altNames = {
+export type altNames = {
 	alt0: string;
 	alt1: string;
 	alt2: string;
@@ -10,8 +10,8 @@ export type Project = {
 	projectName: string;
 	projectDesc?: string;
 	alts: number;
-	dollarValue: "constant" | "current";
 	studyPeriod: number;
+	dollarValue: "constant" | "current";
 	realDR: number;
 	nominalDR: number;
 	inflationRate: number;
@@ -80,6 +80,13 @@ export type Required = {
 	totalBenefitsDiscountedExternal: number[];
 	altId: number;
 };
+
+export type e3Result = {
+	measure: Measure[];
+	optional: any[];
+	required: Required[];
+};
+
 export type Result = {
 	alt: string;
 	pv: number;
