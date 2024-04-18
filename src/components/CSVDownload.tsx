@@ -65,7 +65,7 @@ function CSVDownload(props: { project: Project; tableData: Result[] }) {
 		[],
 		["Annual Cost/Revenue Data By Alternative"],
 		[],
-		inputHeaders(3),
+		inputHeaders(project?.alts),
 		...inputData(project?.costs),
 		[],
 		[],
