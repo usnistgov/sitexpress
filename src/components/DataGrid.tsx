@@ -1,22 +1,15 @@
 // @ts-nocheck
 import { CellChange, Column, NumberCell, ReactGrid } from "@silevis/reactgrid";
-import "@silevis/reactgrid/styles.css";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { altNames } from "../data/Formats";
+import { InputTableData, altNames } from "../data/Formats";
 
-interface Data {
-	year: string;
-	base?: string;
-	"base-cost"?: string;
-	"base-rev"?: string;
-	alt0: string;
-	alt1?: string;
-	alt2?: string;
-	alt3?: string;
-	alt4?: string;
-}
-// @ts-ignore
-const generateData = (alts: number, years: number, existingData, oldAlts: number, oldYears: number) => {
+const generateData = (
+	alts: number,
+	years: number,
+	existingData: InputTableData[],
+	oldAlts: number,
+	oldYears: number,
+) => {
 	let data = [...existingData];
 	let yearsOnly = existingData.slice(1);
 	let headerOnly = existingData[0];
@@ -54,9 +47,7 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 				header[`alt${i}-cost`] = "Cost ($)";
 				header[`alt${i}-rev`] = "Revenue ($)";
 			}
-			// @ts-ignore
-			let yearData = [];
-			// @ts-ignore
+			let yearData: InputTableData[] = [];
 			yearsOnly.forEach((year) => {
 				const x = { ...year };
 				for (let i = oldAlts + 1; i <= alts; i++) {
@@ -66,7 +57,6 @@ const generateData = (alts: number, years: number, existingData, oldAlts: number
 				yearData.push(x);
 			});
 			headerOnly = header;
-			// @ts-ignore
 			yearsOnly = yearData;
 		} else if (alts < oldAlts) {
 			const diff = oldAlts - alts;
@@ -142,10 +132,8 @@ const headerRow = (alts: number, names: altNames) => {
 	};
 };
 
-// @ts-ignore
-const getRows = (data, alts: number, names: altNames) => [
+const getRows = (data: InputTableData[], alts: number, names: altNames) => [
 	headerRow(alts, names),
-	// @ts-ignore
 	...data.map((dataPoint, idx: number) => {
 		const cells = [];
 		for (const [key, value] of Object.entries(dataPoint)) {
@@ -163,8 +151,7 @@ const getRows = (data, alts: number, names: altNames) => [
 		return { rowId: idx, cells };
 	}),
 ];
-// @ts-ignore
-const applyChangesToData = (changes: CellChange<NumberCell>[], prevData) => {
+const applyChangesToData = (changes: CellChange<NumberCell>[], prevData: InputTableData[]) => {
 	changes.forEach((change) => {
 		const dataIndex = change?.rowId;
 		const fieldName = change?.columnId;

@@ -1,8 +1,7 @@
 import { Alert, AlertTitle, List, ListItem } from "@mui/material";
 
-const Alerts = (props: { errorTypes: string; showAlert: (show: boolean) => void }) => {
-	const errorTypes = Array.from(props.errorTypes);
-
+const Alerts = (props: { errorTypes: string[]; showAlert: (show: boolean) => void }) => {
+	const { errorTypes } = props;
 	const errorList = () => {
 		const errors = [];
 		if (errorTypes.includes("name")) errors.push("Project Name");

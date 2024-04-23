@@ -23,10 +23,26 @@ export type Type<T> = {
 	type: T;
 };
 
+export type InputTableData = {
+	year: string;
+	"base-cost": number;
+	"base-rev": number;
+	"alt1-cost": number;
+	"alt1-rev": number;
+	"alt2-cost"?: number;
+	"alt2-rev"?: number;
+	"alt3-cost"?: number;
+	"alt3-rev"?: number;
+	"alt4-cost"?: number;
+	"alt4-rev"?: number;
+	"alt5-cost"?: number;
+	"alt5-rev"?: number;
+};
+
 export type Cost = {
 	name: string;
-	cost: string[];
-	revenue: string[];
+	cost: number[];
+	revenue: number[];
 };
 
 export type Measure = {
@@ -90,9 +106,9 @@ export type e3Result = {
 export type Result = {
 	alt: string;
 	pv: number;
-	npv: string | string;
+	npv: number | string;
 	irr: number | string;
 	spp: number | string;
-	dpp: number | String;
+	dpp: number | string;
 	bcr: number | string;
 };

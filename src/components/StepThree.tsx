@@ -39,7 +39,6 @@ export default function StepThree(props: { project: Project; results: e3Result[]
 	// @ts-ignore
 	const measure = results?.measure;
 	const names: altNames = project?.altNames;
-	// @ts-ignore
 	const tableRows: Result[] = getRows(measure, names);
 
 	return (

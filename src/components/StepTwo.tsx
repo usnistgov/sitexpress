@@ -2,7 +2,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { Box, Button, Modal, Stack, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { E3Request, toE3Object } from "../data/E3Request";
-import { Project } from "../data/Formats";
+import { InputTableData, Project } from "../data/Formats";
 import Alerts from "./Alert";
 import DataGrid from "./DataGrid";
 import BasicTooltip from "./Tooltip";
@@ -70,12 +70,12 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 		}
 		return [errorTypes, flag];
 	};
-	// @ts-ignore
-	const transformTableData = (data, alts = 3) => {
+
+	const transformTableData = (data: InputTableData[], alts = 3) => {
 		let inputObject = [...data];
 		inputObject.shift(); // remove first row (header)
 
-		const resultArray: { name: string; cost: string[]; revenue: string[] }[] = [];
+		const resultArray: { name: string; cost: number[]; revenue: number[] }[] = [];
 		for (let i = 0; i <= alts; i++) {
 			resultArray.push({
 				name: i === 0 ? `base` : `alt${i}`,
@@ -140,7 +140,6 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 				<Typography variant="body1">Provide the annual value costs and revenues for each alternative.</Typography>
 			</Stack>
 			{/*Data table */}
-			{/* @ts-ignore */}
 			{showAlert ? <Alerts errorTypes={errorTypes} showAlert={displayAlert} /> : ""}
 			<Stack className="flex justify-center text-center p-10 ">
 				<Stack direction="column" className="ml-auto">
@@ -194,7 +193,7 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 								try {
 									const [errorTypes, validity] = validateInput(project);
 									// @ts-ignore
-									setErrorTypes(Array.from(errorTypes));
+									setErrorTypes([...errorTypes]);
 									if (validity) {
 										setShowAlert(false);
 										const obj = toE3Object(project);
@@ -208,7 +207,7 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 						>
 							Run Results
 						</Button>
-						<BasicTooltip title="Calculates Net Present Value, Internal Rate of Return, and payback period." />
+						<BasicTooltip title="Calculates Net Present Value, Internal Rate of Return, and Payback Period." />
 					</Stack>
 				</Stack>
 			</Stack>
