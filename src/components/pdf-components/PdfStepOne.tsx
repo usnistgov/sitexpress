@@ -35,15 +35,13 @@ const PdfStepOne = ({ project }: { project: Project }) => {
 				<Text style={styles.value}>{project.projectName}</Text>
 			</View>
 			<br />
-			{project?.projectDesc ?? (
-				<>
-					<View style={styles.key}>
-						<Text style={styles.text}>Project Description:&nbsp;</Text>
-						<Text style={styles.value}>{project.projectDesc}</Text>
-					</View>
+			{project?.projectDesc?.length !== 0 ? (
+				<View style={styles.key}>
+					<Text style={styles.text}>Project Description:&nbsp;</Text>
+					<Text style={styles.value}>{project.projectDesc}</Text>
 					<br />
-				</>
-			)}
+				</View>
+			) : null}
 			<View style={styles.key}>
 				<Text style={styles.text}>Number of Alternatives:&nbsp;</Text>
 				<Text style={styles.value}>{project.alts}</Text>
