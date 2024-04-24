@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { CellChange, Column, NumberCell, ReactGrid } from "@silevis/reactgrid";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { InputTableData, altNames } from "../data/Formats";
@@ -41,18 +40,20 @@ const generateData = (
 			data.push(Object.fromEntries(yearData));
 		}
 	} else {
-		let header = headerOnly;
+		let header: InputTableData = headerOnly;
 		if (alts > oldAlts) {
 			for (let i = oldAlts + 1; i <= alts; i++) {
-				header[`alt${i}-cost`] = "Cost ($)";
-				header[`alt${i}-rev`] = "Revenue ($)";
+				header[`alt${i}-cost` as keyof InputTableData] = "Cost ($)";
+				header[`alt${i}-rev` as keyof InputTableData] = "Revenue ($)";
 			}
 			let yearData: InputTableData[] = [];
 			yearsOnly.forEach((year) => {
 				const x = { ...year };
 				for (let i = oldAlts + 1; i <= alts; i++) {
-					x[`alt${i}-cost`] = "";
-					x.year.startsWith("Initial") ? (x[`alt${i}-rev`] = "0") : (x[`alt${i}-rev`] = "");
+					x[`alt${i}-cost` as keyof InputTableData] = "";
+					x.year.startsWith("Initial")
+						? (x[`alt${i}-rev` as keyof InputTableData] = "0")
+						: (x[`alt${i}-rev` as keyof InputTableData] = "");
 				}
 				yearData.push(x);
 			});
@@ -61,8 +62,10 @@ const generateData = (
 		} else if (alts < oldAlts) {
 			const diff = oldAlts - alts;
 			const lastKeys = Object.keys(headerOnly).slice(-(diff * 2));
+			// @ts-ignore
 			lastKeys.forEach((key) => delete headerOnly[key]);
 			for (let i = 0; i < yearsOnly.length; i++) {
+				// @ts-ignore
 				lastKeys.forEach((key) => delete yearsOnly[i][key]);
 			}
 		}
@@ -122,7 +125,9 @@ const headerRow = (alts: number, names: altNames) => {
 	];
 	for (let i = 1; i <= alts; i++) {
 		header.push(
+			// @ts-ignore
 			{ type: "header", text: splitString(names?.[`alt${i}`])[0] || "Alternati", colSpan: 2 },
+			// @ts-ignore
 			{ type: "header", text: splitString(names?.[`alt${i}`])[1] || `ve ${i}` },
 		);
 	}
@@ -155,6 +160,7 @@ const applyChangesToData = (changes: CellChange<NumberCell>[], prevData: InputTa
 	changes.forEach((change) => {
 		const dataIndex = change?.rowId;
 		const fieldName = change?.columnId;
+		// @ts-ignore
 		prevData[dataIndex][fieldName] = change?.newCell?.value;
 	});
 	return [...prevData];
@@ -204,6 +210,7 @@ const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDat
 	}));
 
 	return (
+		// @ts-ignore
 		<ReactGrid
 			rows={rows}
 			columns={columns}

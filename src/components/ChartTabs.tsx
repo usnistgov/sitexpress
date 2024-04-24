@@ -36,7 +36,7 @@ function CustomTabPanel(props: TabPanelProps) {
 	);
 }
 
-const ChartTabs = (props: { project: Project; results: e3Result[] }) => {
+const ChartTabs = (props: { project: Project; results: e3Result }) => {
 	const { project, results } = props;
 	const [tabValue, setTabValue] = useState(0);
 
@@ -45,7 +45,6 @@ const ChartTabs = (props: { project: Project; results: e3Result[] }) => {
 	};
 
 	const alts = project?.alts;
-	// @ts-ignore
 	const measure = results?.measure;
 
 	const resultsData = createDataset(alts, measure);

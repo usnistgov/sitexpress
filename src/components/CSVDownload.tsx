@@ -1,7 +1,7 @@
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { Button } from "@mui/material";
 import { CSVLink } from "react-csv";
-import { Cost, Project, Result } from "../data/Formats";
+import { Cost, Project, Result, altNames } from "../data/Formats";
 
 function CSVDownload(props: { project: Project; tableData: Result[] }) {
 	const { project, tableData } = props;
@@ -17,21 +17,30 @@ function CSVDownload(props: { project: Project; tableData: Result[] }) {
 	if (project?.dollarValue === "constant") stepOneData.push(["Real Discount Rate", project?.realDR]);
 	else stepOneData.push(["Inflation Rate", project?.realDR], ["Nominal Discount Rate", project?.nominalDR]);
 
+	const costRevHeaders = (alts: number): string[] => {
+		const defaultCol = [""];
+
+		for (let i = 0; i <= alts; i++) {
+			defaultCol.push("Cost");
+			defaultCol.push("Revenue");
+		}
+		return defaultCol;
+	};
+
 	const inputHeaders = (alts: number): string[] => {
 		const defaultCol = ["Year"];
 
-		for (let i = 0; i <= alts; i++) {
-			if (i === 0) {
-				defaultCol.push(project?.altNames?.["alt0"] || "Base Case");
-				defaultCol.push("");
-			} else {
-				// @ts-ignore
-				defaultCol.push(project?.altNames?.[`alt${i}`] || `Alternative ${i}`);
-				defaultCol.push("");
-			}
-		}
-
-		return defaultCol;
+		return [
+			...defaultCol,
+			...Array.from({ length: alts + 1 }, (_, i) => {
+				if (i === 0) {
+					return [project?.altNames?.["alt0"] || "Base Case", ""];
+				} else {
+					return [project?.altNames?.[`alt${i}` as keyof altNames] || `Alternative ${i}`, ""];
+				}
+			}).reduce((acc, [item, empty]) => [...acc, item, empty], []),
+			...Array.from({ length: alts }, () => ""),
+		];
 	};
 
 	let inputData = (data: Cost[]) => {
@@ -66,6 +75,7 @@ function CSVDownload(props: { project: Project; tableData: Result[] }) {
 		["Annual Cost/Revenue Data By Alternative"],
 		[],
 		inputHeaders(project?.alts),
+		costRevHeaders(project?.alts),
 		...inputData(project?.costs),
 		[],
 		[],

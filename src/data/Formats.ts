@@ -25,18 +25,18 @@ export type Type<T> = {
 
 export type InputTableData = {
 	year: string;
-	"base-cost": number;
-	"base-rev": number;
-	"alt1-cost": number;
-	"alt1-rev": number;
-	"alt2-cost"?: number;
-	"alt2-rev"?: number;
-	"alt3-cost"?: number;
-	"alt3-rev"?: number;
-	"alt4-cost"?: number;
-	"alt4-rev"?: number;
-	"alt5-cost"?: number;
-	"alt5-rev"?: number;
+	"base-cost": number | string;
+	"base-rev": number | string;
+	"alt1-cost": number | string;
+	"alt1-rev": number | string;
+	"alt2-cost"?: number | string;
+	"alt2-rev"?: number | string;
+	"alt3-cost"?: number | string;
+	"alt3-rev"?: number | string;
+	"alt4-cost"?: number | string;
+	"alt4-rev"?: number | string;
+	"alt5-cost"?: number | string;
+	"alt5-rev"?: number | string;
 };
 
 export type Cost = {
