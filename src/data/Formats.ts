@@ -2,9 +2,9 @@ export type altNames = {
 	alt0: string;
 	alt1: string;
 	alt2: string;
-	alt3?: string;
-	alt4?: string;
-	alt5?: string;
+	alt3: string;
+	alt4: string;
+	alt5: string;
 };
 export type Project = {
 	projectName: string;
@@ -29,20 +29,20 @@ export type InputTableData = {
 	"base-rev": number | string;
 	"alt1-cost": number | string;
 	"alt1-rev": number | string;
-	"alt2-cost"?: number | string;
-	"alt2-rev"?: number | string;
-	"alt3-cost"?: number | string;
-	"alt3-rev"?: number | string;
-	"alt4-cost"?: number | string;
-	"alt4-rev"?: number | string;
-	"alt5-cost"?: number | string;
-	"alt5-rev"?: number | string;
+	"alt2-cost": number | string;
+	"alt2-rev": number | string;
+	"alt3-cost": number | string;
+	"alt3-rev": number | string;
+	"alt4-cost": number | string;
+	"alt4-rev": number | string;
+	"alt5-cost": number | string;
+	"alt5-rev": number | string;
 };
 
 export type Cost = {
 	name: string;
-	cost: number[];
-	revenue: number[];
+	cost: (number | string)[];
+	revenue: (number | string)[];
 };
 
 export type Measure = {
