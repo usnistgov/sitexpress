@@ -3,7 +3,7 @@
 		"target": "ESNext",
 		"useDefineForClassFields": true,
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
-		"allowJs": false,
+		"allowJs": true,
 		"skipLibCheck": true,
 		"esModuleInterop": false,
 		"allowSyntheticDefaultImports": true,
@@ -16,6 +16,6 @@
 		"noEmit": true,
 		"jsx": "react-jsx"
 	},
-	"include": ["src"],
+	"include": ["src", "public/script/nist-header-footer-v-2.0.js"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }
