@@ -62,11 +62,9 @@ const generateData = (
 		} else if (alts < oldAlts) {
 			const diff = oldAlts - alts;
 			const lastKeys = Object.keys(headerOnly).slice(-(diff * 2));
-			// @ts-ignore
-			lastKeys.forEach((key) => delete headerOnly[key]);
+			lastKeys.forEach((key) => delete headerOnly[key as keyof InputTableData]);
 			for (let i = 0; i < yearsOnly.length; i++) {
-				// @ts-ignore
-				lastKeys.forEach((key) => delete yearsOnly[i][key]);
+				lastKeys.forEach((key) => delete yearsOnly[i][key as keyof InputTableData]);
 			}
 		}
 
@@ -125,10 +123,8 @@ const headerRow = (alts: number, names: altNames) => {
 	];
 	for (let i = 1; i <= alts; i++) {
 		header.push(
-			// @ts-ignore
-			{ type: "header", text: splitString(names?.[`alt${i}`])[0] || "Alternati", colSpan: 2 },
-			// @ts-ignore
-			{ type: "header", text: splitString(names?.[`alt${i}`])[1] || `ve ${i}` },
+			{ type: "header", text: splitString(names?.[`alt${i}` as keyof altNames])[0] || "Alternati", colSpan: 2 },
+			{ type: "header", text: splitString(names?.[`alt${i}` as keyof altNames])[1] || `ve ${i}` },
 		);
 	}
 	return {

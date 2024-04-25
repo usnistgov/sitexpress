@@ -2,7 +2,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { Box, Button, Modal, Stack, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { E3Request, toE3Object } from "../data/E3Request";
-import { InputTableData, Project } from "../data/Formats";
+import { Cost, InputTableData, Project } from "../data/Formats";
 import Alerts from "./Alert";
 import DataGrid from "./DataGrid";
 import BasicTooltip from "./Tooltip";
@@ -75,7 +75,7 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 		let inputObject = [...data];
 		inputObject.shift(); // remove first row (header)
 
-		const resultArray: { name: string; cost: number[]; revenue: number[] }[] = [];
+		const resultArray: Cost[] = [];
 		for (let i = 0; i <= alts; i++) {
 			resultArray.push({
 				name: i === 0 ? `base` : `alt${i}`,
@@ -94,9 +94,9 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 				for (const property in entry) {
 					if (entry.hasOwnProperty(property)) {
 						if (property.startsWith(`alt${j}-cost`)) {
-							resultArray[j].cost.push(entry[`alt${j}-cost`]);
+							resultArray[j].cost.push(entry[`alt${j}-cost` as keyof InputTableData]);
 						} else if (property.startsWith(`alt${j}-rev`)) {
-							resultArray[j].revenue.push(entry[`alt${j}-rev`]);
+							resultArray[j].revenue.push(entry[`alt${j}-rev` as keyof InputTableData]);
 						}
 					}
 				}
