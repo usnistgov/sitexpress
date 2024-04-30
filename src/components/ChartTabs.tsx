@@ -4,20 +4,20 @@ import { resultLabels } from "../constants";
 import { Measure, Project, e3Result } from "../data/Formats";
 import Chart from "./Charts";
 
-const createDataset = (alts: number, measure: Measure[]) => {
-	const data: {
-		pv: number[];
-		npv: (number | string)[];
-		irr: (number | string)[];
-		bcr: (number | string)[];
-	} = { pv: [], npv: [], irr: [], bcr: [] };
-	for (let i = 0; i <= alts; i++) {
-		data?.pv.push(measure[i].totalBenefits - measure[i].totalCosts);
-		data?.npv.push(measure[i].netBenefits || 0);
-		data?.irr.push(measure[i].irr * 100 || 0);
-		data?.bcr.push(measure[i].bcr || 0);
-	}
-	return data;
+interface ResultsDataset {
+	pv: number[];
+	npv: (number | string)[];
+	irr: (number | string)[];
+	bcr: (number | string)[];
+}
+
+const createDataset = (alts: number, measure: Measure[]): ResultsDataset => {
+	return {
+		pv: measure.map((m, i) => m.totalBenefits - m.totalCosts),
+		npv: measure.map((m) => m.netBenefits || 0),
+		irr: measure.map((m) => m.irr * 100 || 0),
+		bcr: measure.map((m) => m.bcr || 0),
+	};
 };
 
 interface TabPanelProps {
@@ -51,7 +51,7 @@ const ChartTabs = (props: { project: Project; results: e3Result }) => {
 
 	return (
 		<Stack>
-			<Tabs value={tabValue} onChange={handleChange} aria-label="basic tabs example">
+			<Tabs value={tabValue} onChange={handleChange} aria-label="result tabs">
 				<Tab label={resultLabels.pv} />
 				<Tab label={resultLabels.npv} />
 				<Tab label={resultLabels.irr} />

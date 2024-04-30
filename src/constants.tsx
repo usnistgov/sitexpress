@@ -43,8 +43,7 @@ export const resultLabels = {
 export const createLabels = (alts: number, names: altNames) => {
 	const labels = [names?.["alt0"] || "Base Case", names?.["alt1"] || "Alternative 1"];
 	for (let i = 2; i <= alts; i++) {
-		// @ts-ignore
-		labels.push(names?.[`alt${i}`] || `Alternative ${i}`);
+		labels.push(names?.[`alt${i}` as keyof altNames] || `Alternative ${i}`);
 	}
 	return labels;
 };
