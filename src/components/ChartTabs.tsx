@@ -67,7 +67,7 @@ const ChartTabs = (props: { project: Project; results: e3Result }) => {
 			<CustomTabPanel value={tabValue} index={2}>
 				<Chart project={project} label={resultLabels.irr} dataset={resultsData.irr} />
 			</CustomTabPanel>
-			<CustomTabPanel value={tabValue} index={5}>
+			<CustomTabPanel value={tabValue} index={3}>
 				<Chart project={project} label={resultLabels.bcr} dataset={resultsData.bcr} />
 			</CustomTabPanel>
 		</Stack>
