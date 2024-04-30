@@ -5,7 +5,6 @@ import { Result } from "../data/Formats";
 const ResultsTable = (props: { tableRows: Result[] }) => {
 	const { tableRows } = props;
 
-	console.log(tableRows);
 	return (
 		<TableContainer component={Paper}>
 			<Table aria-label="simple table" sx={{ "td, th": { border: "1px solid black" } }}>

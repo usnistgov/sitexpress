@@ -12,31 +12,23 @@ function createData(alt: string, pv: number, npv: number, irr: number, spp: numb
 }
 
 const getRows = (measure: Measure[], names: altNames) => {
-	let rows = [];
-	for (let i = 0; i < measure?.length; i++) {
-		rows.push(
-			createData(
-				// @ts-ignore
-				i === 0 ? names?.[`alt${0}`] : names?.[`alt${i}`],
-				+(measure[i]?.totalBenefits - measure[i]?.totalCosts)?.toFixed(2),
-				// @ts-ignore
-				measure[i]?.netBenefits ? measure[i]?.netBenefits.toFixed(2) : "NA",
-				measure[i]?.irr ? +(measure[i]?.irr * 100).toFixed(1) : 0,
-				// @ts-ignore
-				parseFloat(measure[i]?.spp) === Infinity ? "Not Reached" : Math.round(measure[i]?.spp),
-				// @ts-ignore
-				parseFloat(measure[i]?.dpp) === Infinity ? "Not Reached" : Math.round(measure[i]?.dpp),
-				measure[i]?.bcr ? measure[i]?.bcr?.toFixed(2) : "NA",
-			),
-		);
-	}
-	return rows;
+	return measure?.map((m, i) =>
+		createData(
+			names?.[`alt${i}` as keyof altNames] || `Alternative ${i}`,
+			+(m.totalBenefits - m.totalCosts).toFixed(2),
+			// @ts-ignore
+			measure[i]?.netBenefits ? m.netBenefits?.toFixed(2) : "NA",
+			m?.irr ? +(m.irr * 100).toFixed(1) : 0,
+			typeof m.spp === "number" && isFinite(m.spp) ? Math.round(m.spp) : "Not Reached",
+			typeof m.dpp === "number" && isFinite(m.dpp) ? Math.round(m.dpp) : "Not Reached",
+			measure[i]?.bcr ? m.bcr?.toFixed(2) : "NA",
+		),
+	);
 };
 
-export default function StepThree(props: { project: Project; results: e3Result[] }) {
+export default function StepThree(props: { project: Project; results: e3Result }) {
 	const { project, results } = props;
 
-	// @ts-ignore
 	const measure = results?.measure;
 	const names: altNames = project?.altNames;
 	const tableRows: Result[] = getRows(measure, names);
