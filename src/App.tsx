@@ -7,6 +7,8 @@ import StepOne from "./components/StepOne";
 import StepThree from "./components/StepThree";
 import StepTwo from "./components/StepTwo";
 
+import "../public/script/nist-header-footer-v-2.0";
+import "../public/styles/nist-combined.css";
 import "./static/styles/grid.css";
 import "./static/styles/index.css";
 
