@@ -29,32 +29,20 @@ function CSVDownload(props: { project: Project; tableData: Result[] }) {
 
 	const inputHeaders = (alts: number): string[] => {
 		const defaultCol = ["Year"];
+		const altHeaders = Array.from({ length: alts + 1 }, (_, i) => {
+			const altName = project?.altNames?.[`alt${i}` as keyof altNames] || `Alternative ${i}`;
+			return i === 0 ? [altName, ""] : [altName, ""];
+		}).flatMap((header) => header);
+		const emptyCols = Array.from({ length: alts }, () => "");
 
-		return [
-			...defaultCol,
-			...Array.from({ length: alts + 1 }, (_, i) => {
-				if (i === 0) {
-					return [project?.altNames?.["alt0"] || "Base Case", ""];
-				} else {
-					return [project?.altNames?.[`alt${i}` as keyof altNames] || `Alternative ${i}`, ""];
-				}
-			}).reduce((acc, [item, empty]) => [...acc, item, empty], []),
-			...Array.from({ length: alts }, () => ""),
-		];
+		return [...defaultCol, ...altHeaders, ...emptyCols];
 	};
 
-	let inputData = (data: Cost[]) => {
-		let result = [];
-		for (let i = 0; i < data[0].cost.length; i++) {
-			const row = [];
-			i === 0 ? row.push("Initial Investment") : row.push(i);
-			for (let j = 0; j < data.length; j++) {
-				row.push(data[j].cost[i]);
-				row.push(data[j].revenue[i]);
-			}
-			result.push(row);
-		}
-		return result;
+	const inputData = (data: Cost[]): any[][] => {
+		return data[0].cost.map((_, i) => {
+			const row = [i === 0 ? "Initial Investment" : i];
+			return row.concat(data.flatMap((item) => [item.cost[i], item.revenue[i]]));
+		});
 	};
 
 	const resultsData = (res: Result[]) => {
