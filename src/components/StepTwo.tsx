@@ -94,9 +94,9 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 				for (const property in entry) {
 					if (entry.hasOwnProperty(property)) {
 						if (property.startsWith(`alt${j}-cost`)) {
-							resultArray[j].cost.push(entry[`alt${j}-cost` as keyof InputTableData]);
+							resultArray[j].cost.push(entry[`alt${j}-cost` as keyof InputTableData] as number | string);
 						} else if (property.startsWith(`alt${j}-rev`)) {
-							resultArray[j].revenue.push(entry[`alt${j}-rev` as keyof InputTableData]);
+							resultArray[j].revenue.push(entry[`alt${j}-rev` as keyof InputTableData] as number | string);
 						}
 					}
 				}
