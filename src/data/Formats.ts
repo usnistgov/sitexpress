@@ -27,16 +27,16 @@ export type InputTableData = {
 	year: string;
 	"base-cost": number | string;
 	"base-rev": number | string;
-	"alt1-cost": number | string;
-	"alt1-rev": number | string;
-	"alt2-cost": number | string;
-	"alt2-rev": number | string;
-	"alt3-cost": number | string;
-	"alt3-rev": number | string;
-	"alt4-cost": number | string;
-	"alt4-rev": number | string;
-	"alt5-cost": number | string;
-	"alt5-rev": number | string;
+	"alt1-cost"?: number | string;
+	"alt1-rev"?: number | string;
+	"alt2-cost"?: number | string;
+	"alt2-rev"?: number | string;
+	"alt3-cost"?: number | string;
+	"alt3-rev"?: number | string;
+	"alt4-cost"?: number | string;
+	"alt4-rev"?: number | string;
+	"alt5-cost"?: number | string;
+	"alt5-rev"?: number | string;
 };
 
 export type Cost = {

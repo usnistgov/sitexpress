@@ -14,11 +14,6 @@ const generateData = (
 	let headerOnly = existingData[0];
 
 	if (data.length === 0) {
-		// let header = new Map();
-		// header.set("year", "");
-		// header.set("base-cost", "Cost ($)");
-		// header.set("base-rev", "Revenue ($)");
-
 		const header: InputTableData = {
 			year: "",
 			"base-cost": "Cost ($)",
@@ -33,20 +28,15 @@ const generateData = (
 		data.push(header);
 
 		for (let y = 0; y <= years; y++) {
-			// let yearData = new Map();
-			// y === 0 ? yearData.set("year", `Initial Investment`) : yearData.set("year", y.toString());
-			// yearData.set("base-cost", "");
-			// y === 0 ? yearData.set("base-rev", 0) : yearData.set("base-rev", "");
-
-			const yearData: Record<string, string | number> = {
+			const yearData: InputTableData = {
 				year: y === 0 ? "Initial Investment" : y.toString(),
 				"base-cost": "",
 				"base-rev": y === 0 ? 0 : "",
 			};
 
 			for (let i = 1; i <= alts; i++) {
-				yearData[`alt${i}-cost`] = "";
-				yearData[`alt${i}-rev`] = y === 0 ? 0 : "";
+				yearData[`alt${i}-cost` as keyof InputTableData] = "";
+				yearData[`alt${i}-rev` as keyof InputTableData] = y === 0 ? "0" : "";
 			}
 
 			data.push(yearData);
@@ -59,14 +49,6 @@ const generateData = (
 				header[`alt${i}-rev` as keyof InputTableData] = "Revenue ($)";
 			}
 			let yearData: InputTableData[] = [];
-			// yearsOnly.forEach((year) => {
-			// 	const x = { ...year };
-			// 	for (let i = oldAlts + 1; i <= alts; i++) {
-			// 		x[`alt${i}-cost` as keyof InputTableData] = "";
-			// 		x.year.startsWith("Initial")
-			// 			? (x[`alt${i}-rev` as keyof InputTableData] = "0")
-			// 			: (x[`alt${i}-rev` as keyof InputTableData] = "");
-			// 	}
 			yearsOnly.forEach((year) => {
 				for (let i = oldAlts + 1; i <= alts; i++) {
 					year[`alt${i}-cost` as keyof InputTableData] = "";
@@ -88,11 +70,6 @@ const generateData = (
 		// add or remove a row
 		if (years > oldYears) {
 			for (let i = oldYears + 1; i <= years; i++) {
-				// let yearData = new Map();
-				// yearData.set("year", i.toString());
-				// yearData.set("base-cost", "");
-				// yearData.set("base-rev", "");
-
 				const yearData: Record<string, string | number> = {
 					year: i.toString(),
 					"base-cost": "",
@@ -104,12 +81,6 @@ const generateData = (
 					yearData[`alt${j}-rev`] = "";
 				}
 				yearsOnly.push(yearData as InputTableData);
-
-				// for (let i = 1; i <= alts; i++) {
-				// 	yearData.set(`alt${i}-cost`, "");
-				// 	yearData.set(`alt${i}-rev`, "");
-				// }
-				// yearsOnly.push(Object.fromEntries(yearData));
 			}
 		} else if (years < oldYears) {
 			for (let i = 0; i < oldYears - years; i++) {
@@ -150,12 +121,6 @@ const headerRow = (alts: number, names: altNames) => {
 		{ type: "header", text: splitString(names?.["alt0"])[0] || "Base", colSpan: 2 },
 		{ type: "header", text: splitString(names?.["alt0"])[1] || "Case" },
 	];
-	// for (let i = 1; i <= alts; i++) {
-	// 	header.push(
-	// 		{ type: "header", text: splitString(names?.[`alt${i}` as keyof altNames])[0] || "Alternati", colSpan: 2 },
-	// 		{ type: "header", text: splitString(names?.[`alt${i}` as keyof altNames])[1] || `ve ${i}` },
-	// 	);
-	// }
 	for (let i = 1; i <= alts; i++) {
 		const altName = names?.[`alt${i}` as keyof altNames];
 		header.push(
@@ -192,29 +157,6 @@ const getRows = (data: InputTableData[], alts: number, names: altNames) => {
 	];
 };
 
-// const getRows = (data: InputTableData[], alts: number, names: altNames) => {
-// 	return [
-// 		headerRow(alts, names),
-// 		...data.map((dataPoint, idx) => ({
-// 			rowId: idx,
-// 			cells: Object.entries(dataPoint).map(([key, value]) => {
-// 				console.log(dataPoint, [key, value]);
-// 				const isInitialInvestment = dataPoint.year === "Initial Investment";
-// 				const isRevenue = /alt[1-5]-rev/.test(key) || key === "base-rev";
-// 				const isNonEditable = isInitialInvestment && isRevenue;
-
-// 				return {
-// 					type: typeof value === "number" ? "number" : "text",
-// 					text: value,
-// 					value: isNonEditable ? +value : value,
-// 					nonEditable:
-// 						isInitialInvestment || value === "Cost ($)" || value === "Revenue ($)" || key === "year" || isNonEditable,
-// 				};
-// 			}),
-// 		})),
-// 	];
-// };
-
 const applyChangesToData = (changes: CellChange<NumberCell>[], prevData: InputTableData[]) => {
 	changes.forEach((change) => {
 		const dataIndex = change?.rowId;
@@ -224,62 +166,66 @@ const applyChangesToData = (changes: CellChange<NumberCell>[], prevData: InputTa
 	});
 	return [...prevData];
 };
-// @ts-ignore
-const DataGrid = forwardRef((props: { noOfAlts: number; years: number; handleDataChange; names: altNames }, ref) => {
-	const { noOfAlts, years, handleDataChange, names } = props;
 
-	const [alts, setAlts] = useState(noOfAlts);
-	const [newYears, setNewYears] = useState(years);
+const DataGrid = forwardRef(
+	(
+		props: { noOfAlts: number; years: number; handleDataChange: (data: InputTableData[]) => void; names: altNames },
+		ref,
+	) => {
+		const { noOfAlts, years, handleDataChange, names } = props;
 
-	const [tableData, setTableData] = useState(() => generateData(noOfAlts, years, [], noOfAlts, years));
+		const [alts, setAlts] = useState(noOfAlts);
+		const [newYears, setNewYears] = useState(years);
 
-	const initialRows = getRows(tableData, noOfAlts, names);
-	const [rows, setRows] = useState(initialRows);
+		const [tableData, setTableData] = useState(() => generateData(noOfAlts, years, [], noOfAlts, years));
 
-	const initialColumns = getColumns(noOfAlts);
-	const [columns, setColumns] = useState(initialColumns);
+		const initialRows = getRows(tableData, noOfAlts, names);
+		const [rows, setRows] = useState(initialRows);
 
-	// updates the table when years/alts are changed
-	useEffect(() => {
-		if (tableData.length === 0 || +noOfAlts !== alts || +years !== newYears || names !== names) {
-			setAlts(+noOfAlts);
-			setNewYears(+years);
-			const updatedData = generateData(noOfAlts, +years, tableData, +alts, newYears);
-			setTableData(updatedData);
-		}
-		const updatedRows = getRows(tableData, noOfAlts, names);
-		const updatedColumns = getColumns(noOfAlts);
-		setRows(updatedRows);
-		setColumns(updatedColumns);
-		handleDataChange(tableData);
-	}, [noOfAlts, years, tableData, names]);
+		const initialColumns = getColumns(noOfAlts);
+		const [columns, setColumns] = useState(initialColumns);
 
-	const handleChanges = (changes: CellChange<NumberCell>[]) => {
-		setTableData((prevData) => applyChangesToData(changes, prevData));
-		handleDataChange(tableData);
-	};
+		// updates the table when years/alts are changed
+		useEffect(() => {
+			if (tableData.length === 0 || +noOfAlts !== alts || +years !== newYears || names !== names) {
+				setAlts(+noOfAlts);
+				setNewYears(+years);
+				const updatedData = generateData(noOfAlts, +years, tableData, +alts, newYears);
+				setTableData(updatedData);
+			}
+			const updatedRows = getRows(tableData, noOfAlts, names);
+			const updatedColumns = getColumns(noOfAlts);
+			setRows(updatedRows);
+			setColumns(updatedColumns);
+			handleDataChange(tableData);
+		}, [noOfAlts, years, tableData, names]);
 
-	useImperativeHandle(ref, () => ({
-		handleReset: () => {
-			const data = generateData(noOfAlts, years, [], noOfAlts, years);
-			getRows(data, 1, names);
-			getColumns(1);
-			setTableData(data);
-		},
-	}));
+		const handleChanges = (changes: CellChange<NumberCell>[]) => {
+			setTableData((prevData) => applyChangesToData(changes, prevData));
+			handleDataChange(tableData);
+		};
 
-	return (
-		// @ts-ignore
-		<ReactGrid
-			rows={rows}
-			columns={columns}
-			enableRangeSelection
+		useImperativeHandle(ref, () => ({
+			handleReset: () => {
+				const data = generateData(noOfAlts, years, [], noOfAlts, years);
+				getRows(data, 1, names);
+				getColumns(1);
+				setTableData(data);
+			},
+		}));
+
+		return (
 			// @ts-ignore
-			onCellsChanged={handleChanges}
-			stickyRightColumns={0}
-			stickyTopRows={0}
-		/>
-	);
-});
+			<ReactGrid
+				rows={rows}
+				columns={columns}
+				enableRangeSelection
+				onCellsChanged={handleChanges}
+				stickyRightColumns={0}
+				stickyTopRows={0}
+			/>
+		);
+	},
+);
 
 export default DataGrid;
