@@ -39,7 +39,7 @@ function CSVDownload(props: { project: Project; tableData: Result[] }) {
 	};
 
 	const inputData = (data: Cost[]): any[][] => {
-		return data[0].cost.map((_, i) => {
+		return data[0]?.cost?.map((_, i) => {
 			const row = [i === 0 ? "Initial Investment" : i];
 			return row.concat(data.flatMap((item) => [item.cost[i], item.revenue[i]]));
 		});

@@ -51,7 +51,7 @@ export default function StepThree(props: { project: Project; results: e3Result }
 					</Typography>
 				</Stack>
 			</Stack>
-			{measure ? (
+			{measure.length > 0 ? (
 				<Stack className="p-10">
 					<span className="flex ml-auto">
 						<CSVDownload project={project} tableData={tableRows} />
