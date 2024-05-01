@@ -1,11 +1,10 @@
-// @ts-nocheck
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { Button } from "@mui/material";
 import { pdf } from "@react-pdf/renderer";
 import * as htmlToImage from "html-to-image";
 import { useCallback } from "react";
 import { createLabels, resultLabels } from "../../constants";
-import { Project, Result } from "../../data/Formats";
+import { Project, Result, ResultsDataset } from "../../data/Formats";
 import Pdf from "../Pdf";
 import PdfCharts from "./PdfCharts";
 
@@ -25,7 +24,9 @@ const PDFDownload = ({ project, results }: PDFDownloadProps) => {
 
 		if (pdfGraphs.length === 0) return;
 
-		const promises = [...pdfGraphs].map((graph) => htmlToImage.toPng(graph).then((graphSrc) => graphSrc));
+		const promises = [...pdfGraphs].map((graph) =>
+			htmlToImage.toPng(graph as HTMLElement).then((graphSrc) => graphSrc),
+		);
 
 		Promise.all(promises).then((graphSources) => {
 			const blob = pdf(<Pdf project={project} graphSources={graphSources} results={results} />).toBlob();
@@ -41,7 +42,7 @@ const PDFDownload = ({ project, results }: PDFDownloadProps) => {
 	}, [project, results]);
 
 	const createDataset = (result: Result[]) => {
-		const data = { pv: [], npv: [], irr: [], bcr: [] };
+		const data: ResultsDataset = { pv: [], npv: [], irr: [], bcr: [] };
 		result.forEach((res: Result) => {
 			data.pv.push(res.pv);
 			data.npv.push(res.npv);
@@ -58,7 +59,13 @@ const PDFDownload = ({ project, results }: PDFDownloadProps) => {
 		<>
 			<div style={{ position: "absolute", left: 0, top: "-200vh", backgroundColor: "#FFFFFF" }}>
 				{Object.entries(dataset).map(([key]) => (
-					<PdfCharts key={key} label={resultLabels[key]} altLabels={altLabels} dataset={dataset} type={key} />
+					<PdfCharts
+						key={key}
+						label={resultLabels[key as keyof ResultsDataset]}
+						altLabels={altLabels}
+						dataset={dataset}
+						type={key}
+					/>
 				))}
 			</div>
 			<Button

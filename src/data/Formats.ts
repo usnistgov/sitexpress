@@ -112,3 +112,10 @@ export type Result = {
 	dpp: number | string;
 	bcr: number | string;
 };
+
+export interface ResultsDataset {
+	pv: number[];
+	npv: (number | string)[];
+	irr: (number | string)[];
+	bcr: (number | string)[];
+}

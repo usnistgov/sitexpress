@@ -21,17 +21,17 @@ const style = {
 
 export default function StepTwo(props: { project: Project; getResults: any }) {
 	const { project, getResults } = props;
-	const [gridData, setGridData] = useState([]);
+	const [gridData, setGridData] = useState<InputTableData[]>([]);
 	const [open, setOpen] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
-	const [errorTypes, setErrorTypes] = useState([]);
-	const alertRef = useRef();
+	const [errorTypes, setErrorTypes] = useState<string[]>([]);
+	const alertRef = useRef<HTMLDivElement>();
 
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
-	const validateInput = (project: Project) => {
-		let errorTypes = new Set();
+	const validateInput = (project: Project): [Set<string>, boolean] => {
+		let errorTypes: Set<string> = new Set();
 		let flag = true;
 		if (project.projectName.length === 0) {
 			errorTypes.add("name");
@@ -105,17 +105,15 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 		return resultArray;
 	};
 
-	// @ts-ignore
-	const handleDataChange = (data) => {
+	const handleDataChange = (data: InputTableData[]) => {
 		setGridData(data);
 		const transformedArray = transformTableData(data, project.alts);
 		project.costs = transformedArray;
 	};
 
-	const gridRef = useRef();
+	const gridRef = useRef<{ handleReset: () => void }>();
 	const handleReset = () => {
-		// @ts-ignore
-		gridRef?.current.handleReset();
+		gridRef?.current?.handleReset();
 		setGridData([]);
 		handleClose();
 	};
@@ -123,8 +121,7 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 	const displayAlert = (bool: boolean) => {
 		setShowAlert(bool);
 	};
-	// @ts-ignore
-	const executeScroll = () => alertRef?.current.scrollIntoView({ behavior: "smooth", inline: "nearest" });
+	const executeScroll = () => alertRef?.current?.scrollIntoView({ behavior: "smooth", inline: "nearest" });
 
 	useEffect(() => {
 		if (errorTypes.length > 0) displayAlert(true);
@@ -134,7 +131,7 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 	return (
 		<Stack direction="column">
 			{/* @ts-ignore */}
-			<Stack ref={alertRef} className="flex justify-center text-center p-2 bg-sit-orange">
+			<Stack component="div" ref={alertRef} className="flex justify-center text-center p-2 bg-sit-orange">
 				<Typography variant="h6">Step Two</Typography>
 				<Typography variant="h6">Annual Cost/Revenue Data By Alternative</Typography>
 				<Typography variant="body1">Provide the annual value costs and revenues for each alternative.</Typography>
@@ -192,7 +189,6 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 							onClick={async () => {
 								try {
 									const [errorTypes, validity] = validateInput(project);
-									// @ts-ignore
 									setErrorTypes([...errorTypes]);
 									if (validity) {
 										setShowAlert(false);

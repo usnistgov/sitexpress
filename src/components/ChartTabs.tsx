@@ -4,12 +4,7 @@ import { resultLabels } from "../constants";
 import { Measure, Project, e3Result } from "../data/Formats";
 import Chart from "./Charts";
 
-interface ResultsDataset {
-	pv: number[];
-	npv: (number | string)[];
-	irr: (number | string)[];
-	bcr: (number | string)[];
-}
+import { ResultsDataset } from "../data/Formats";
 
 const createDataset = (alts: number, measure: Measure[]): ResultsDataset => {
 	return {
