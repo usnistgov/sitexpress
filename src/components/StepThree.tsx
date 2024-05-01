@@ -7,7 +7,15 @@ import ResultsTable from "./ResultsTable";
 import BasicTooltip from "./Tooltip";
 import PDFDownload from "./pdf-components/PdfDownload";
 
-function createData(alt: string, pv: number, npv: number, irr: number, spp: number, dpp: number, bcr: number) {
+function createData(
+	alt: string,
+	pv: number,
+	npv: number | string,
+	irr: number,
+	spp: number | string,
+	dpp: number | string,
+	bcr: number | string,
+) {
 	return { alt, pv, npv, irr, spp, dpp, bcr };
 }
 
@@ -16,7 +24,6 @@ const getRows = (measure: Measure[], names: altNames) => {
 		createData(
 			names?.[`alt${i}` as keyof altNames] || `Alternative ${i}`,
 			+(m.totalBenefits - m.totalCosts).toFixed(2),
-			// @ts-ignore
 			measure[i]?.netBenefits ? m.netBenefits?.toFixed(2) : "NA",
 			m?.irr ? +(m.irr * 100).toFixed(1) : 0,
 			typeof m.spp === "number" && isFinite(m.spp) ? Math.round(m.spp) : "Not Reached",

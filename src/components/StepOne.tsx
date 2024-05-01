@@ -30,7 +30,11 @@ import TextInput from "./Input";
 import InputNumber from "./NumberInput";
 import BasicTooltip from "./Tooltip";
 
-export default function StepOne(props: { project: Project; handleChange: any; handleNameChange: any }) {
+export default function StepOne(props: {
+	project: Project;
+	handleChange: any;
+	handleNameChange: (i: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+}) {
 	const project = props.project;
 	const handleChange = props.handleChange;
 	const handleNameChange = props.handleNameChange;
@@ -98,10 +102,7 @@ export default function StepOne(props: { project: Project; handleChange: any; ha
 							max={5}
 							defaultValue={1}
 							label="Number of Alternatives"
-							// @ts-ignore
-							onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, val: string) =>
-								handleChange("alts", val)
-							}
+							onChange={(e, val) => handleChange("alts", val)}
 						/>
 						<BasicTooltip title="Max Alternatives of 5 + Base Case. You can give custom names to each alternative. (Max 20 characters)" />
 					</span>
@@ -129,8 +130,7 @@ export default function StepOne(props: { project: Project; handleChange: any; ha
 							defaultValue={1}
 							label="Study Period"
 							adornment="years"
-							// @ts-ignore
-							onChange={(e: React.ChangeEvent<HTMLInputElement>, val: string) => handleChange("studyPeriod", val)}
+							onChange={(e, val) => handleChange("studyPeriod", val)}
 						/>
 						<BasicTooltip title="Maximum study period of 25 years." />
 					</span>
@@ -197,8 +197,7 @@ export default function StepOne(props: { project: Project; handleChange: any; ha
 								placeholder="Enter % Here"
 								label="Real Discount Rate"
 								adornment="%"
-								// @ts-ignore
-								value={project?.realDR}
+								value={`${project?.realDR}`}
 								onChange={(e) => handleChange("realDR", e)}
 							/>
 						</div>
@@ -217,8 +216,7 @@ export default function StepOne(props: { project: Project; handleChange: any; ha
 								placeholder="Enter % Here"
 								label="Inflation Rate"
 								adornment="%"
-								//@ts-ignore
-								value={project?.inflationRate}
+								value={`${project?.inflationRate}`}
 								onChange={(e) => handleChange("inflationRate", e)}
 							/>
 							<br />
@@ -228,8 +226,7 @@ export default function StepOne(props: { project: Project; handleChange: any; ha
 								placeholder="Enter % Here"
 								label="Nominal Discount Rate"
 								adornment="%"
-								// @ts-ignore
-								value={project?.nominalDR}
+								value={`${project?.nominalDR}`}
 								onChange={(e) => handleChange("nominalDR", e)}
 							/>
 						</div>
