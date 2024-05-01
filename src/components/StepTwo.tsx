@@ -46,16 +46,16 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 			flag = false;
 		}
 		if (project.dollarValue === "constant") {
-			if (project.realDR < 0 || typeof project.realDR === "string") {
+			if ((project.realDR < 0 || typeof project.realDR === "string") && +project.realDR !== 0) {
 				errorTypes.add("realDR");
 				flag = false;
 			}
 		} else {
-			if (typeof project.realDR === "string") {
+			if (typeof project.nominalDR === "string" && +project.nominalDR !== 0) {
 				errorTypes.add("nominalDR");
 				flag = false;
 			}
-			if (typeof project.inflationRate === "string") {
+			if (typeof project.inflationRate === "string" && +project.inflationRate !== 0) {
 				errorTypes.add("inflationRate");
 				flag = false;
 			}
