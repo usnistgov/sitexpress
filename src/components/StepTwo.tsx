@@ -124,8 +124,10 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 	const executeScroll = () => alertRef?.current?.scrollIntoView({ behavior: "smooth", inline: "nearest" });
 
 	useEffect(() => {
-		if (errorTypes.length > 0) displayAlert(true);
-		executeScroll();
+		if (errorTypes.length > 0) {
+			displayAlert(true);
+			executeScroll();
+		}
 	}, [errorTypes]);
 
 	return (
