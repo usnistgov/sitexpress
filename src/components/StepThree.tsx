@@ -11,7 +11,7 @@ function createData(
 	alt: string,
 	pv: number,
 	npv: number | string,
-	irr: number,
+	irr: number | string,
 	spp: number | string,
 	dpp: number | string,
 	bcr: number | string,
@@ -25,10 +25,10 @@ const getRows = (measure: Measure[], names: altNames) => {
 			names?.[`alt${i}` as keyof altNames] || `Alternative ${i}`,
 			+(m.totalBenefits - m.totalCosts).toFixed(2),
 			measure[i]?.netBenefits ? m.netBenefits?.toFixed(2) : "NA",
-			m?.irr ? +(m.irr * 100).toFixed(1) : 0,
+			m?.irr ? (+m.irr * 100).toFixed(2) : "0.00",
 			typeof m.spp === "number" && isFinite(m.spp) ? Math.round(m.spp) : "Not Reached",
 			typeof m.dpp === "number" && isFinite(m.dpp) ? Math.round(m.dpp) : "Not Reached",
-			measure[i]?.bcr ? m.bcr?.toFixed(2) : "NA",
+			typeof measure[i]?.bcr === "number" ? m?.bcr.toFixed(2) : "NA",
 		),
 	);
 };
