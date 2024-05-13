@@ -17,6 +17,10 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		marginBottom: 10,
 	},
+	desc: {
+		maxWidth: "100vw",
+		marginBottom: 10,
+	},
 	text: {
 		fontSize: 14,
 		color: "#979797",
@@ -36,7 +40,7 @@ const PdfStepOne = ({ project }: { project: Project }) => {
 			</View>
 			<br />
 			{project?.projectDesc?.length !== 0 ? (
-				<View style={styles.key}>
+				<View style={styles.desc}>
 					<Text style={styles.text}>Project Description:&nbsp;</Text>
 					<Text style={styles.value}>{project.projectDesc}</Text>
 					<br />
