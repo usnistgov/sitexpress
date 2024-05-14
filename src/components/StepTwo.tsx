@@ -83,20 +83,31 @@ export default function StepTwo(props: { project: Project; getResults: any }) {
 				revenue: [],
 			});
 		}
-
 		// Loop through each entry in the data
 		inputObject.forEach((entry) => {
-			resultArray[0].cost.push(entry["base-cost"]);
-			resultArray[0].revenue.push(entry["base-rev"]);
+			resultArray[0].cost.push(
+				isNaN(entry["base-cost" as keyof InputTableData] as number) ? 0 : Number(entry["base-cost"]),
+			);
+			resultArray[0].revenue.push(
+				isNaN(entry["base-rev" as keyof InputTableData] as number) ? 0 : Number(entry["base-rev"]),
+			);
 		});
 		for (let j = 0; j < resultArray.length; j++) {
 			inputObject.forEach((entry) => {
 				for (const property in entry) {
 					if (entry.hasOwnProperty(property)) {
 						if (property.startsWith(`alt${j}-cost`)) {
-							resultArray[j].cost.push(entry[`alt${j}-cost` as keyof InputTableData] as number | string);
+							resultArray[j].cost.push(
+								isNaN(entry[`alt${j}-cost` as keyof InputTableData] as number)
+									? 0
+									: Number(entry[`alt${j}-cost` as keyof InputTableData]),
+							);
 						} else if (property.startsWith(`alt${j}-rev`)) {
-							resultArray[j].revenue.push(entry[`alt${j}-rev` as keyof InputTableData] as number | string);
+							resultArray[j].revenue.push(
+								isNaN(entry[`alt${j}-rev` as keyof InputTableData] as number)
+									? 0
+									: Number(entry[`alt${j}-rev` as keyof InputTableData]),
+							);
 						}
 					}
 				}
