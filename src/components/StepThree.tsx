@@ -20,7 +20,7 @@ function createData(
 }
 
 const findIRR = (alt: number, irr: number | string) => {
-	if (alt === 0) return "0.00";
+	if (alt === 0) return "NA";
 	if (irr === null) return "Negative Return";
 	return (+irr * 100).toFixed(2);
 };
@@ -64,7 +64,7 @@ export default function StepThree(props: { project: Project; results: e3Result }
 						&nbsp;
 						<span>
 							<PDFDownload project={project} results={tableRows} />
-							<BasicTooltip title="text" />
+							<BasicTooltip title="Results are provided for the base case and all alternatives. The Present Value is the net benefits for each alternative. All other metrics are calculated for each alternative relative to the base case." />
 						</span>
 					</span>
 					<br />
