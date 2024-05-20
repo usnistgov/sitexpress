@@ -1,38 +1,18 @@
-// @ts-nocheck
 import { Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
+import { resultLabels } from "../constants";
+import { Measure, Project, e3Result } from "../data/Formats";
 import Chart from "./Charts";
-// @ts-ignore
-const createPVDataset = (alts: number, measure) => {
-	const data = [];
-	for (let i = 0; i <= alts; i++) {
-		data.push(measure[i]?.totalBenefits - measure[i]?.totalCosts);
-	}
-	return data;
-};
 
-const createNPVDataset = (alts: number, measure) => {
-	const data = [];
-	for (let i = 0; i <= alts; i++) {
-		data.push(measure[i]?.netBenefits || 0);
-	}
-	return data;
-};
+import { ResultsDataset } from "../data/Formats";
 
-const createIRRDataset = (alts: number, measure) => {
-	const data = [];
-	for (let i = 0; i <= alts; i++) {
-		data.push(measure[i]?.irr * 100 || 0);
-	}
-	return data;
-};
-
-const createBCRDataset = (alts: number, measure) => {
-	const data = [];
-	for (let i = 0; i <= alts; i++) {
-		data.push(measure[i]?.bcr || 0);
-	}
-	return data;
+const createDataset = (alts: number, measure: Measure[]): ResultsDataset => {
+	return {
+		pv: measure.map((m, i) => m.totalBenefits - m.totalCosts),
+		npv: measure.map((m) => m.netBenefits || 0),
+		irr: measure.map((m) => m.irr * 100 || 0),
+		bcr: measure.map((m) => m.bcr || 0),
+	};
 };
 
 interface TabPanelProps {
@@ -51,7 +31,7 @@ function CustomTabPanel(props: TabPanelProps) {
 	);
 }
 
-export default function ChartTabs(props) {
+const ChartTabs = (props: { project: Project; results: e3Result }) => {
 	const { project, results } = props;
 	const [tabValue, setTabValue] = useState(0);
 
@@ -59,39 +39,33 @@ export default function ChartTabs(props) {
 		setTabValue(newValue);
 	};
 
-	const labels = {
-		pv: "Present Value",
-		npv: "Net Present Value",
-		irr: "IRR",
-		sp: "Simple Payback",
-		dp: "Discounted Payback",
-		bcr: "BCR",
-	};
-
 	const alts = project?.alts;
 	const measure = results?.measure;
 
+	const resultsData = createDataset(alts, measure);
+
 	return (
 		<Stack>
-			<Tabs value={tabValue} onChange={handleChange} aria-label="basic tabs example">
-				<Tab label={labels.pv} />
-				<Tab label={labels.npv} />
-				<Tab label={labels.irr} />
-				<Tab label={labels.bcr} />
+			<Tabs value={tabValue} onChange={handleChange} aria-label="result tabs">
+				<Tab label={resultLabels.pv} />
+				<Tab label={resultLabels.npv} />
+				<Tab label={resultLabels.irr} />
+				<Tab label={resultLabels.bcr} />
 			</Tabs>
 			<br />
 			<CustomTabPanel value={tabValue} index={0}>
-				<Chart project={project} label={labels.pv} dataset={createPVDataset(alts, measure)} />
+				<Chart project={project} label={resultLabels.pv} dataset={resultsData.pv} />
 			</CustomTabPanel>
 			<CustomTabPanel value={tabValue} index={1}>
-				<Chart project={project} label={labels.npv} dataset={createNPVDataset(alts, measure)} />
+				<Chart project={project} label={resultLabels.npv} dataset={resultsData.npv} />
 			</CustomTabPanel>
 			<CustomTabPanel value={tabValue} index={2}>
-				<Chart project={project} label={labels.irr} dataset={createIRRDataset(alts, measure)} />
+				<Chart project={project} label={resultLabels.irr} dataset={resultsData.irr} />
 			</CustomTabPanel>
 			<CustomTabPanel value={tabValue} index={3}>
-				<Chart project={project} label={labels.bcr} dataset={createBCRDataset(alts, measure)} />
+				<Chart project={project} label={resultLabels.bcr} dataset={resultsData.bcr} />
 			</CustomTabPanel>
 		</Stack>
 	);
-}
+};
+export default ChartTabs;

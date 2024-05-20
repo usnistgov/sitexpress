@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
 import { JSX } from "react/jsx-runtime";
 import { Project } from "../../data/Formats";
@@ -59,15 +58,17 @@ const styles = StyleSheet.create({
 	},
 });
 
+type headersType = {
+	base?: string;
+	alt1?: string;
+	alt2?: string;
+	alt3?: string;
+	alt4?: string;
+	alt5?: string;
+};
+
 const PdfInputTableRows = ({ project }: { project: Project }) => {
-	const headers: {
-		base?: string;
-		alt1?: string;
-		alt2?: string;
-		alt3?: string;
-		alt4?: string;
-		alt5?: string;
-	} = {
+	const headers: headersType = {
 		base: project?.altNames?.alt0 || `Base Case`,
 		alt1: project?.altNames?.alt1 || `Alternative 1`,
 		alt2: project?.altNames?.alt2 || `Alternative 2`,
@@ -84,7 +85,7 @@ const PdfInputTableRows = ({ project }: { project: Project }) => {
 		{
 			rows.push(
 				<View style={styles.container}>
-					<Text style={styles.header}>{headers[name]}</Text>
+					<Text style={styles.header}>{headers[name as keyof headersType]}</Text>
 					<View style={styles.subHeaderRow}>
 						<Text key="cost" style={styles.subHeader}>
 							Cost ($)

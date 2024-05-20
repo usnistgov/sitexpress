@@ -162,7 +162,6 @@ const Header = () => {
 							</Link>
 							<div style={{ borderTop: "2px solid #ef860a ", marginLeft: 15, marginRight: 15 }}></div>
 						</span>
-						{/* <div style={{ borderTop: "2px solid #ef860a ", marginLeft: 0, marginRight: 0 }}></div> */}
 					</Box>
 				</Toolbar>
 			</Container>

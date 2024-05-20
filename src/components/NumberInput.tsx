@@ -42,7 +42,10 @@ export default function InputNumber(props: {
 	defaultValue: number;
 	adornment?: string;
 	label?: string;
-	onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+	onChange: (
+		event: React.FocusEvent<HTMLInputElement, Element> | React.PointerEvent<Element> | React.KeyboardEvent<Element>,
+		value: number | null,
+	) => void;
 }) {
 	return (
 		<div className="m-auto w-80">
@@ -52,10 +55,8 @@ export default function InputNumber(props: {
 				min={props.min}
 				max={props.max}
 				placeholder={props.placeholder}
-				// @ts-ignore
 				onChange={props.onChange}
 				defaultValue={props?.defaultValue || 2}
-				inputProps={{ inputMode: "numeric" }}
 			/>
 		</div>
 	);

@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center",
 		padding: 25,
+		paddingBottom: 0,
 	},
 	headerNistLogo: {
 		display: "flex",
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		width: "400px",
 		height: "60px",
-		marginBottom: 10,
+		marginBottom: 5,
 	},
 	date: {
 		display: "flex",
