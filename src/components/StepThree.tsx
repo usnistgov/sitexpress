@@ -19,13 +19,19 @@ function createData(
 	return { alt, pv, npv, irr, spp, dpp, bcr };
 }
 
+const findIRR = (alt: number, irr: number | string) => {
+	if (alt === 0) return "0.00";
+	if (irr === null) return "Negative Return";
+	return (+irr * 100).toFixed(2);
+};
+
 const getRows = (measure: Measure[], names: altNames) => {
 	return measure?.map((m, i) =>
 		createData(
 			names?.[`alt${i}` as keyof altNames] || `Alternative ${i}`,
 			+(m.totalBenefits - m.totalCosts).toFixed(2),
 			measure[i]?.netBenefits ? m.netBenefits?.toFixed(2) : "NA",
-			m?.irr ? (+m.irr * 100).toFixed(2) : "0.00",
+			findIRR(i, m?.irr),
 			typeof m.spp === "number" && isFinite(m.spp) ? Math.round(m.spp) : "Not Reached",
 			typeof m.dpp === "number" && isFinite(m.dpp) ? Math.round(m.dpp) : "Not Reached",
 			typeof measure[i]?.bcr === "number" ? m?.bcr.toFixed(2) : "NA",
