@@ -2,6 +2,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { Box, Button, Modal, Stack, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { E3Request, toE3Object } from "../data/E3Request";
+import { Cost, InputTableData, Project } from "../data/Formats";
 import Alerts from "./Alert";
 import DataGrid from "./DataGrid";
 import BasicTooltip from "./Tooltip";
@@ -18,21 +19,19 @@ const style = {
 	p: 4,
 };
 
-// @ts-ignore
-export default function StepTwo(props) {
+export default function StepTwo(props: { project: Project; getResults: any }) {
 	const { project, getResults } = props;
-	const [gridData, setGridData] = useState([]);
+	const [gridData, setGridData] = useState<InputTableData[]>([]);
 	const [open, setOpen] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
-	const [errorTypes, setErrorTypes] = useState([]);
-	const alertRef = useRef();
+	const [errorTypes, setErrorTypes] = useState<string[]>([]);
+	const alertRef = useRef<HTMLDivElement>();
 
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
-	// @ts-ignore
-	const validateInput = (project) => {
-		let errorTypes = new Set();
+	const validateInput = (project: Project): [Set<string>, boolean] => {
+		let errorTypes: Set<string> = new Set();
 		let flag = true;
 		if (project.projectName.length === 0) {
 			errorTypes.add("name");
@@ -47,16 +46,16 @@ export default function StepTwo(props) {
 			flag = false;
 		}
 		if (project.dollarValue === "constant") {
-			if (project.realDR.length < 0 || typeof project.realDR === "string") {
+			if ((project.realDR < 0 && +project.realDR !== 0) || Number.isNaN(+project.realDR)) {
 				errorTypes.add("realDR");
 				flag = false;
 			}
 		} else {
-			if (typeof project.realDR === "string") {
+			if ((project.nominalDR < 0 && +project.nominalDR !== 0) || Number.isNaN(+project.nominalDR)) {
 				errorTypes.add("nominalDR");
 				flag = false;
 			}
-			if (typeof project.inflationRate === "string") {
+			if ((project.inflationRate < 0 && +project.inflationRate !== 0) || Number.isNaN(+project.inflationRate)) {
 				errorTypes.add("inflationRate");
 				flag = false;
 			}
@@ -72,12 +71,11 @@ export default function StepTwo(props) {
 		return [errorTypes, flag];
 	};
 
-	// @ts-ignore
-	const transformTableData = (data, alts = 3) => {
+	const transformTableData = (data: InputTableData[], alts = 3) => {
 		let inputObject = [...data];
 		inputObject.shift(); // remove first row (header)
 
-		const resultArray: { name: string; cost: string[]; revenue: string[] }[] = [];
+		const resultArray: Cost[] = [];
 		for (let i = 0; i <= alts; i++) {
 			resultArray.push({
 				name: i === 0 ? `base` : `alt${i}`,
@@ -85,20 +83,31 @@ export default function StepTwo(props) {
 				revenue: [],
 			});
 		}
-
 		// Loop through each entry in the data
 		inputObject.forEach((entry) => {
-			resultArray[0].cost.push(entry["base-cost"]);
-			resultArray[0].revenue.push(entry["base-rev"]);
+			resultArray[0].cost.push(
+				isNaN(entry["base-cost" as keyof InputTableData] as number) ? 0 : Number(entry["base-cost"]),
+			);
+			resultArray[0].revenue.push(
+				isNaN(entry["base-rev" as keyof InputTableData] as number) ? 0 : Number(entry["base-rev"]),
+			);
 		});
 		for (let j = 0; j < resultArray.length; j++) {
 			inputObject.forEach((entry) => {
 				for (const property in entry) {
 					if (entry.hasOwnProperty(property)) {
 						if (property.startsWith(`alt${j}-cost`)) {
-							resultArray[j].cost.push(entry[`alt${j}-cost`]);
+							resultArray[j].cost.push(
+								isNaN(entry[`alt${j}-cost` as keyof InputTableData] as number)
+									? 0
+									: Number(entry[`alt${j}-cost` as keyof InputTableData]),
+							);
 						} else if (property.startsWith(`alt${j}-rev`)) {
-							resultArray[j].revenue.push(entry[`alt${j}-rev`]);
+							resultArray[j].revenue.push(
+								isNaN(entry[`alt${j}-rev` as keyof InputTableData] as number)
+									? 0
+									: Number(entry[`alt${j}-rev` as keyof InputTableData]),
+							);
 						}
 					}
 				}
@@ -107,17 +116,15 @@ export default function StepTwo(props) {
 		return resultArray;
 	};
 
-	// @ts-ignore
-	const handleDataChange = (data) => {
+	const handleDataChange = (data: InputTableData[]) => {
 		setGridData(data);
 		const transformedArray = transformTableData(data, project.alts);
 		project.costs = transformedArray;
 	};
 
-	const gridRef = useRef();
+	const gridRef = useRef<{ handleReset: () => void }>();
 	const handleReset = () => {
-		// @ts-ignore
-		gridRef?.current.handleReset();
+		gridRef?.current?.handleReset();
 		setGridData([]);
 		handleClose();
 	};
@@ -125,24 +132,24 @@ export default function StepTwo(props) {
 	const displayAlert = (bool: boolean) => {
 		setShowAlert(bool);
 	};
-	// @ts-ignore
-	const executeScroll = () => alertRef?.current.scrollIntoView({ behavior: "smooth", inline: "nearest" });
+	const executeScroll = () => alertRef?.current?.scrollIntoView({ behavior: "smooth", inline: "nearest" });
 
 	useEffect(() => {
-		if (errorTypes.length > 0) displayAlert(true);
-		executeScroll();
+		if (errorTypes.length > 0) {
+			displayAlert(true);
+			executeScroll();
+		}
 	}, [errorTypes]);
 
 	return (
 		<Stack direction="column">
 			{/* @ts-ignore */}
-			<Stack ref={alertRef} className="flex justify-center text-center p-2 bg-sit-orange">
+			<Stack component="div" ref={alertRef} className="flex justify-center text-center p-2 bg-sit-orange">
 				<Typography variant="h6">Step Two</Typography>
 				<Typography variant="h6">Annual Cost/Revenue Data By Alternative</Typography>
 				<Typography variant="body1">Provide the annual value costs and revenues for each alternative.</Typography>
 			</Stack>
 			{/*Data table */}
-			{/* @ts-ignore */}
 			{showAlert ? <Alerts errorTypes={errorTypes} showAlert={displayAlert} /> : ""}
 			<Stack className="flex justify-center text-center p-10 ">
 				<Stack direction="column" className="ml-auto">
@@ -195,8 +202,7 @@ export default function StepTwo(props) {
 							onClick={async () => {
 								try {
 									const [errorTypes, validity] = validateInput(project);
-									// @ts-ignore
-									setErrorTypes(Array.from(errorTypes));
+									setErrorTypes([...errorTypes]);
 									if (validity) {
 										setShowAlert(false);
 										const obj = toE3Object(project);
@@ -210,7 +216,7 @@ export default function StepTwo(props) {
 						>
 							Run Results
 						</Button>
-						<BasicTooltip title="Calculates Net Present Value, Internal Rate of Return, and payback period." />
+						<BasicTooltip title="Calculates Net Present Value, Internal Rate of Return, and Payback Period." />
 					</Stack>
 				</Stack>
 			</Stack>

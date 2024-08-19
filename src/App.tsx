@@ -1,5 +1,3 @@
-// @ts-nocheck
-// import "./App.css";
 import { useState } from "react";
 import Disclaimer from "./components/Disclaimer";
 import Header from "./components/Header";
@@ -10,11 +8,12 @@ import StepTwo from "./components/StepTwo";
 
 import "../public/script/nist-header-footer-v-2.0";
 import "../public/styles/nist-combined.css";
+import { Project, e3Result } from "./data/Formats";
 import "./static/styles/grid.css";
 import "./static/styles/index.css";
 
 function App() {
-	const [project, setProject] = useState({
+	const [project, setProject] = useState<Project>({
 		projectName: "",
 		projectDesc: "",
 		alts: 1,
@@ -33,10 +32,9 @@ function App() {
 			alt5: "Alternative 5",
 		},
 	});
-	const [result, setResult] = useState({});
+	const [result, setResult] = useState<e3Result>({ measure: [], optional: [], required: [] });
 	console.log(project);
-	// @ts-ignore
-	const handleChange = (key: string, e) => {
+	const handleChange = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
 		if (key === "studyPeriod" || key === "alts") {
 			setProject({ ...project, [key]: +e });
 		} else {
@@ -47,7 +45,7 @@ function App() {
 		}
 	};
 
-	const handleNameChange = (id: number, e) => {
+	const handleNameChange = (id: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		setProject((prevProject) => ({
 			...prevProject,
 			altNames: {

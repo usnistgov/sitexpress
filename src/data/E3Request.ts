@@ -52,11 +52,14 @@ export function toE3Object(project: Project) {
 
 	const alternativeBuilders = project.costs.map((alternative: Cost) => {
 		const builder = new AlternativeBuilder().name(alternative.name);
-		// @ts-ignore
-		costMap.get(alternative?.name).forEach((costMapItem) => {
-			// @ts-ignore
-			builder.addBcn(...costMapItem.filter((x: BcnBuilder): x is BcnBuilder => x !== undefined));
-		});
+		const bcnItems = costMap.get(alternative.name);
+		if (bcnItems) {
+			bcnItems.forEach((costMapItem) => {
+				if (costMapItem !== undefined) {
+					builder.addBcn(...[costMapItem]);
+				}
+			});
+		}
 		if (alternative.name) builder.name(alternative.name);
 		return builder;
 	});
@@ -92,8 +95,7 @@ export function E3Request(builder: RequestBuilder) {
 }
 
 function costToBuilders(cost: Cost, project: Project): BcnBuilder[] {
-	// @ts-ignore
-	return [[...energyCostToBuilderCost(cost, project)], energyCostToBuilderBenefit(cost, project)];
+	return [...energyCostToBuilderCost(cost, project), ...energyCostToBuilderBenefit(cost, project)];
 }
 
 function energyCostToBuilderCost(cost: Cost, project: Project): BcnBuilder[] {

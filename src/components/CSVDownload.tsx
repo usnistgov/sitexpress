@@ -1,7 +1,7 @@
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { Button } from "@mui/material";
 import { CSVLink } from "react-csv";
-import { Cost, Project, Result } from "../data/Formats";
+import { Cost, Project, Result, altNames } from "../data/Formats";
 
 function CSVDownload(props: { project: Project; tableData: Result[] }) {
 	const { project, tableData } = props;
@@ -17,35 +17,32 @@ function CSVDownload(props: { project: Project; tableData: Result[] }) {
 	if (project?.dollarValue === "constant") stepOneData.push(["Real Discount Rate", project?.realDR]);
 	else stepOneData.push(["Inflation Rate", project?.realDR], ["Nominal Discount Rate", project?.nominalDR]);
 
-	const inputHeaders = (alts: number): string[] => {
-		const defaultCol = ["Year"];
+	const costRevHeaders = (alts: number): string[] => {
+		const defaultCol = [""];
 
 		for (let i = 0; i <= alts; i++) {
-			if (i === 0) {
-				defaultCol.push(project?.altNames?.["alt0"] || "Base Case");
-				defaultCol.push("");
-			} else {
-				// @ts-ignore
-				defaultCol.push(project?.altNames?.[`alt${i}`] || `Alternative ${i}`);
-				defaultCol.push("");
-			}
+			defaultCol.push("Cost");
+			defaultCol.push("Revenue");
 		}
-
 		return defaultCol;
 	};
 
-	let inputData = (data: Cost[]) => {
-		let result = [];
-		for (let i = 0; i < data[0].cost.length; i++) {
-			const row = [];
-			i === 0 ? row.push("Initial Investment") : row.push(i);
-			for (let j = 0; j < data.length; j++) {
-				row.push(data[j].cost[i]);
-				row.push(data[j].revenue[i]);
-			}
-			result.push(row);
-		}
-		return result;
+	const inputHeaders = (alts: number): string[] => {
+		const defaultCol = ["Year"];
+		const altHeaders = Array.from({ length: alts + 1 }, (_, i) => {
+			const altName = project?.altNames?.[`alt${i}` as keyof altNames] || `Alternative ${i}`;
+			return i === 0 ? [altName, ""] : [altName, ""];
+		}).flatMap((header) => header);
+		const emptyCols = Array.from({ length: alts }, () => "");
+
+		return [...defaultCol, ...altHeaders, ...emptyCols];
+	};
+
+	const inputData = (data: Cost[]): any[][] => {
+		return data[0]?.cost?.map((_, i) => {
+			const row = [i === 0 ? "Initial Investment" : i];
+			return row.concat(data.flatMap((item) => [item.cost[i], item.revenue[i]]));
+		});
 	};
 
 	const resultsData = (res: Result[]) => {
@@ -65,7 +62,8 @@ function CSVDownload(props: { project: Project; tableData: Result[] }) {
 		[],
 		["Annual Cost/Revenue Data By Alternative"],
 		[],
-		inputHeaders(3),
+		inputHeaders(project?.alts),
+		costRevHeaders(project?.alts),
 		...inputData(project?.costs),
 		[],
 		[],

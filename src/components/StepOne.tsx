@@ -1,4 +1,3 @@
-import InfoIcon from "@mui/icons-material/Info";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import {
 	Box,
@@ -26,11 +25,16 @@ const style = {
 };
 
 import { useState } from "react";
+import { Project } from "../data/Formats";
 import TextInput from "./Input";
 import InputNumber from "./NumberInput";
 import BasicTooltip from "./Tooltip";
-// @ts-ignore
-export default function StepOne(props) {
+
+export default function StepOne(props: {
+	project: Project;
+	handleChange: any;
+	handleNameChange: (i: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+}) {
 	const project = props.project;
 	const handleChange = props.handleChange;
 	const handleNameChange = props.handleNameChange;
@@ -98,13 +102,11 @@ export default function StepOne(props) {
 							max={5}
 							defaultValue={1}
 							label="Number of Alternatives"
-							// @ts-ignore
 							onChange={(e, val) => handleChange("alts", val)}
 						/>
 						<BasicTooltip title="Max Alternatives of 5 + Base Case. You can give custom names to each alternative. (Max 20 characters)" />
 					</span>
 					<br />
-					{/* <BasicTooltip title="You can give custom names to each alternative. (Max 30 characters)" /> */}
 					{Array.from({ length: project?.alts + 1 }).map((_, i) => (
 						<div key={i} className="mb-3">
 							<TextInput
@@ -128,7 +130,6 @@ export default function StepOne(props) {
 							defaultValue={1}
 							label="Study Period"
 							adornment="years"
-							// @ts-ignore
 							onChange={(e, val) => handleChange("studyPeriod", val)}
 						/>
 						<BasicTooltip title="Maximum study period of 25 years." />
@@ -196,8 +197,7 @@ export default function StepOne(props) {
 								placeholder="Enter % Here"
 								label="Real Discount Rate"
 								adornment="%"
-								// defaultValue={project?.realDR}
-								value={project?.realDR}
+								value={`${project?.realDR}`}
 								onChange={(e) => handleChange("realDR", e)}
 							/>
 						</div>
@@ -216,8 +216,7 @@ export default function StepOne(props) {
 								placeholder="Enter % Here"
 								label="Inflation Rate"
 								adornment="%"
-								// defaultValue={project?.inflationRate}
-								value={project?.inflationRate}
+								value={`${project?.inflationRate}`}
 								onChange={(e) => handleChange("inflationRate", e)}
 							/>
 							<br />
@@ -227,8 +226,7 @@ export default function StepOne(props) {
 								placeholder="Enter % Here"
 								label="Nominal Discount Rate"
 								adornment="%"
-								// defaultValue={project?.nominalDR}
-								value={project?.nominalDR}
+								value={`${project?.nominalDR}`}
 								onChange={(e) => handleChange("nominalDR", e)}
 							/>
 						</div>
