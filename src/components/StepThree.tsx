@@ -19,9 +19,13 @@ function createData(
 	return { alt, pv, npv, irr, spp, dpp, bcr };
 }
 
-const findIRR = (alt: number, irr: number | string) => {
+const findIRR = (alt: number, irr: number | string, benefits: number) => {
 	if (alt === 0) return "NA";
-	if (irr === null) return "Negative Return";
+	if (irr === null) {
+		if (benefits > 0) return "> 500%";
+		else if (benefits < 0) return "< 100%";
+		return "Negative Return";
+	}
 	return (+irr * 100).toFixed(2);
 };
 
@@ -31,7 +35,7 @@ const getRows = (measure: Measure[], names: altNames) => {
 			names?.[`alt${i}` as keyof altNames] || `Alternative ${i}`,
 			+(m.totalBenefits - m.totalCosts).toFixed(2),
 			measure[i]?.netBenefits ? m.netBenefits?.toFixed(2) : "NA",
-			findIRR(i, m?.irr),
+			findIRR(i, m?.irr, measure[i]?.netBenefits),
 			typeof m.spp === "number" && isFinite(m.spp) ? Math.round(m.spp) : "Not Reached",
 			typeof m.dpp === "number" && isFinite(m.dpp) ? Math.round(m.dpp) : "Not Reached",
 			typeof measure[i]?.bcr === "number" ? m?.bcr.toFixed(2) : "NA",
